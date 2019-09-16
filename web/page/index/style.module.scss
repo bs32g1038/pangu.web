@@ -1,0 +1,98 @@
+.authorRanking {
+    margin-top: 20px;
+    background-color: #fff;
+}
+
+.authorRankingHeader {
+    color: rgba(0, 0, 0, 0.85);
+    padding: 10px;
+    border-radius: 3px 3px 0 0;
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.paginationWrap {
+    background-color: #fff;
+    padding-top: 10px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.linkList {
+    background-color: #fff;
+    margin: 20px 0;
+    list-style: none;
+    .linkListHeader {
+        padding: 15px;
+        border-bottom: 1px solid #ccc;
+    }
+    .listGroup {
+        padding: 10px;
+        border-radius: 0 0 3px 3px;
+    }
+    li {
+        line-height: 2em;
+        margin-bottom: 10px;
+    }
+    img {
+        height: auto;
+        max-width: 100%;
+        vertical-align: middle;
+        border: 0;
+        width: 150px;
+    }
+}
+
+.tabsWrap {
+    background-color: #fff;
+    padding: 0 15px;
+    :global(.MuiTabs-indicator) {
+        height: 1px !important;
+    }
+}
+
+.table {
+    background-color: #fff;
+    border-top: 1px solid #efefef;
+    td {
+        font-size: 14px;
+    }
+    a {
+        font-weight: 700;
+        color: rgba(0, 0, 0, 0.85);
+    }
+}
+
+.tab {
+    min-height: 50px !important;
+    :global(.MuiTab-wrapper) {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        color: #667d99;
+        font-size: 14px;
+        align-items: center;
+        *:first-child {
+            margin-bottom: 0 !important;
+        }
+    }
+    &:global(.MuiTab-root) {
+        @media (min-width: 960px) {
+            min-width: 110px;
+        }
+    }
+}
+
+.icon {
+    width: 14px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.listItemText {
+    :global(.MuiListItemText-primary) {
+        font-size: 14px;
+    }
+    :global(.MuiListItemText-secondary) {
+        font-size: 12px;
+    }
+}

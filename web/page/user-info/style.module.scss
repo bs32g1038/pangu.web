@@ -1,0 +1,93 @@
+.container {
+    width: 1100px;
+    margin: 60px auto;
+    display: flex;
+    flex: 1 0 auto;
+}
+
+.infoWrap {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.personInfo {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    img {
+        width: 60px;
+        height: 60px;
+        border-radius: 4px;
+    }
+    .tag {
+        margin-left: 10px;
+        font-size: 12px;
+        color: #fff;
+        padding: 2px 5px;
+        background: linear-gradient(60deg, #ab47bc, #8e24aa);
+        box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
+    }
+    .personInfoLeft {
+        display: flex;
+        flex: 1 0 auto;
+    }
+    .personInfoRight {
+        svg {
+            width: 24px;
+            height: 24px;
+            fill: rgba(0, 0, 0, 0.45);
+        }
+        cursor: pointer;
+    }
+}
+
+.personInfoBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 10px;
+}
+
+.authorName {
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 16px;
+}
+
+.statisticalData {
+    display: flex;
+    margin-top: 20px;
+    background-color: #fff;
+    .dataItem {
+        text-align: center;
+        flex: 1 0 auto;
+        margin-right: 20px;
+        padding: 15px;
+    }
+    .counter,
+    .text {
+        display: block;
+        color: rgba(0, 0, 0, 0.65);
+    }
+    .counter {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+}
+
+.tabsWrap {
+    margin-top: 20px;
+    background-color: #fff;
+}
+
+.table {
+    background-color: #fff;
+    border-top: 1px solid #efefef;
+    td {
+        font-size: 14px;
+    }
+    a {
+        font-weight: 700;
+        color: rgba(0, 0, 0, 0.85);
+    }
+}

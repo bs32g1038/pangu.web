@@ -117,9 +117,6 @@ export default () => {
                     </div>
                 </div>
             </div>
-            <div className={styles.siderWrap}>
-            <SiderPersonInfo></SiderPersonInfo>
-            </div>
         </div>
     );
 };

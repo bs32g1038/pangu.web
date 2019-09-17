@@ -1,3 +1,11 @@
+.panel {
+    width: 740px;
+    margin: 0 auto;
+    flex: 1 0 auto;
+    min-height: 300px;
+    background-color: #fff;
+}
+
 .authorRanking {
     margin-top: 20px;
     background-color: #fff;
@@ -15,6 +23,7 @@
     background-color: #fff;
     padding-top: 10px;
     border-top: 1px solid #f0f0f0;
+    position: relative;
 }
 
 .linkList {
@@ -86,13 +95,4 @@
     width: 14px;
     vertical-align: middle;
     margin-right: 5px;
-}
-
-.listItemText {
-    :global(.MuiListItemText-primary) {
-        font-size: 14px;
-    }
-    :global(.MuiListItemText-secondary) {
-        font-size: 12px;
-    }
 }

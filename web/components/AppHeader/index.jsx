@@ -25,14 +25,6 @@ export default () => {
                                     主页
                                 </Button>
                             </li>
-                            <li className="item-link6">
-                                {/* <a className={styles.button} target="" href="https://flarum.org/donate/" title="Donate">
-                                    贡献
-                                </a> */}
-                                <Button size="small" component="span" title="Sign Up" className={styles.button}>
-                                    贡献
-                                </Button>
-                            </li>
                             <li className="item-link7">
                                 {/* <a
                                     className={styles.button}
@@ -73,9 +65,20 @@ export default () => {
                                     注册
                                 </Button>
                             </li>
-                            <li className="item-logIn">
+                            <li className="item-logIn" style={{ marginRight: '20px' }}>
                                 <Button size="small" component="span" title="Log In" className={styles.button}>
                                     登录
+                                </Button>
+                            </li>
+                            <li className="item-logIn">
+                                <Button
+                                    size="small"
+                                    variant="contained"
+                                    color="primary"
+                                    title="Log In"
+                                    className={styles.button}
+                                >
+                                    发布新话题
                                 </Button>
                             </li>
                         </ul>

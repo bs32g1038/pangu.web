@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-
+import stylesc from './style.module.scss';
 import styles from './style';
 
 const useStyles = makeStyles(styles);
@@ -32,6 +32,7 @@ export default function Pagination(props) {
                     </li>
                 );
             })}
+            <span className={stylesc.right}>共<strong> 2300 </strong>条数据</span>
         </ul>
     );
 }

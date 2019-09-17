@@ -1,6 +1,5 @@
 .appHeader {
-    padding: 8px;
-    height: 52px;
+    // height: 66px;
     // position: fixed;
     top: 0;
     left: 0;
@@ -11,14 +10,14 @@
 }
 
 .container {
+    padding: 5px 10px 5px;
     transition: width 0.2s;
     width: 740px;
     margin-right: auto;
     margin-left: auto;
-    padding-left: 15px;
-    padding-right: 15px;
     display: flex;
     align-items: center;
+    background-color: #3f51b5;
 }
 
 .headerNavigation {
@@ -39,6 +38,7 @@
     display: flex;
     align-items: center;
     color: rgba(0, 0, 0, 0.85);
+    color: #fff;
     font-size: 16px;
     > span {
         margin-left: 10px;
@@ -69,6 +69,7 @@
 
 span.button {
     color: #667d99;
+    color: #fff;
 }
 
 .search {

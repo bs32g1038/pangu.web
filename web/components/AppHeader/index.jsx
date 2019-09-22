@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import styles from './style.module.scss';
 import Button from '@material-ui/core/Button';
-import LoginPage from '../LoginPage';
+import LoginPage, { TYPE } from '../LoginPage';
 
 export default () => {
-    const [isShowLoginDialog, setShowDialog] = useState(false);
+    const [dialog, setDialog] = useState({
+        type: TYPE.login,
+        isShow: false,
+    });
     return (
         <div id="drawer" className="App-drawer">
             <header className={styles.appHeader}>
@@ -60,13 +63,29 @@ export default () => {
                                     component="span"
                                     title="Sign Up"
                                     className={styles.button}
-                                    onClick={() => setShowDialog(true)}
+                                    onClick={() =>
+                                        setDialog({
+                                            type: TYPE.register,
+                                            isShow: true,
+                                        })
+                                    }
                                 >
                                     注册
                                 </Button>
                             </li>
                             <li className="item-logIn" style={{ marginRight: '20px' }}>
-                                <Button size="small" component="span" title="Log In" className={styles.button}>
+                                <Button
+                                    size="small"
+                                    component="span"
+                                    title="Log In"
+                                    className={styles.button}
+                                    onClick={() =>
+                                        setDialog({
+                                            type: TYPE.login,
+                                            isShow: true,
+                                        })
+                                    }
+                                >
                                     登录
                                 </Button>
                             </li>
@@ -85,8 +104,17 @@ export default () => {
                     </div>
                 </div>
             </header>
-            {isShowLoginDialog && (
-                <LoginPage show={isShowLoginDialog} handleClose={() => setShowDialog(false)}></LoginPage>
+            {dialog.isShow && (
+                <LoginPage
+                    show={dialog.isShow}
+                    type={dialog.type}
+                    handleClose={() =>
+                        setDialog({
+                            ...dialog,
+                            isShow: false,
+                        })
+                    }
+                ></LoginPage>
             )}
         </div>
     );

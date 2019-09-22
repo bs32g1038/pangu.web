@@ -96,6 +96,10 @@ img {
     color: rgba(0, 0, 0, 0.65);
 }
 
+.put_top + .put_top{
+    margin-left: 10px;
+}
+
 a.topic_title {
     max-width: 70%;
     -o-text-overflow: ellipsis;

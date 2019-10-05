@@ -16,9 +16,6 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
     function(response) {
-        if (response.data && response.data.code == 200) {
-            return response.data;
-        }
         return response;
     },
     function(error) {

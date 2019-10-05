@@ -11,11 +11,19 @@ const ResponseCode = {
         code: 200,
         message: '成功',
     },
+    LOGIN_FAILURE: {
+        code: 4010,
+        message: '用户账号/密码错误！',
+    },
+    401: {
+        code: 401,
+        message: '未登录',
+    },
 };
 
 /**
  * 响应成功
- * @param {object} data 
+ * @param {object} data
  */
 const success = data => {
     const { code, message } = ResponseCode.SUCCESS;
@@ -28,12 +36,9 @@ const success = data => {
 
 /**
  * 响应失败
- * @param {object} data 
+ * @param {object} data
  */
 const failure = (responseCode, data) => {
-    if (!(responseCode instanceof ResponseCode)) {
-        throw new Error('The responseCode must be an ResponseCode object ');
-    }
     const { code, message } = responseCode;
     return {
         code,

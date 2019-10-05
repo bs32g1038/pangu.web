@@ -7,3 +7,8 @@ exports.sequelize = {
     enable: true,
     package: 'egg-sequelize',
 };
+
+// exports.static = {
+//     enable: true,
+//     package: 'egg-static',
+// };

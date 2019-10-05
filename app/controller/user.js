@@ -20,17 +20,38 @@ class UserController extends Controller {
         const { ctx } = this;
         const user = await ctx.service.user.login(email, password);
 
-        ctx.body = ResponseResult.success({
-            id: user.id,
-        });
+        if (user) {
+            const token = ctx.service.user.signToken({
+                id: user.id,
+            });
+            return (ctx.body = ResponseResult.success({
+                id: user.id,
+                avatar: user.avatar,
+                username: user.username,
+                token,
+            }));
+        }
+        ctx.body = ResponseResult.failure(ResponseResult.ResponseCode.LOGIN_FAILURE);
     }
 
-
-    async getActiveUserList(){
+    async getActiveUserList() {
         const { ctx } = this;
         const list = await ctx.service.user.getActiveUserList();
         ctx.body = ResponseResult.success(list);
     }
 
+    async getUserByUsername() {
+        const { ctx } = this;
+        const username = ctx.query.username;
+        console.log(ctx.query);
+        const user = await ctx.service.user.getUserByUsername(username);
+        ctx.body = ResponseResult.success(user);
+    }
+
+    async fetchUserList() {
+        const { ctx } = this;
+        const list = await ctx.service.user.fetchUserList();
+        ctx.body = ResponseResult.success(list);
+    }
 }
 module.exports = UserController;

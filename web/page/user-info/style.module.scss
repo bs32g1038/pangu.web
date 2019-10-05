@@ -1,13 +1,14 @@
 .container {
-    width: 740px;
+    width: 812px;
     margin: 0 auto;
     display: flex;
     flex: 1 0 auto;
 }
 
 .infoWrap {
-    width: 740px;
     margin: 0 auto;
+    flex: 1 0 auto;
+    margin-bottom: 20px;
 }
 
 .personInfo {
@@ -54,6 +55,12 @@
     font-size: 16px;
 }
 
+.detail {
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 20px;
+}
+
 .statisticalData {
     display: flex;
     margin-top: 20px;
@@ -78,6 +85,56 @@
 .tabsWrap {
     margin-top: 20px;
     background-color: #fff;
+}
+
+.control {
+    display: flex;
+    a {
+        margin-right: 10px;
+        height: 30px;
+    }
+    button{
+        margin-right: 10px;
+        height: 30px;
+    }
+}
+
+.cell {
+    background: #fff;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    position: relative;
+    padding: 10px 0 10px 10px;
+    font-size: 14px;
+    .cellContent {
+        width: 100%;
+    }
+    .cellHeader {
+        flex: 1 0 auto;
+        display: flex;
+        align-items: center;
+    }
+    .cellBottom {
+        display: flex;
+        align-items: center;
+        margin-left: 7px;
+        margin-top: 0.8em;
+        color: rgba(0, 0, 0, 0.45);
+    }
+    .author {
+        margin-right: 10px;
+    }
+    .time {
+        flex: 1 0 auto;
+    }
+}
+
+.cell .reply_count {
+    width: 70px;
+    display: inline-block;
+    text-align: center;
 }
 
 .table {

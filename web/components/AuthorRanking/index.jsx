@@ -1,5 +1,6 @@
 import styles from './style.module.scss';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -18,24 +19,10 @@ export default props => {
                     <List className={styles.root}>
                         <ListItem>
                             {activeUserList.map(item => (
-                                <ListItemAvatar
-                                    style={{
-                                        marginRight: '14px',
-                                        flex: '1 0 auto',
-                                    }}
-                                    key={item.id}
-                                >
-                                    <div>
-                                        <div
-                                            style={{
-                                                display: 'flex',
-                                            }}
-                                        >
-                                            <Avatar
-                                                alt="Remy Sharp"
-                                                src="https://avatars1.githubusercontent.com/u/16550983?v=4&amp;s=120"
-                                                className={styles.avatar}
-                                            />
+                                <ListItemAvatar key={item.id} className={styles.userItem}>
+                                    <React.Fragment>
+                                        <Link className={styles.userItemHeader} to={`/user/${item.id}`}>
+                                            <Avatar alt={item.username} src={item.avatar} className={styles.avatar} />
                                             <div style={{ fontSize: '14px', marginLeft: '10px' }}>
                                                 <h3
                                                     style={{
@@ -54,30 +41,14 @@ export default props => {
                                                     共 {item.replyCount} 篇文章
                                                 </p>
                                             </div>
-                                        </div>
-                                        <div
-                                            style={{
-                                                display: 'flex',
-                                                justifyContent: 'center',
-                                                fontSize: '13px',
-                                                alignItems: 'center',
-                                            }}
-                                        >
-                                            <Button
-                                                variant="outlined"
-                                                size="small"
-                                                color="primary"
-                                                style={{
-                                                    padding: '0 4px',
-                                                    minWidth: 'auto',
-                                                    fontSize: '12px',
-                                                }}
-                                            >
+                                        </Link>
+                                        <div className={styles.userItemBottom}>
+                                            <Button variant="outlined" size="small" color="primary">
                                                 关注
                                             </Button>
                                             <span style={{ marginLeft: 6 }}>积分：{item.score}</span>
                                         </div>
-                                    </div>
+                                    </React.Fragment>
                                 </ListItemAvatar>
                             ))}
                         </ListItem>

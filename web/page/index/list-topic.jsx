@@ -12,6 +12,7 @@ import IssueSvg from '../../components/svgs/issue';
 import RecruitSvg from '../../components/svgs/recruit';
 import CommentSvg from '@material-ui/icons/Message';
 import { timeAgo } from '../../utils/time';
+import { TOPIC_TYPE } from '../../configs/constant';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -58,7 +59,7 @@ export default props => {
         <div className={styles.panel}>
             <div className={styles.tabsWrap}>
                 <Tabs variant="fullWidth" value={value} onChange={handleChange} aria-label="nav tabs example">
-                    <LinkTab icon={<AllSvg className={styles.icon} />} label="全部" to="/" {...a11yProps(0)} />
+                    <LinkTab icon={<AllSvg className={styles.icon} />} label="全部" to="/t/all" {...a11yProps(0)} />
                     <LinkTab
                         icon={<EssenceSvg className={styles.icon} />}
                         label="精华"
@@ -78,35 +79,40 @@ export default props => {
             <TabPanel value={value} index={0}>
                 <div id="topic_list">
                     {listTopic.rows.map(item => (
-                        <div className="cell" key={item.id}>
-                            <a className="user_avatar pull-left" href={`/user/${item.user && item.user.username}`}>
+                        <div className={styles.cell} key={item.id}>
+                            <a className={styles.userAvatar} href={`/user/${item.user && item.user.username}`}>
                                 <img src={item.user && item.user.avatar} title={item.user && item.user.username} />
                             </a>
-                            <div className="cell-content">
-                                <div className="cell-header">
-                                    <div className="topic_title_wrapper">
-                                        <span className="put_top">
-                                            {item.top ? '置顶' : item.label && item.label.name}
-                                        </span>
-                                        {item.good && <span className="put_top">精华</span>}
-                                        <Link className="topic_title" to={`/topic/${item.id}`} title={item.title}>
+                            <div className={styles.cellContent}>
+                                <div className={styles.cellHeader}>
+                                    <span className={styles.sign}>{item.top ? '置顶' : TOPIC_TYPE[item.type]}</span>
+                                    {item.good && <span className={styles.sign}>精华</span>}
+                                    <div className={styles.topicTitleWrap}>
+                                        <Link className={styles.topicTitle} to={`/topic/${item.id}`} title={item.title}>
                                             {item.title}
                                         </Link>
-                                        <a className="last_time pull-right" href={`/topic/${item.id}`}>
-                                            <img className="user_small_avatar" src={item.user && item.user.avatar} />
+                                    </div>
+                                    {item.lastReplyUser ? (
+                                        <a className={styles.lastTime} href={`/topic/${item.id}`}>
+                                            <img className={styles.userSmallAvatar} src={item.user && item.user.avatar} />
                                             <span style={{ fontSize: '12px', color: '#333' }}>
                                                 {timeAgo(item.lastRepliedAt)}{' '}
                                             </span>
                                         </a>
-                                    </div>
+                                    ) : (
+                                        <span className={styles.lastTime} style={{ fontSize: '12px', color: '#333' }}>
+                                            {timeAgo(item.createdAt)}
+                                        </span>
+                                    )}
                                 </div>
-                                <div className="cell-bottom">
-                                    <span className="author">作者：{item.user && item.user.username}</span>
-                                    <span className="time">
-                                        发布于: {timeAgo(item.createdAt)} ⁝ 浏览: {item.visitCount}
+                                <div className={styles.cellBottom}>
+                                    <span className={styles.author}>作者：{item.user && item.user.username} ⁝ </span>
+                                    <span className={styles.time}>
+                                        发布于: {timeAgo(item.createdAt)} ⁝ 节点: {item.node && item.node.name} ⁝ 浏览:
+                                        {item.visitCount}
                                     </span>
-                                    <a className="last_time pull-right" href={`/topic/${item.id}`}>
-                                        <span className="fly-list-nums">
+                                    <a className={styles.lastTime} href={`/topic/${item.id}`}>
+                                        <span className={styles.commentNum}>
                                             <CommentSvg style={{ fontSize: '14px' }}></CommentSvg> {item.replyCount}
                                         </span>
                                     </a>

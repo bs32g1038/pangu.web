@@ -5,7 +5,8 @@
     background-color: #fff;
     top: 0;
     bottom: 0;
-    margin-right: 1px;
+    // margin-right: 1px;
+    border-right: 1px solid rgba(0, 0, 0, 0.05);
 }
 .menu {
 }
@@ -36,7 +37,7 @@
     span {
         margin-top: 5px;
         color: rgba(0, 0, 0, 0.85);
-        font-size: 16px;
+        font-size: 12px;
     }
     &:before {
         content: '';

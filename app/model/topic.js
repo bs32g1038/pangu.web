@@ -48,6 +48,15 @@ module.exports = app => {
             field: 'collect_count',
             defaultValue: 0,
         },
+        // 类型 1 分享 2 问答
+        type: {
+            type: INTEGER,
+        },
+        // 节点 id
+        nodeId: {
+            type: INTEGER,
+            field: 'node_id',
+        },
         // 标签 id
         tagId: {
             type: INTEGER,
@@ -90,7 +99,9 @@ module.exports = app => {
     });
 
     Topic.associate = function() {
+        app.model.Topic.belongsTo(app.model.Node, { as: 'node', foreignKey: 'nodeId' });
         app.model.Topic.belongsTo(app.model.User, { as: 'user', foreignKey: 'userId' });
+        app.model.Topic.belongsTo(app.model.User, { as: 'lastReplyUser', foreignKey: 'lastReplyUserId' });
     };
 
     return Topic;

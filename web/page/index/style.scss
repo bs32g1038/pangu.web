@@ -50,12 +50,8 @@ a.last_time {
 .cell .count_of_replies {
     color: #9e78c0;
 }
-.last_time .user_small_avatar {
-    height: 18px;
-    width: 18px;
-    vertical-align: middle;
-    margin-right: 0.5em;
-    border-radius: 3px;
+.user_avatar{
+    min-width: 40px;
 }
 .user_avatar img,
 .user_big_avatar img {

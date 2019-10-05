@@ -1,3 +1,5 @@
+const React = require('react');
+
 const resolvePath = path => require('path').resolve(__dirname, path);
 
 module.exports = {
@@ -5,7 +7,13 @@ module.exports = {
     type: 'ssr', // 指定运行类型可设置为csr切换为客户端渲染
     static: {
         prefix: '/',
-        dir: resolvePath('../dist'),
+        dir: [
+            {
+                prefix: '/public',
+                dir: resolvePath('../app/public'),
+            },
+            resolvePath('../dist'),
+        ],
     },
     routes: [
         {
@@ -16,7 +24,7 @@ module.exports = {
             handler: 'index',
         },
         {
-            path: '/t/:tag',
+            path: '/t/:tab',
             exact: true,
             Component: () => require('@/page/index').default,
             controller: 'page',
@@ -30,9 +38,122 @@ module.exports = {
             handler: 'index',
         },
         {
-            path: '/user/:id',
+            path: '/user/:username',
             exact: true,
             Component: () => require('@/page/user-info').default,
+            controller: 'page',
+            handler: 'index',
+        },
+        {
+            path: '/write',
+            exact: true,
+            Component: () => require('@/page/write').default,
+            controller: 'page',
+            handler: 'index',
+        },
+        {
+            path: '/login',
+            exact: true,
+            Component: () => require('@/page/login').default,
+            controller: 'page',
+            handler: 'index',
+        },
+        {
+            path: '/register',
+            exact: true,
+            Component: () => require('@/page/login').default,
+            controller: 'page',
+            handler: 'index',
+        },
+        /**
+         * 管理后台页面
+         */
+        {
+            path: '/admin/index',
+            exact: true,
+            Component: () =>
+                __isBrowser__
+                    ? require('ykfe-utils/lib/loadable').default({
+                          loader: () => import('@/admin/page/index'),
+                          loading: function Loading() {
+                              return React.createElement('div');
+                          },
+                      })
+                    : require('@/admin/page/index').default,
+            controller: 'page',
+            handler: 'index',
+        },
+        {
+            path: '/admin/node',
+            exact: true,
+            Component: () =>
+                __isBrowser__
+                    ? require('ykfe-utils/lib/loadable').default({
+                          loader: () => import('@/admin/page/node'),
+                          loading: function Loading() {
+                              return React.createElement('div');
+                          },
+                      })
+                    : require('@/admin/page/node').default,
+            controller: 'page',
+            handler: 'index',
+        },
+        {
+            path: '/admin/node/edit',
+            exact: true,
+            Component: () => require('@/admin/page/node-edit').default,
+            controller: 'page',
+            handler: 'index',
+        },
+        {
+            path: '/admin/node/edit/:id',
+            exact: true,
+            Component: () => require('@/admin/page/node-edit').default,
+            controller: 'page',
+            handler: 'index',
+        },
+        {
+            path: '/admin/reply',
+            exact: true,
+            Component: () =>
+                __isBrowser__
+                    ? require('ykfe-utils/lib/loadable').default({
+                          loader: () => import('@/admin/page/reply'),
+                          loading: function Loading() {
+                              return React.createElement('div');
+                          },
+                      })
+                    : require('@/admin/page/reply').default,
+            controller: 'page',
+            handler: 'index',
+        },
+        {
+            path: '/admin/user',
+            exact: true,
+            Component: () =>
+                __isBrowser__
+                    ? require('ykfe-utils/lib/loadable').default({
+                          loader: () => import('@/admin/page/user'),
+                          loading: function Loading() {
+                              return React.createElement('div');
+                          },
+                      })
+                    : require('@/admin/page/user').default,
+            controller: 'page',
+            handler: 'index',
+        },
+        {
+            path: '/admin/setting',
+            exact: true,
+            Component: () =>
+                __isBrowser__
+                    ? require('ykfe-utils/lib/loadable').default({
+                          loader: () => import('@/admin/page/setting'),
+                          loading: function Loading() {
+                              return React.createElement('div');
+                          },
+                      })
+                    : require('@/admin/page/setting').default,
             controller: 'page',
             handler: 'index',
         },
@@ -70,4 +191,6 @@ module.exports = {
             enable: false,
         },
     },
+
+    tokenKey: 'pangu@bs32g1038@163.com'
 };

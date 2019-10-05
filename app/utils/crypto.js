@@ -8,7 +8,7 @@ const crypto = require('crypto-js');
  * @param {string} str 
  * @return {string} md5 值
  */
-export const md5 = str => {
+exports.md5 = str => {
     const isBuffer = Buffer.isBuffer(str);
     if (isBuffer) {
         str = str.toString('binary');
@@ -21,7 +21,7 @@ export const md5 = str => {
  * @param {string} value 原值
  * @return {string} SHA1 值
  */
-export const sha1 = value => {
+exports.sha1 = value => {
     return crypto.SHA1(value).toString(crypto.enc.Hex);
 };
 
@@ -34,7 +34,7 @@ export const sha1 = value => {
  * @param {string} str
  * @return {string} 加密后的值
  */
-export const encrypt = str => {
+exports.encrypt = str => {
     const m = crypto.MD5(str);
     const s = m.toString(crypto.enc.Hex);
     const s1 = s.slice(0, s.length / 2);
@@ -48,7 +48,7 @@ export const encrypt = str => {
  * @param {string} str 
  * @return {string} 解密后的值
  */
-export const decrypt = str => {
+exports.decrypt = str => {
     const s1 = str.slice(0, 16);
     const s2 = str.slice(str.length - 16, str.length);
     const key = str.slice(16, str.length - 16);
@@ -61,6 +61,6 @@ export const decrypt = str => {
  * @param {string} str 
  * @return {string} 密钥
  */
-export const getDerivedKey = str => {
+exports.getDerivedKey = str => {
     return crypto.PBKDF2(str, 'salt', 1, 32, 'sha512').toString(crypto.enc.Hex);
 };

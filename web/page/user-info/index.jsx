@@ -8,7 +8,11 @@ export default () => {
         <React.Fragment>
             <AppHeader></AppHeader>
             <Content></Content>
-            <AppFooter></AppFooter>
+            <AppFooter
+                footerStyle={{
+                    width: 812,
+                }}
+            ></AppFooter>
         </React.Fragment>
     );
 };

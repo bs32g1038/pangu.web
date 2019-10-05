@@ -21,9 +21,9 @@ module.exports = app => {
             field: 'topic_id',
         },
         // 作者 id
-        author_id: {
+        userId: {
             type: INTEGER,
-            field: 'reply_id',
+            field: 'user_id',
         },
         // 回复 id
         replyId: {
@@ -60,6 +60,12 @@ module.exports = app => {
         // 如果指定的表名称本就是复数形式则不变
         freezeTableName: true,
     });
+
+    Reply.associate = function() {
+        app.model.Reply.belongsTo(app.model.User, { as: 'user', foreignKey: 'userId' });
+        app.model.Reply.belongsTo(app.model.Topic, { as: 'topic', foreignKey: 'topicId' });
+    };
+
     return Reply;
     // 创建表
     // User.sync() 会创建表并且返回一个 Promise 对象

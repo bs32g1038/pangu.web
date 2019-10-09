@@ -28,6 +28,7 @@ class UserController extends Controller {
                 id: user.id,
                 avatar: user.avatar,
                 username: user.username,
+                account: user.account,
                 token,
             }));
         }

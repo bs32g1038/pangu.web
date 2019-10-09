@@ -14,7 +14,7 @@ import { withRouter } from 'react-router';
 import { timeAgo, parseTime } from '../../utils/time';
 import { fetchTopicListByUserId } from '../../api/topic';
 import CommentSvg from '@material-ui/icons/Message';
-import { TOPIC_TYPE } from '../../configs/constant';
+import { TOPIC_TYPE, USER_DEFAULT_SIGNATUR } from '../../configs/constant';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -62,17 +62,17 @@ const Content = props => {
         switch (newValue) {
             case 0:
                 return fetchTopicListByUserId(user.id).then(res => {
-                    setTopics(res.data);
+                    setTopics(res.data.data);
                 });
         }
     }
     useEffect(() => {
         const username = props.match.params.username;
         getUserByUsername(username).then(res => {
-            setUser(res.data);
-            const u = res.data;
+            setUser(res.data.data);
+            const u = res.data.data;
             return fetchTopicListByUserId(u.id).then(res => {
-                setTopics(res.data);
+                setTopics(res.data.data);
             });
         });
     }, [1]);
@@ -88,7 +88,7 @@ const Content = props => {
                         </div>
                         <div className={styles.personInfoBody}>
                             <div className={styles.authorName}>
-                                {user.username}
+                                {user.username || user.account}
                                 <span className={styles.tag}>明星会员</span>
                             </div>
                             <div className="item number">
@@ -98,12 +98,15 @@ const Content = props => {
                     </div>
                     <div className={styles.personInfoRight}>
                         <GithubSvg></GithubSvg>
+                        <Button variant="outlined" size="small" color="primary">
+                            关注
+                        </Button>
                     </div>
                 </div>
                 <div className={styles.detail}>
                     <p>
                         <strong>个性签名：</strong>
-                        {user.signature}
+                        {user.signature || USER_DEFAULT_SIGNATUR}
                     </p>
                     <p>
                         <strong>所在城市：</strong>
@@ -245,7 +248,7 @@ const Content = props => {
                                     </TableCell>
                                     <TableCell align="right">
                                         <Button variant="contained" color="primary" size="small">
-                                            取消关注
+                                            取消收藏
                                         </Button>
                                     </TableCell>
                                 </TableRow>

@@ -11,6 +11,10 @@ module.exports = app => {
             type: STRING,
             allowNull: true,
         },
+        account: {
+            type: STRING,
+            allowNull: false,
+        },
         // 密码
         password: {
             type: STRING,

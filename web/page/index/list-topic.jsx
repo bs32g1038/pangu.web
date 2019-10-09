@@ -80,9 +80,9 @@ export default props => {
                 <div id="topic_list">
                     {listTopic.rows.map(item => (
                         <div className={styles.cell} key={item.id}>
-                            <a className={styles.userAvatar} href={`/user/${item.user && item.user.username}`}>
+                            <Link className={styles.userAvatar} to={`/user/${item.user && item.user.account}`}>
                                 <img src={item.user && item.user.avatar} title={item.user && item.user.username} />
-                            </a>
+                            </Link>
                             <div className={styles.cellContent}>
                                 <div className={styles.cellHeader}>
                                     <span className={styles.sign}>{item.top ? '置顶' : TOPIC_TYPE[item.type]}</span>

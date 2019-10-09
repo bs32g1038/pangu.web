@@ -281,7 +281,7 @@ export default function EnhancedTable() {
 
     useEffect(() => {
         fetchTopicList().then(res => {
-            setTopics(res.data);
+            setTopics(res.data.data);
         });
     }, [1]);
 

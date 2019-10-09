@@ -10,5 +10,5 @@ export const render = str => {
     lute.SetAutoSpace(false);
     lute.SetFixTermTypo(false);
     lute.SetEmoji(false);
-    return lute.MarkdownStr('', str);
+    return lute.MarkdownStr('', str)[0];
 };

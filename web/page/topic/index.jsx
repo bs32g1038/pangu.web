@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AppHeader from '../../components/AppHeader';
 import AppFooter from '../../components/AppFooter';
 import Comment from './comment';
@@ -12,6 +12,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { timeAgo, parseTime } from '../../utils/time';
 import * as markdown from '../../utils/markdown';
 import { TOPIC_TYPE } from '../../configs/constant';
+import Vditor from 'vditor';
 import {
     Wrap,
     Title,
@@ -27,6 +28,13 @@ import UserInfo from './user-info';
 
 const Page = props => {
     const topic = props.topic || {};
+    const replyList = props.replyList || {
+        rows: [],
+        count: 0,
+    };
+    useEffect(() => {
+        Vditor.highlightRender('github', true, document.getElementById('markdownBody'));
+    }, [topic]);
     return (
         <React.Fragment>
             <AppHeader></AppHeader>
@@ -46,7 +54,7 @@ const Page = props => {
                             <span>({topic.collectCount})</span>
                         </CollectCountWrap>
                         <LikeCountWrap>
-                            <LikeSvg></LikeSvg>
+                            <LikeSvg className="icon"></LikeSvg>
                             <span>赞</span>
                             <span>({topic.visitCount})</span>
                         </LikeCountWrap>
@@ -57,8 +65,12 @@ const Page = props => {
                     </MetaReaction>
                 </Meta>
                 <UserInfo user={topic.user || {}}></UserInfo>
-                <MarkdownBody dangerouslySetInnerHTML={{ __html: markdown.render(topic.content) }}></MarkdownBody>
-                <Comment topic={topic}></Comment>
+                <MarkdownBody
+                    className="vditor-reset"
+                    id="markdownBody"
+                    dangerouslySetInnerHTML={{ __html: markdown.render(topic.content) }}
+                ></MarkdownBody>
+                <Comment topic={topic} replyList={replyList}></Comment>
             </Wrap>
             <AppFooter></AppFooter>
         </React.Fragment>

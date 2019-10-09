@@ -76,6 +76,7 @@
     "filepond-plugin-file-validate-type": "^1.2.4",
     "filepond-plugin-image-exif-orientation": "^1.0.6",
     "filepond-plugin-image-preview": "^4.4.0",
+    "highlight.js": "^9.15.10",
     "memory-fs": "^0.4.1",
     "mini-css-extract-plugin": "^0.8.0",
     "node-sass": "^4.12.0",

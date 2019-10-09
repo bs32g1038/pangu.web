@@ -24,5 +24,8 @@ export const getTokenFromLoginInfo = () => {
 };
 
 export const isLogin = () => {
-    return getTokenFromLoginInfo() ? true : false;
+    if (typeof window !== 'undefined') {
+        return getTokenFromLoginInfo() ? true : false;
+    }
+    return false;
 };

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import IconButton from '@material-ui/core/IconButton';
 
 export const Wrap = styled.div`
     width: 812px;
@@ -38,25 +39,22 @@ export const MetaReaction = styled.div`
     align-items: center;
 `;
 
-export const CollectCountWrap = styled.div`
-    display: flex;
-    flex: 1 0 auto;
-    margin-right: 20px;
-    cursor: pointer;
+export const CollectCountWrap = styled(IconButton)`
+    &.MuiIconButton-root {
+        font-size: 14px;
+        border-radius: 4px;
+        padding: 5px 8px;
+        margin-right: 10px;
+    }
     .icon {
         width: 20px;
         height: 20px;
     }
 `;
 
-export const LikeCountWrap = styled.div`
-    display: flex;
-    flex: 1 0 auto;
-    margin-right: 20px;
-    cursor: pointer;
+export const LikeCountWrap = styled(CollectCountWrap)`
     .icon {
-        width: 20px;
-        height: 20px;
+        margin-right: 2px;
     }
 `;
 
@@ -68,5 +66,6 @@ export const Hr = styled.hr`
 
 export const MarkdownBody = styled.div`
     min-height: 100px;
-    padding-top: 7px;
+    padding-top: 1.5em;
+    font-size: 14px;
 `;

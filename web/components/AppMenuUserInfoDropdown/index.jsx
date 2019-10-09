@@ -66,9 +66,13 @@ const C = props => {
                 keepMounted
                 onClose={handleClose}
             >
-                <MenuItem onClick={() => props.history.push('/user/' + userInfo.id)}>
+                <MenuItem onClick={() => props.history.push('/user/' + userInfo.account)}>
                     <AccountCircleIcon fontSize="small"></AccountCircleIcon>
                     个人中心
+                </MenuItem>
+                <MenuItem onClick={() => props.history.push('/admin/index')}>
+                    <AccountCircleIcon fontSize="small"></AccountCircleIcon>
+                    后台管理
                 </MenuItem>
                 <MenuItem onClick={handleClose}>
                     <ExitToAppIcon fontSize="small"></ExitToAppIcon> 退出登录

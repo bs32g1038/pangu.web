@@ -21,22 +21,26 @@ import axios from '../../utils/axios';
 import { fetchNodes } from '../../api/node';
 import { fetchTopicById, createTopic, updateTopic } from '../../api/topic';
 import styles from './style.module.scss';
-const queryString = require('query-string');
+import queryString from 'query-string';
 import { withSnackbar } from 'notistack';
+import * as oauth from '../../utils/oauth';
 
 const initEditor = () => {
     const vditor = new Vditor('markdownEditor', {
-        height: 540,
+        height: 240,
         preview: {
             mode: 'editor',
         },
         placeholder: '请输入正文',
+        editor: false,
     });
     vditor.setValue('');
     return vditor;
 };
 
 const Content = props => {
+    const user = oauth.getLoginInfo();
+
     const [nodes, setNodes] = useState([]);
     const [editor, setEditor] = useState(null);
     const [isSuccessMessageShow, setSuccessMessageShow] = useState(false);
@@ -55,12 +59,12 @@ const Content = props => {
         setEditor(vditor);
 
         fetchNodes().then(res => {
-            setNodes(res.data.rows);
+            setNodes(res.data.data.rows);
         });
         const query = queryString.parse(props.location.search);
         if (query.topicId) {
             fetchTopicById(query.topicId).then(res => {
-                const topic = res.data;
+                const topic = res.data.data;
                 setValues({
                     id: query.topicId,
                     title: topic.title,
@@ -77,7 +81,7 @@ const Content = props => {
 
     function handleChange(event) {
         event.persist();
-        console.log([event.target.name], event.target.value)
+        console.log([event.target.name], event.target.value);
         setValues(oldValues => ({
             ...oldValues,
             [event.target.name]: event.target.value,
@@ -98,7 +102,7 @@ const Content = props => {
                     size="small"
                     color="primary"
                     onClick={() => {
-                        console.log(values)
+                        console.log(values);
                         const data = { ...values, content: editor.getValue() };
                         const p = values.id ? updateTopic(data) : createTopic(data);
                         p.then(() => {

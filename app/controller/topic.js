@@ -36,6 +36,7 @@ class TopicController extends Controller {
         const content = this.ctx.request.body.content;
         const top = this.ctx.request.body.top;
         const good = this.ctx.request.body.good;
+        const userId = this.ctx.request.body.userId;
         const topic = await ctx.service.topic.create({
             title,
             nodeId,
@@ -43,6 +44,7 @@ class TopicController extends Controller {
             content,
             top,
             good,
+            userId,
         });
         ctx.body = ResponseResult.success(topic);
     }

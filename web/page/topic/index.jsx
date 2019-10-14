@@ -4,15 +4,21 @@ import AppFooter from '../../components/AppFooter';
 import Comment from './comment';
 import { fetchTopicById } from '../../api/topic';
 import { fetchReplyList } from '../../api/reply';
-import styled from 'styled-components';
 import CollectionSvg from '../../components/svgs/collection';
 import LikeSvg from '../../components/svgs/like';
-import queryString from 'query-string';
-import { Link, withRouter } from 'react-router-dom';
-import { timeAgo, parseTime } from '../../utils/time';
+import { timeAgo, timeTo, parseTime } from '../../utils/time';
 import * as markdown from '../../utils/markdown';
 import { TOPIC_TYPE } from '../../configs/constant';
 import Vditor from 'vditor';
+import { RECRUIT_INFO } from '../../configs/constant';
+import LocationSvg from '../../components/svgs/location';
+import EducationSvg from '../../components/svgs/education';
+import ExperienceSvg from '../../components/svgs/experience';
+import SalarySvg from '../../components/svgs/salary';
+import JobSvg from '../../components/svgs/job';
+import FinanceSvg from '../../components/svgs/finance';
+import StaffSvg from '../../components/svgs/staff';
+
 import {
     Wrap,
     Title,
@@ -21,8 +27,12 @@ import {
     MetaReaction,
     CollectCountWrap,
     LikeCountWrap,
-    Hr,
     MarkdownBody,
+    IconSvg,
+    RecruitInfoWrap,
+    RecruitInfoSign,
+    RecruitInfoContent,
+    RecruitInfoItem,
 } from './style';
 import UserInfo from './user-info';
 
@@ -65,6 +75,44 @@ const Page = props => {
                     </MetaReaction>
                 </Meta>
                 <UserInfo user={topic.user || {}}></UserInfo>
+                {topic.recruitInfo && (
+                    <RecruitInfoWrap>
+                        <RecruitInfoSign>
+                            招聘信息（有效期：{parseTime(topic.recruitInfo.startTime, 'YYYY-MM-DD')}-
+                            {parseTime(topic.recruitInfo.endTime, 'YYYY-MM-DD')}）
+                        </RecruitInfoSign>
+                        <RecruitInfoContent>
+                            <RecruitInfoItem title="公司位置">
+                                <IconSvg as={LocationSvg}></IconSvg>
+                                <span>{topic.recruitInfo.location}</span>
+                            </RecruitInfoItem>
+                            <RecruitInfoItem title="学历">
+                                <IconSvg as={EducationSvg}></IconSvg>
+                                <span>{RECRUIT_INFO.education[topic.recruitInfo.education]}</span>
+                            </RecruitInfoItem>
+                            <RecruitInfoItem title="工作经验">
+                                <IconSvg as={ExperienceSvg}></IconSvg>
+                                <span>{RECRUIT_INFO.experience[topic.recruitInfo.experience]}</span>
+                            </RecruitInfoItem>
+                            <RecruitInfoItem title="薪资情况">
+                                <IconSvg as={SalarySvg}></IconSvg>
+                                <span>{RECRUIT_INFO.salary[topic.recruitInfo.salary]}</span>
+                            </RecruitInfoItem>
+                            <RecruitInfoItem title="工作岗位">
+                                <IconSvg as={JobSvg}></IconSvg>
+                                <span>{topic.recruitInfo.job}</span>
+                            </RecruitInfoItem>
+                            <RecruitInfoItem title="融资情况">
+                                <IconSvg as={FinanceSvg}></IconSvg>
+                                <span>{RECRUIT_INFO.finance[topic.recruitInfo.finance]}</span>
+                            </RecruitInfoItem>
+                            <RecruitInfoItem title="人员分布">
+                                <IconSvg as={StaffSvg}></IconSvg>
+                                <span>{RECRUIT_INFO.staff[topic.recruitInfo.staff]}</span>
+                            </RecruitInfoItem>
+                        </RecruitInfoContent>
+                    </RecruitInfoWrap>
+                )}
                 <MarkdownBody
                     className="vditor-reset"
                     id="markdownBody"

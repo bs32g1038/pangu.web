@@ -5,10 +5,10 @@ class TopicController extends Controller {
         const TYPE = {
             share: 1,
             issue: 2,
+            recruit: 3,
         };
-
         const { ctx, app } = this;
-        const { tab, page, limit } = ctx.query;
+        const { tab, nodeId, page, limit, userId } = ctx.query;
         const option = {};
         if (!tab || tab === 'all') {
             option.where = {};
@@ -16,6 +16,12 @@ class TopicController extends Controller {
             option.where = { good: true };
         } else {
             option.where = { type: TYPE[tab] };
+        }
+        if (nodeId) {
+            option.where = { ...option.where, nodeId };
+        }
+        if (userId) {
+            option.where = { ...option.where, userId };
         }
         // if (!query.good) {
         //     query.create_at = {
@@ -29,7 +35,7 @@ class TopicController extends Controller {
     }
 
     async create() {
-        const { ctx } = this;
+        const { ctx, app } = this;
         const title = this.ctx.request.body.title;
         const nodeId = this.ctx.request.body.node;
         const type = this.ctx.request.body.type;
@@ -37,20 +43,29 @@ class TopicController extends Controller {
         const top = this.ctx.request.body.top;
         const good = this.ctx.request.body.good;
         const userId = this.ctx.request.body.userId;
-        const topic = await ctx.service.topic.create({
-            title,
-            nodeId,
-            type,
-            content,
-            top,
-            good,
-            userId,
+        const recruitInfo = this.ctx.request.body.recruitInfo;
+        const topic = await app.model.transaction(t => {
+            return ctx.service.recruit.create(recruitInfo, { transaction: t }).then(recruitInfo => {
+                return ctx.service.topic.create(
+                    {
+                        title,
+                        nodeId,
+                        type,
+                        content,
+                        top,
+                        good,
+                        userId,
+                        recruitId: recruitInfo.id,
+                    },
+                    { transaction: t }
+                );
+            });
         });
         ctx.body = ResponseResult.success(topic);
     }
 
     async update() {
-        const { ctx } = this;
+        const { ctx, app } = this;
         const id = this.ctx.request.body.id;
         const title = this.ctx.request.body.title;
         const nodeId = this.ctx.request.body.node;
@@ -58,14 +73,22 @@ class TopicController extends Controller {
         const content = this.ctx.request.body.content;
         const top = this.ctx.request.body.top;
         const good = this.ctx.request.body.good;
-        const topic = await ctx.service.topic.update({
-            id,
-            title,
-            nodeId,
-            type,
-            content,
-            top,
-            good,
+        const recruitInfo = this.ctx.request.body.recruitInfo;
+        const topic = await app.model.transaction(t => {
+            return ctx.service.recruit.update(recruitInfo, { transaction: t }).then(() => {
+                return ctx.service.topic.update(
+                    {
+                        id,
+                        title,
+                        nodeId,
+                        type,
+                        content,
+                        top,
+                        good,
+                    },
+                    { transaction: t }
+                );
+            });
         });
         ctx.body = ResponseResult.success(topic);
     }

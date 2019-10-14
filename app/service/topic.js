@@ -7,7 +7,7 @@ class TopicService extends Service {
         return app.model.Topic.findAndCountAll({
             // attributes: { exclude: ['userId'] },
             where: option.where,
-            order: [['created_at', 'DESC']],
+            order: [['top', 'DESC'], ['created_at', 'DESC']],
             limit,
             offset,
             include: [
@@ -18,12 +18,12 @@ class TopicService extends Service {
         });
     }
 
-    async create(data) {
+    async create(data, option = {}) {
         const { app, ctx } = this;
-        return app.model.Topic.create(data);
+        return app.model.Topic.create(data, option);
     }
 
-    async update(data) {
+    async update(data, option = {}) {
         const { app } = this;
         return app.model.Topic.update(
             {
@@ -34,7 +34,7 @@ class TopicService extends Service {
                 top: data.top,
                 good: data.good,
             },
-            { where: { id: data.id } }
+            { where: { id: data.id }, ...option }
         );
     }
 
@@ -49,6 +49,7 @@ class TopicService extends Service {
             include: [
                 { model: app.model.Node, required: true, as: 'node' },
                 { model: app.model.User, required: true, as: 'user' },
+                { model: app.model.Recruit, required: false, as: 'recruitInfo' },
             ],
         });
     }

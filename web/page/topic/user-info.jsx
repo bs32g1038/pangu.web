@@ -9,7 +9,7 @@ const UserInfoWrap = styled.div`
     line-height: 20px;
     padding: 10px 15px 10px 75px;
     font-size: 13px;
-    background-color: #f8f8f8;
+    background-color: #f5f5f5;
     color: #999;
 `;
 

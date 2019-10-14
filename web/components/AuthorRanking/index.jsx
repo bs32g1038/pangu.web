@@ -21,7 +21,7 @@ export default props => {
                             {activeUserList.map(item => (
                                 <ListItemAvatar key={item.id} className={styles.userItem}>
                                     <React.Fragment>
-                                        <Link className={styles.userItemHeader} to={`/user/${item.id}`}>
+                                        <Link className={styles.userItemHeader} to={`/user/${item.account}`}>
                                             <Avatar alt={item.username} src={item.avatar} className={styles.avatar} />
                                             <div style={{ fontSize: '14px', marginLeft: '10px' }}>
                                                 <h3

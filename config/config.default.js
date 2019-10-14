@@ -31,6 +31,13 @@ module.exports = {
             handler: 'index',
         },
         {
+            path: '/n/:nodeId/t/:tab',
+            exact: true,
+            Component: () => require('@/page/index').default,
+            controller: 'page',
+            handler: 'index',
+        },
+        {
             path: '/topic/:id',
             exact: true,
             Component: () => require('@/page/topic').default,
@@ -157,6 +164,13 @@ module.exports = {
             controller: 'page',
             handler: 'index',
         },
+        {
+            path: '/admin/recurit',
+            exact: true,
+            Component: () => require('@/admin/page/recurit').default,
+            controller: 'page',
+            handler: 'index',
+        },
     ],
     baseDir: resolvePath('../'),
     injectCss: [`/static/css/Page.chunk.css`], // 客户端需要加载的静态样式表
@@ -192,5 +206,5 @@ module.exports = {
         },
     },
 
-    tokenKey: 'pangu@bs32g1038@163.com'
+    tokenKey: 'pangu@bs32g1038@163.com',
 };

@@ -9,7 +9,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
-import { getUserByUsername } from '../../api/user';
 import { withRouter } from 'react-router';
 import { timeAgo, parseTime } from '../../utils/time';
 import { fetchTopicListByUserId } from '../../api/topic';
@@ -66,16 +65,6 @@ const Content = props => {
                 });
         }
     }
-    useEffect(() => {
-        const username = props.match.params.username;
-        getUserByUsername(username).then(res => {
-            setUser(res.data.data);
-            const u = res.data.data;
-            return fetchTopicListByUserId(u.id).then(res => {
-                setTopics(res.data.data);
-            });
-        });
-    }, [1]);
     return (
         <div className={styles.container}>
             <div className={styles.infoWrap}>

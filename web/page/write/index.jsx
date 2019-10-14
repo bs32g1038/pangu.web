@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AppHeader from '../../components/AppHeader';
 import AppFooter from '../../components/AppFooter';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
     TextField,
     FormControl,
@@ -20,6 +20,7 @@ import { fetchTopicById, createTopic, updateTopic } from '../../api/topic';
 import styles from './style.module.scss';
 import queryString from 'query-string';
 import * as oauth from '../../utils/oauth';
+import Recruit from './recruit';
 
 const initEditor = () => {
     const vditor = new Vditor('markdownEditor', {
@@ -48,6 +49,7 @@ const Page = props => {
         good: false,
         top: false,
         userId: user.id,
+        recruitInfo: null,
     });
 
     useEffect(() => {
@@ -69,6 +71,7 @@ const Page = props => {
                     content: topic.content,
                     good: topic.good,
                     top: topic.top,
+                    recruitInfo: topic.recruitInfo,
                 });
                 vditor.setValue(topic.content);
             });
@@ -77,7 +80,6 @@ const Page = props => {
 
     function handleChange(event) {
         event.persist();
-        console.log([event.target.name], event.target.value);
         setValues(oldValues => ({
             ...oldValues,
             [event.target.name]: event.target.value,
@@ -172,6 +174,7 @@ const Page = props => {
                             >
                                 <MenuItem value={1}>分享</MenuItem>
                                 <MenuItem value={2}>问答</MenuItem>
+                                <MenuItem value={3}>招聘</MenuItem>
                             </TextField>
                         )}
                     </div>
@@ -211,6 +214,15 @@ const Page = props => {
                             label="置顶"
                         />
                     </div>
+                    {values.type === 3 && (
+                        <Recruit
+                            recruitInfo={values.recruitInfo}
+                            onChange={recruitInfo => {
+                                console.log(recruitInfo, "--1--1-1-1-1--");
+                                setValues({ ...values, recruitInfo })
+                            }}
+                        ></Recruit>
+                    )}
                     <FormControl variant="outlined" className={styles.markdownEditorWrap}>
                         <div id="markdownEditor" className={styles.markdownEditor}></div>
                     </FormControl>

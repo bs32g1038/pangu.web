@@ -17,7 +17,7 @@ export default props => {
                         <a href="https://www.vultr.com/?ref=7866918-4F">Vultr(https://www.vultr.com/)</a>
                     </p>
                 </div>
-                <div>©2019 掘金 Powered by QingCloud 津ICP备15003202号-2 京公网安备11010802026719号</div>
+                <div>©2019 盘古 Powered by bs32g1038@163.com 粤ICP备16021965号-2</div>
             </div>
         </div>
     );

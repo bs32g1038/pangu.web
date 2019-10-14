@@ -21,7 +21,7 @@ export default props => {
                 </li>
                 {nodes.rows.map(item => (
                     <li className={styles.menuItem} key={item.id}>
-                        <Link to={`/n/${item.id}`} className={styles.menuItemA}>
+                        <Link to={`/n/${item.id}/t/all`} className={styles.menuItemA}>
                             <img src={item.icon} alt={item.name} />
                             <span>{item.name}</span>
                         </Link>

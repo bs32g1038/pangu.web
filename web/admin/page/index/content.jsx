@@ -14,19 +14,17 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import styles from './style.module.scss';
+import TopicItem from './topic-item';
 import { fetchTopicList } from '../../../api/topic';
-import { TOPIC_TYPE } from '../../../configs/constant';
 import { Link } from 'react-router-dom';
-import { timeAgo, parseTime } from '../../../utils/time';
+import { timeAgo } from '../../../utils/time';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import indigo from '@material-ui/core/colors/indigo';
+import { Author, CTableBody } from './style';
 
 function createData(name, calories) {
     return { name, calories };
@@ -61,10 +59,7 @@ function getSorting(order, orderBy) {
     return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
 }
 
-const headCells = [
-    { id: 'content', numeric: false, disablePadding: true, label: '内容' },
-    { id: 'control', numeric: true, disablePadding: false, label: '操作' },
-];
+const headCells = [{ id: 'content', numeric: false, disablePadding: true, label: '内容' }];
 
 function EnhancedTableHead(props) {
     const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
@@ -303,7 +298,6 @@ export default function EnhancedTable() {
                         <TableBody>
                             {topics.rows.map(item => (
                                 <TableRow
-                                    hover
                                     onClick={event => handleClick(event, item.name)}
                                     role="checkbox"
                                     key={item.id}
@@ -312,63 +306,57 @@ export default function EnhancedTable() {
                                         <Checkbox inputProps={{ 'aria-labelledby': item.id }} />
                                     </TableCell>
                                     <TableCell component="th" scope="row" padding="none">
-                                        <div className={styles.cell} key={item.key}>
-                                            <div className={styles.cellContent}>
-                                                <div className={styles.cellHeader}>
-                                                    <div className="topic_title_wrapper">
-                                                        <span className="put_top">
-                                                            {item.top ? '置顶' : TOPIC_TYPE[item.type]}
-                                                        </span>
-                                                        {item.good && <span className="put_top">精华</span>}
-                                                        <Link
-                                                            className="topic_title"
-                                                            to={`/topic/${item.id}`}
-                                                            title={item.title}
+                                        <TopicItem item={item}></TopicItem>
+                                        <Table className={styles.table} size="small">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>收藏数</TableCell>
+                                                    <TableCell>最后回复时间</TableCell>
+                                                    <TableCell align="left">最后回复的作者</TableCell>
+                                                    <TableCell align="left">是否被锁定</TableCell>
+                                                    <TableCell>操作</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <CTableBody>
+                                                <TableRow>
+                                                    <TableCell>{item.collectCount}</TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        {item.lastRepliedAt ? timeAgo(item.lastRepliedAt) : '--'}
+                                                    </TableCell>
+                                                    <TableCell align="left">
+                                                        <Author
+                                                            to={`/user/${item.lastReplyUser &&
+                                                                item.lastReplyUser.username}`}
+                                                            title={item.lastReplyUser && item.lastReplyUser.username}
                                                         >
-                                                            {item.title}
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                                <div className={styles.cellBottom}>
-                                                    <Link
-                                                        to={`/user/${item.user && item.user.username}`}
-                                                        title={item.user && item.user.username}
-                                                        className={styles.author}
-                                                    >
-                                                        作者：
-                                                        <span style={{ color: indigo[500] }}>
-                                                            {item.user && item.user.username}
-                                                        </span>
-                                                    </Link>
-                                                    <span className={styles.time}>
-                                                        发布于：{timeAgo(item.createdAt)} ⁝ 节点：
-                                                        {item.node && item.node.name} ⁝ 浏览:
-                                                        {item.visitCount} ⁝ 评论：{item.replyCount}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        <IconButton
-                                            aria-label="edit"
-                                            title="编辑"
-                                            component={Link}
-                                            to={`/write?topicId=${item.id}`}
-                                        >
-                                            <EditIcon />
-                                        </IconButton>
-                                        <IconButton aria-label="delete" title="删除">
-                                            <DeleteIcon />
-                                        </IconButton>
+                                                            <span style={{ color: indigo[500] }}>
+                                                                {(item.lastReplyUser && item.lastReplyUser.username) ||
+                                                                    '--'}
+                                                            </span>
+                                                        </Author>
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        {item.locked ? '是' : '否'}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <IconButton
+                                                            aria-label="edit"
+                                                            title="编辑"
+                                                            component={Link}
+                                                            to={`/write?topicId=${item.id}`}
+                                                        >
+                                                            <EditIcon />
+                                                        </IconButton>
+                                                        <IconButton aria-label="delete" title="删除">
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    </TableCell>
+                                                </TableRow>
+                                            </CTableBody>
+                                        </Table>
                                     </TableCell>
                                 </TableRow>
                             ))}
-                            {emptyRows > 0 && (
-                                <TableRow style={{ height: 49 * emptyRows }}>
-                                    <TableCell colSpan={6} />
-                                </TableRow>
-                            )}
                         </TableBody>
                     </Table>
                 </div>
@@ -377,12 +365,14 @@ export default function EnhancedTable() {
                     component="div"
                     count={topics.count}
                     rowsPerPage={rowsPerPage}
+                    labelRowsPerPage="每页页数"
+                    labelDisplayedRows={({ from, to, count }) => `${from}-${to} 共 ${count} 条数据`}
                     page={page}
                     backIconButtonProps={{
-                        'aria-label': 'previous page',
+                        'aria-label': '上一页',
                     }}
                     nextIconButtonProps={{
-                        'aria-label': 'next page',
+                        'aria-label': '下一页',
                     }}
                     onChangePage={handleChangePage}
                     onChangeRowsPerPage={handleChangeRowsPerPage}

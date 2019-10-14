@@ -1,6 +1,6 @@
 import React from 'react';
 import AppHeader from '../../components/AppHeader';
-import AppFooter from '../../components/AppFooter';
+import AppFooter from '../../../components/AppFooter';
 import Content from './content';
 
 export default () => {

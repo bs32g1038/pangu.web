@@ -35,8 +35,10 @@ Page.getInitialProps = async ctx => {
     const params = {};
     if (query) {
         params.tab = query.tab;
+        params.nodeId = query.nodeId;
     } else {
         params.tab = match.params.tab;
+        params.nodeId = match.params.nodeId;
     }
     const [listTopic, activeUserList, nodes] = await Promise.all([
         axios

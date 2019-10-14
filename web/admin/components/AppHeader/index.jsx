@@ -13,6 +13,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import RecruitSvg from '../../../components/svgs/recruit';
 
 const Content = props => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -133,6 +134,17 @@ const Content = props => {
                             </li>
                         </ul>
                     </div>
+                </div>
+                <div className={styles.container}>
+                    <Button
+                        size="small"
+                        title="招聘信息管理"
+                        className={getClassName('/admin/recurit')}
+                        component={Link}
+                        to="/admin/recurit"
+                    >
+                        <RecruitSvg width={16} style={{ marginRight: '3px' }}></RecruitSvg>招聘信息管理
+                    </Button>
                 </div>
             </header>
         </div>

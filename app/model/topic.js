@@ -62,6 +62,11 @@ module.exports = app => {
             type: INTEGER,
             field: 'tag_id',
         },
+        // 招聘信息id
+        recruitId: {
+            type: INTEGER,
+            field: 'recruit_id',
+        },
         // 作者 id
         userId: {
             type: INTEGER,
@@ -102,6 +107,7 @@ module.exports = app => {
         app.model.Topic.belongsTo(app.model.Node, { as: 'node', foreignKey: 'nodeId' });
         app.model.Topic.belongsTo(app.model.User, { as: 'user', foreignKey: 'userId' });
         app.model.Topic.belongsTo(app.model.User, { as: 'lastReplyUser', foreignKey: 'lastReplyUserId' });
+        app.model.Topic.belongsTo(app.model.Recruit, { as: 'recruitInfo', foreignKey: 'recruitId' });
     };
 
     return Topic;

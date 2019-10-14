@@ -6,6 +6,7 @@ import _Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 
@@ -71,7 +72,7 @@ const C = props => {
                     个人中心
                 </MenuItem>
                 <MenuItem onClick={() => props.history.push('/admin/index')}>
-                    <AccountCircleIcon fontSize="small"></AccountCircleIcon>
+                    <ViewComfyIcon fontSize="small"></ViewComfyIcon>
                     后台管理
                 </MenuItem>
                 <MenuItem onClick={handleClose}>

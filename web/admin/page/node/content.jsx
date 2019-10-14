@@ -49,7 +49,7 @@ export default function SimpleTable() {
 
     useEffect(() => {
         fetchNodes().then(res => {
-            setNodes(res.data);
+            setNodes(res.data.data);
         });
     }, [1]);
 

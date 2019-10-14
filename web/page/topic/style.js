@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import IconButton from '@material-ui/core/IconButton';
+import deepOrange from '@material-ui/core/colors/deepOrange';
+import grey from '@material-ui/core/colors/grey';
 
 export const Wrap = styled.div`
     width: 812px;
@@ -58,14 +60,39 @@ export const LikeCountWrap = styled(CollectCountWrap)`
     }
 `;
 
-export const Hr = styled.hr`
-    height: 1px;
-    background-color: #f5f5f5;
-    border: none;
-`;
-
 export const MarkdownBody = styled.div`
     min-height: 100px;
     padding-top: 1.5em;
     font-size: 14px;
+`;
+
+export const RecruitInfoWrap = styled.div``;
+
+export const RecruitInfoSign = styled.h2`
+    text-align: center;
+    border-bottom: 1px solid ${grey[200]};
+    max-width: 500px;
+    margin: 1em auto;
+    padding-bottom: 20px;
+`;
+
+export const RecruitInfoContent = styled.div`
+    font-size: 14px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+`;
+
+export const RecruitInfoItem = styled.div`
+    display: flex;
+    align-items: center;
+    flex: 1 0 auto;
+`;
+
+export const IconSvg = styled.div`
+    width: 16px;
+    height: 16px;
+    fill: ${deepOrange[200]};
+    margin-right: 3px;
 `;

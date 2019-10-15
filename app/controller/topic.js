@@ -98,5 +98,6 @@ class TopicController extends Controller {
         const topic = await ctx.service.topic.getTopicById(ctx.params.id);
         ctx.body = ResponseResult.success(topic);
     }
+
 }
 module.exports = TopicController;

@@ -10,9 +10,9 @@ module.exports = app => {
             type: INTEGER,
             field: 'user_id',
         },
-        topicId: {
+        followUserId: {
             type: INTEGER,
-            field: 'topic_id',
+            field: 'follow_user_id',
         },
         // 创建时间
         createdAt: {
@@ -27,17 +27,17 @@ module.exports = app => {
             field: 'updated_at',
         },
     };
-    const TopicCollect = app.model.define('pangu_topic_collect', schema, {
+    const Follow = app.model.define('pangu_follow', schema, {
         // 如果为 true 则表的名称和 model 相同，即 user
         // 为 false MySQL 创建的表名称会是复数 users
         // 如果指定的表名称本就是复数形式则不变
         freezeTableName: true,
     });
 
-    TopicCollect.associate = function() {
-        app.model.TopicCollect.belongsTo(app.model.User, { as: 'user', foreignKey: 'userId' });
-        app.model.TopicCollect.belongsTo(app.model.Topic, { as: 'topic', foreignKey: 'topicId' });
+    Follow.associate = function() {
+        app.model.Follow.belongsTo(app.model.User, { as: 'user', foreignKey: 'userId' });
+        app.model.Follow.belongsTo(app.model.User, { as: 'followUser', foreignKey: 'followUserId' });
     };
 
-    return TopicCollect;
+    return Follow;
 };

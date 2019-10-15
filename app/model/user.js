@@ -122,6 +122,10 @@ module.exports = app => {
         // });
     });
 
+    // User.associate = function() {
+    //     app.model.User.hasOne(app.model.Follow, { as: 'follow', foreignKey: 'userId' });
+    // };
+
     return User;
 
     // // 添加用户qq

@@ -7,27 +7,30 @@ module.exports = app => {
      */
     router.post('/v1/api/upload', controller.upload.upload);
 
+    /**
+     * 话题api
+     */
     router.get('/v1/api/topics', controller.topic.list);
-
-    /**
-     * 创建话题
-     */
     router.post('/v1/api/topics', controller.topic.create);
-
-    /**
-     * 更新话题
-     */
     router.put('/v1/api/topics', controller.topic.update);
-
-    /**
-     * 获取话题通过 id
-     */
     router.get('/v1/api/topics/:id', controller.topic.getTopicById);
 
     /**
      * 获取活跃用户列表
      */
     router.get('/v1/api/getActiveUserList', controller.user.getActiveUserList);
+
+    /**
+     * 话题收藏api
+     */
+    router.get('/v1/api/collect-topic', controller.topicCollect.getCollectTopic);
+
+    /**
+     * follow用户api
+     */
+    router.get('/v1/api/follow-user', controller.follow.getFollowUsers);
+
+    router.get('/v1/api/following-user', controller.follow.getFollowingUsers);
 
     /**
      * 获取节点标签列表
@@ -41,6 +44,7 @@ module.exports = app => {
      * 获取 话题回复
      */
     router.get('/v1/api/replyList', controller.reply.list);
+    router.get('/v1/api/replyTopicList', controller.reply.getReplyTopicList);
 
     /**
      * 注册

@@ -13,9 +13,14 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import { timeAgo, parseTime } from '../../utils/time';
-import { fetchTopicListByUserId } from '../../api/topic';
+import { fetchTopicListByUserId, getCollectTopic } from '../../api/topic';
+import { fetchFollowUsers, fetchFollowingUsers } from '../../api/user';
+import { fetchReplyTopicList } from '../../api/reply';
 import CommentSvg from '@material-ui/icons/Message';
 import { TOPIC_TYPE, USER_DEFAULT_SIGNATUR } from '../../configs/constant';
+import ReplyTopicList from './reply-topic-list';
+import Follow from './follow';
+import Following from './following';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -54,13 +59,28 @@ const rows = [createData('分享', '在 Rails 项目中使用 Docker 和 GitLab 
 const Page = props => {
     const [value, setValue] = React.useState(0);
     const [_topics, setTopics] = React.useState(null);
+    const [topicCollects, setTopicCollects] = React.useState({
+        count: 0,
+        rows: [],
+    });
+    const [replyTopicList, setReplyTopicList] = React.useState({
+        count: 0,
+        rows: [],
+    });
+    const [followUserList, setFollowUserList] = React.useState({
+        count: 0,
+        rows: [],
+    });
+    const [followingUserList, setFollowingUserList] = React.useState({
+        count: 0,
+        rows: [],
+    });
     const { user = {} } = props;
     const topics = _topics ||
         props.topics || {
             count: 0,
             rows: [],
         };
-    console.log(topics);
 
     function handleChange(event, newValue) {
         setValue(newValue);
@@ -68,6 +88,22 @@ const Page = props => {
             case 0:
                 return fetchTopicListByUserId(user.id).then(res => {
                     setTopics(res.data.data);
+                });
+            case 1:
+                return fetchReplyTopicList(1, 100, { userId: user.id }).then(res => {
+                    setReplyTopicList(res.data.data);
+                });
+            case 2:
+                return getCollectTopic().then(res => {
+                    setTopicCollects(res.data.data);
+                });
+            case 3:
+                return fetchFollowingUsers(1, 100, { userId: user.id }).then(res => {
+                    setFollowingUserList(res.data.data);
+                });
+            case 4:
+                return fetchFollowUsers(1, 100, { userId: user.id }).then(res => {
+                    setFollowUserList(res.data.data);
                 });
         }
     }
@@ -187,64 +223,34 @@ const Page = props => {
                         ))}
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <div>
-                            <div className="cell">
-                                <a className="user_avatar pull-left" href="/user/atian25">
-                                    <img
-                                        src="https://avatars2.githubusercontent.com/u/227713?v=4&amp;s=120"
-                                        title="atian25"
-                                    />
-                                </a>
-                                <div className="cell-content">
-                                    <div className="cell-header">
-                                        <div className="topic_title_wrapper">
-                                            <span className="put_top">置顶</span>
-                                            <a
-                                                className="topic_title"
-                                                href="/topic/5cbfd9aca86ae80ce64b3175"
-                                                title="Node 12 值得关注的新特性"
-                                            >
-                                                Node 地下铁第九期「杭州站」线下沙龙邀约 - Let's Go Deep
-                                            </a>
-                                            <a
-                                                className="last_time pull-right"
-                                                href="/topic/5bd4772a14e994202cd5bdb7#5d563ddd697873456c6bde16"
-                                            >
-                                                <img
-                                                    className="user_small_avatar"
-                                                    src="https://avatars1.githubusercontent.com/u/43810527?v=4&amp;s=120"
-                                                />
-                                                <span style={{ fontSize: '12px', color: '#333' }}> 3 小时前</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div className="cell-bottom">
-                                        <span className="author">作者：atian25</span>
-                                        <span className="time">发布于:1月前 ⁝ 浏览: 73</span>
-                                        <a
-                                            className="last_time pull-right"
-                                            href="/topic/5bd4772a14e994202cd5bdb7#5d563ddd697873456c6bde16"
-                                        >
-                                            {/* <span className="last_active_time">16 天前</span> */}
-                                            <span className="fly-list-nums">
-                                                <i className="icon fas fa-comment-dots Button-icon" title="回答"></i> 10
-                                            </span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {replyTopicList.rows.map(item => (
+                            <ReplyTopicList key={item.id} item={item}></ReplyTopicList>
+                        ))}
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        {/* <Table className={styles.table}>
+                        <Table className={styles.table}>
                             <TableBody>
-                                {rows.map(row => (
-                                    <TableRow key={row.name}>
-                                        <TableCell align="right">{row.calories}</TableCell>
+                                {topicCollects.rows.map(item => (
+                                    <TableRow key={item.id}>
                                         <TableCell align="right">
-                                            <a href="#" className="src">
-                                                {row.topic}
-                                            </a>
+                                            <Link to={`/n/${item.topic.node.id}/t/all`}>
+                                                节点：{item.topic.node.name}
+                                            </Link>
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            <div className="topic_title_wrapper">
+                                                <span className="put_top">
+                                                    {item.topic.top ? '置顶' : TOPIC_TYPE[item.topic.type]}
+                                                </span>
+                                                {item.topic.good && <span className="put_top">精华</span>}
+                                                <Link
+                                                    className="topic_title"
+                                                    to={`/topic/${item.topic.id}`}
+                                                    title={item.topic.title}
+                                                >
+                                                    {item.topic.title}
+                                                </Link>
+                                            </div>
                                         </TableCell>
                                         <TableCell align="right">
                                             <Button variant="contained" color="primary" size="small">
@@ -254,13 +260,13 @@ const Page = props => {
                                     </TableRow>
                                 ))}
                             </TableBody>
-                        </Table> */}
+                        </Table>
                     </TabPanel>
                     <TabPanel value={value} index={3}>
-                        Page Three
+                        <Following rows={followingUserList.rows}></Following>
                     </TabPanel>
                     <TabPanel value={value} index={4}>
-                        Page Three
+                        <Follow rows={followUserList.rows}></Follow>
                     </TabPanel>
                 </div>
             </div>

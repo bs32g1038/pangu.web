@@ -46,7 +46,13 @@ Page.getInitialProps = async ctx => {
                 params,
             })
             .then(res => res.data.data),
-        axios.get('/v1/api/getActiveUserList').then(res => res.data.data),
+        axios
+            .get('/v1/api/getActiveUserList', {
+                params: {
+                    userId: 17,
+                },
+            })
+            .then(res => res.data.data),
         axios.get('/v1/api/nodes').then(res => res.data.data),
     ]);
     return {

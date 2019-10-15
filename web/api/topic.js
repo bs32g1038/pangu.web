@@ -23,3 +23,7 @@ export const createTopic = data => {
 export const updateTopic = data => {
     return axios.put('/v1/api/topics', data);
 };
+
+export const getCollectTopic = data => {
+    return axios.get('/v1/api/collect-topic', data);
+};

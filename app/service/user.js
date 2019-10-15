@@ -28,13 +28,36 @@ class UserService extends Service {
         });
     }
 
-    async getActiveUserList() {
+    async getActiveUserList(followUserId = null) {
         const { app, ctx } = this;
-        return app.model.User.findAll({
+        const users = await app.model.User.findAll({
             attributes: { exclude: ['password', 'email'] },
             order: [['updatedAt', 'DESC']],
             limit: 5,
         });
+        if (followUserId) {
+            console.log(followUserId, "================")
+            const ids = users.map(item => item.id);
+            const follows = await app.model.Follow.findAll({
+                where: {
+                    followUserId,
+                    userId: {
+                        [app.Sequelize.Op.or]: ids,
+                    },
+                },
+            });
+            for (const follow of follows) {
+                for (let i = 0; i < users.length; i++) {
+                    if (follow.userId === users[i].id) {
+                        users[i].setDataValue('isFollow', true);
+                        break;
+                    }
+                }
+            }
+            console.log(users)
+            return users;
+        }
+        return users;
     }
 
     async getUserByUsername(username) {

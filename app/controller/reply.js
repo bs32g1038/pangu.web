@@ -13,5 +13,12 @@ class ReplyController extends Controller {
         });
         ctx.body = ResponseResult.success(list);
     }
+
+    async getReplyTopicList() {
+        const { ctx } = this;
+        const { userId, page, limit } = ctx.query;
+        const list = await ctx.service.reply.getReplyTopicList(page, limit, { where: { userId } });
+        ctx.body = ResponseResult.success(list);
+    }
 }
 module.exports = ReplyController;

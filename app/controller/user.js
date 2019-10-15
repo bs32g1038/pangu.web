@@ -37,7 +37,8 @@ class UserController extends Controller {
 
     async getActiveUserList() {
         const { ctx } = this;
-        const list = await ctx.service.user.getActiveUserList();
+        const userId = ctx.query.userId;
+        const list = await ctx.service.user.getActiveUserList(userId);
         ctx.body = ResponseResult.success(list);
     }
 
@@ -54,5 +55,7 @@ class UserController extends Controller {
         const list = await ctx.service.user.fetchUserList();
         ctx.body = ResponseResult.success(list);
     }
+
+
 }
 module.exports = UserController;

@@ -9,3 +9,13 @@ export const fetchReplyList = (page = 1, limit = 100, filter = {}) => {
         },
     });
 };
+
+export const fetchReplyTopicList = (page = 1, limit = 100, filter = {}) => {
+    return axios.get('/v1/api/replyTopicList', {
+        params: {
+            page,
+            limit,
+            userId: filter.userId,
+        },
+    });
+};

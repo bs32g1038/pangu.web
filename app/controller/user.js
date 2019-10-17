@@ -24,6 +24,7 @@ class UserController extends Controller {
             const token = ctx.service.user.signToken({
                 id: user.id,
             });
+            ctx.session.userId = user.id;
             return (ctx.body = ResponseResult.success({
                 id: user.id,
                 avatar: user.avatar,
@@ -45,8 +46,8 @@ class UserController extends Controller {
     async getUserByUsername() {
         const { ctx } = this;
         const username = ctx.query.username;
-        console.log(ctx.query);
-        const user = await ctx.service.user.getUserByUsername(username);
+        const userInfo = ctx.service.user.getUserInfoFromToken();
+        const user = await ctx.service.user.getUserByUsername(username, userInfo.id);
         ctx.body = ResponseResult.success(user);
     }
 

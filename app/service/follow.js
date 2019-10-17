@@ -36,6 +36,37 @@ class FollowService extends Service {
             ],
         });
     }
+
+    async follow(userId, followUserId) {
+        const { app } = this;
+        const data = await app.model.Follow.findOne({
+            where: {
+                userId,
+                followUserId,
+            },
+            paranoid: false, // query and loads the soft deleted records
+        });
+        if (data) {
+            if (data.isSoftDeleted()) {
+                data.restore();
+            }
+            return data;
+        }
+        return app.model.Follow.create({
+            userId,
+            followUserId,
+        });
+    }
+
+    async cancelFollow(userId, followUserId) {
+        const { app } = this;
+        return await app.model.Follow.destroy({
+            where: {
+                userId,
+                followUserId,
+            },
+        });
+    }
 }
 
 module.exports = FollowService;

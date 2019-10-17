@@ -8,6 +8,7 @@ class TopicController extends Controller {
             recruit: 3,
         };
         const { ctx, app } = this;
+        console.log(ctx.session.userId, "=============")
         const { tab, nodeId, page, limit, userId } = ctx.query;
         const option = {};
         if (!tab || tab === 'all') {

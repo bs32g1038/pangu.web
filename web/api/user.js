@@ -27,7 +27,7 @@ export const fetchFollowingUsers = (page = 1, limit = 100, filter = {}) => {
         params: {
             page,
             limit,
-            userId: filter.userId,
+            followUserId: filter.followUserId,
         },
     });
 };

@@ -21,6 +21,8 @@ import { TOPIC_TYPE, USER_DEFAULT_SIGNATUR } from '../../configs/constant';
 import ReplyTopicList from './reply-topic-list';
 import Follow from './follow';
 import Following from './following';
+import FollowButton from '../../components/FollowButton';
+import { getLoginInfo } from '../../utils/oauth';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -57,6 +59,7 @@ function createData(calories, topic) {
 const rows = [createData('分享', '在 Rails 项目中使用 Docker 和 GitLab CI 高效构建镜像 (第一部分)')];
 
 const Page = props => {
+    const userInfo = getLoginInfo();
     const [value, setValue] = React.useState(0);
     const [_topics, setTopics] = React.useState(null);
     const [topicCollects, setTopicCollects] = React.useState({
@@ -98,12 +101,12 @@ const Page = props => {
                     setTopicCollects(res.data.data);
                 });
             case 3:
-                return fetchFollowingUsers(1, 100, { userId: user.id }).then(res => {
-                    setFollowingUserList(res.data.data);
-                });
-            case 4:
                 return fetchFollowUsers(1, 100, { userId: user.id }).then(res => {
                     setFollowUserList(res.data.data);
+                });
+            case 4:
+                return fetchFollowingUsers(1, 100, { followUserId: user.id }).then(res => {
+                    setFollowingUserList(res.data.data);
                 });
         }
     }
@@ -131,9 +134,11 @@ const Page = props => {
                         </div>
                         <div className={styles.personInfoRight}>
                             <GithubSvg></GithubSvg>
-                            <Button variant="outlined" size="small" color="primary">
-                                关注
-                            </Button>
+                            <FollowButton
+                                isFollow={user.isFollow}
+                                userId={user.id}
+                                followUserId={userInfo.id}
+                            ></FollowButton>
                         </div>
                     </div>
                     <div className={styles.detail}>
@@ -177,8 +182,8 @@ const Page = props => {
                             <LinkTab label="创建的话题" {...a11yProps(0)} />
                             <LinkTab label="最近回帖" {...a11yProps(1)} />
                             <LinkTab label="收藏" {...a11yProps(2)} />
-                            <LinkTab label="正在关注" {...a11yProps(3)} />
-                            <LinkTab label="关注者" {...a11yProps(4)} />
+                            <LinkTab label="关注者" {...a11yProps(3)} />
+                            <LinkTab label="正在关注" {...a11yProps(4)} />
                         </Tabs>
                     </div>
                     <TabPanel value={value} index={0}>
@@ -263,10 +268,10 @@ const Page = props => {
                         </Table>
                     </TabPanel>
                     <TabPanel value={value} index={3}>
-                        <Following rows={followingUserList.rows}></Following>
+                        <Follow rows={followUserList.rows}></Follow>
                     </TabPanel>
                     <TabPanel value={value} index={4}>
-                        <Follow rows={followUserList.rows}></Follow>
+                        <Following rows={followingUserList.rows}></Following>
                     </TabPanel>
                 </div>
             </div>

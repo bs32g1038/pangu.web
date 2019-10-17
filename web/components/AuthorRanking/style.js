@@ -11,7 +11,6 @@ export const Wrap = styled.div`
 export const AuthorRanking = styled.div`
     background-color: #fff;
     flex: 1 0 auto;
-    padding-bottom: 20px;
 `;
 
 export const AuthorRankingHeader = styled.div`

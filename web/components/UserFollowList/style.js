@@ -2,9 +2,16 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 
+export const UserFollowList = styled.div`
+    display: flex;
+    padding: 0 20px;
+    flex-wrap: wrap;
+`;
+
 export const UserItem = styled(ListItemAvatar)`
     max-width: 20%;
-    margin-right: 14px;
+    min-width: 20% !important;
+    margin-bottom: 20px;
     flex: 1 0 auto;
 `;
 

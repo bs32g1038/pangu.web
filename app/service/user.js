@@ -33,10 +33,9 @@ class UserService extends Service {
         const users = await app.model.User.findAll({
             attributes: { exclude: ['password', 'email'] },
             order: [['updatedAt', 'DESC']],
-            limit: 5,
+            limit: 10,
         });
         if (followUserId) {
-            console.log(followUserId, "================")
             const ids = users.map(item => item.id);
             const follows = await app.model.Follow.findAll({
                 where: {
@@ -54,21 +53,36 @@ class UserService extends Service {
                     }
                 }
             }
-            console.log(users)
             return users;
         }
         return users;
     }
 
-    async getUserByUsername(username) {
-        const { app, ctx } = this;
-        return app.model.User.findOne({
+    async getUserByUsername(username, followUserId) {
+        const { app } = this;
+        const user = await app.model.User.findOne({
             where: {
                 username: {
                     [app.Sequelize.Op.eq]: username,
                 },
             },
         });
+        if (user) {
+            const follow = await app.model.Follow.findOne({
+                where: {
+                    userId: {
+                        [app.Sequelize.Op.eq]: user.id,
+                    },
+                    followUserId: {
+                        [app.Sequelize.Op.eq]: followUserId,
+                    },
+                },
+            });
+            if (follow) {
+                user.setDataValue('isFollow', true);
+            }
+        }
+        return user;
     }
 
     async fetchUserList(page = 1, limit = 20, where = {}) {
@@ -96,6 +110,12 @@ class UserService extends Service {
         } catch (err) {
             return null;
         }
+    }
+
+    getUserInfoFromToken() {
+        const { ctx } = this;
+        const token = ctx.request.headers['authorization'];
+        return this.verifyToken(token);
     }
 }
 

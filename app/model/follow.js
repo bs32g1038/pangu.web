@@ -32,6 +32,7 @@ module.exports = app => {
         // 为 false MySQL 创建的表名称会是复数 users
         // 如果指定的表名称本就是复数形式则不变
         freezeTableName: true,
+        paranoid: true,
     });
 
     Follow.associate = function() {

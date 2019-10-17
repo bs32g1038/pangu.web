@@ -32,6 +32,10 @@ module.exports = app => {
 
     router.get('/v1/api/following-user', controller.follow.getFollowingUsers);
 
+    router.post('/v1/api/follows', controller.follow.follow);
+
+    router.post('/v1/api/cancel-follow', controller.follow.cancelFollow);
+
     /**
      * 获取节点标签列表
      */

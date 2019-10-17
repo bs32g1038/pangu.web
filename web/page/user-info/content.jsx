@@ -14,6 +14,8 @@ import { timeAgo, parseTime } from '../../utils/time';
 import { fetchTopicListByUserId } from '../../api/topic';
 import CommentSvg from '@material-ui/icons/Message';
 import { TOPIC_TYPE, USER_DEFAULT_SIGNATUR } from '../../configs/constant';
+import FollowButton from '../../components/FollowButton';
+import { getLoginInfo } from '../../utils/oauth';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -50,6 +52,7 @@ function createData(calories, topic) {
 const rows = [createData('分享', '在 Rails 项目中使用 Docker 和 GitLab CI 高效构建镜像 (第一部分)')];
 
 const Content = props => {
+    const userInfo = getLoginInfo();
     const [value, setValue] = React.useState(0);
     const [user, setUser] = React.useState({});
     const [topics, setTopics] = React.useState({
@@ -87,9 +90,11 @@ const Content = props => {
                     </div>
                     <div className={styles.personInfoRight}>
                         <GithubSvg></GithubSvg>
-                        <Button variant="outlined" size="small" color="primary">
-                            关注
-                        </Button>
+                        <FollowButton
+                            isFollow={user.isFollow}
+                            userId={user.id}
+                            followUserId={userInfo.id}
+                        ></FollowButton>
                     </div>
                 </div>
                 <div className={styles.detail}>

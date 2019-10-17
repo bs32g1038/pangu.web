@@ -207,4 +207,8 @@ module.exports = {
     },
 
     tokenKey: 'pangu@bs32g1038@163.com',
+
+    session: {
+        key: 'pangu@bs32g1038@163.com',
+    },
 };

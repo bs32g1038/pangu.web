@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getLoginInfo } from '../utils/oauth';
 let baseUrl = 'http://127.0.0.1:7001';
 const instance = axios.create({
     baseURL: baseUrl,
@@ -6,8 +7,15 @@ const instance = axios.create({
 instance.defaults.timeout = 5000;
 
 instance.interceptors.request.use(
-    function(config) {
-        return config;
+    function(c) {
+        const userInfo = getLoginInfo();
+        // if (!(c.url.includes('getFirstLoginInfo') || c.url.includes('login'))) {
+        //     if (!token) {
+        //         history.push('/user/login');
+        //     }
+        // }
+        c.headers.authorization = (userInfo && userInfo.token) || '';
+        return c;
     },
     function(error) {
         return Promise.reject(error);

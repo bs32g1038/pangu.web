@@ -24,6 +24,9 @@ const GlobalStyle = createGlobalStyle`
         width: 820px;
         margin: 0 auto;
     }
+    a{
+        text-decoration: none;
+    }
 `;
 
 export default class MyApp extends App {

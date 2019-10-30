@@ -16,7 +16,7 @@ export class NodeType {
 }
 
 @ObjectType()
-class UserType {
+export class UserType {
     @Field(() => ID)
     id: string;
 
@@ -71,8 +71,8 @@ export class TopicType {
     @Field()
     user: UserType;
 
-    @Field()
-    lastReplyUser: UserType;
+    @Field({ nullable: true })
+    lastReplyUser?: UserType;
 }
 
 @ObjectType()

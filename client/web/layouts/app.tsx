@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import React from 'react';
 import AppHeader from '@pangu/client/web/components/AppHeader';
+import AppBottom from '@pangu/client/web/components/AppBottom';
 import AppFooter from '@pangu/client/web/components/AppFooter';
 
 const PageWrap = styled.div`
@@ -14,6 +15,7 @@ export default (props: { children: any }) => {
         <div className="app">
             <AppHeader />
             <PageWrap>{children}</PageWrap>
+            <AppBottom></AppBottom>
             <AppFooter />
         </div>
     );

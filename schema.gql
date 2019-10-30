@@ -23,6 +23,7 @@ type Query {
   topics(page: Int = 0, limit: Int = 25): [TopicType!]!
   pagedTopics(page: Int = 0, limit: Int = 25): PagedTopicsType!
   nodes: [NodeType!]!
+  users: [UserType!]!
 }
 
 type TopicType {
@@ -39,7 +40,7 @@ type TopicType {
   createdAt: Date!
   node: NodeType!
   user: UserType!
-  lastReplyUser: UserType!
+  lastReplyUser: UserType
 }
 
 type UserType {

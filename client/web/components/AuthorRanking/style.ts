@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 
 export const Wrap = styled.div`
     display: flex;

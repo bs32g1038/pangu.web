@@ -13,12 +13,20 @@ const query = gql`
                 replyCount
                 collectCount
                 type
+                createdAt
                 node {
                     id
                     name
                 }
                 user {
                     id
+                    username
+                    account
+                    avatar
+                }
+                lastReplyUser {
+                    id
+                    username
                     account
                     avatar
                 }
@@ -29,6 +37,12 @@ const query = gql`
             id
             name
             icon
+        }
+        users {
+            id
+            username
+            account
+            avatar
         }
     }
 `;
@@ -43,10 +57,10 @@ export default (apolloClient: ApolloClient<any>) =>
             },
         })
         .then(({ data }) => {
-            return { pagedTopics: data.pagedTopics, nodes: data.nodes };
+            return { pagedTopics: data.pagedTopics, nodes: data.nodes, activeUserList: data.users };
         })
         .catch(err => {
             // Fail gracefully
             console.log(err);
-            return { pagedTopics: [], nodes: [] };
+            return { pagedTopics: [], nodes: [], activeUserList: [] };
         });

@@ -15,6 +15,7 @@ export class TopicService {
     async findAll(topicsArgs: TopicsArgs): Promise<Topic[]> {
         const offset = (topicsArgs.page - 1) * 20;
         return await this.TOPIC_REPOSITORY.findAll<Topic>({
+            order: [['top', 'DESC'], ['created_at', 'DESC']],
             limit: topicsArgs.limit,
             offset,
             include: [
@@ -28,6 +29,7 @@ export class TopicService {
     async findAndCountAll(topicsArgs: TopicsArgs): Promise<{ rows: Topic[]; count: number }> {
         const offset = (topicsArgs.page - 1) * 20;
         return await this.TOPIC_REPOSITORY.findAndCountAll<Topic>({
+            order: [['top', 'DESC'], ['created_at', 'DESC']],
             limit: topicsArgs.limit,
             offset,
             include: [

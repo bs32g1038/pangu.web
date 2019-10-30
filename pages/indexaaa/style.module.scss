@@ -1,0 +1,195 @@
+.panel {
+    width: 740px;
+    margin: 0 auto;
+    flex: 1 0 auto;
+    min-height: 380px;
+    background-color: #fff;
+}
+
+.authorRanking {
+    margin-top: 20px;
+    background-color: #fff;
+}
+
+.authorRankingHeader {
+    color: rgba(0, 0, 0, 0.85);
+    padding: 10px;
+    border-radius: 3px 3px 0 0;
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.paginationWrap {
+    background-color: #fff;
+    padding-top: 20px;
+    border-top: 1px solid #f0f0f0;
+    position: relative;
+    padding-left: 20px;
+}
+
+.linkList {
+    background-color: #fff;
+    margin: 20px 0;
+    list-style: none;
+    .linkListHeader {
+        padding: 15px;
+        border-bottom: 1px solid #ccc;
+    }
+    .listGroup {
+        padding: 10px;
+        border-radius: 0 0 3px 3px;
+    }
+    li {
+        line-height: 2em;
+        margin-bottom: 10px;
+    }
+    img {
+        height: auto;
+        max-width: 100%;
+        vertical-align: middle;
+        border: 0;
+        width: 150px;
+    }
+}
+
+.tabsWrap {
+    background-color: #fff;
+    padding: 0 15px;
+    :global(.MuiTabs-indicator) {
+        height: 1px !important;
+    }
+}
+
+.table {
+    background-color: #fff;
+    border-top: 1px solid #efefef;
+    td {
+        font-size: 14px;
+    }
+    a {
+        font-weight: 700;
+        color: rgba(0, 0, 0, 0.85);
+    }
+}
+
+.tab {
+    min-height: 50px !important;
+    :global(.MuiTab-wrapper) {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        color: #667d99;
+        font-size: 14px;
+        align-items: center;
+        *:first-child {
+            margin-bottom: 0 !important;
+        }
+    }
+    &:global(.MuiTab-root) {
+        @media (min-width: 960px) {
+            min-width: 110px;
+        }
+    }
+}
+
+.icon {
+    width: 14px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.cell {
+    padding-right: 10px;
+    background: #fff;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    width: 100%;
+    position: relative;
+    padding: 10px 0 10px 10px;
+    font-size: 14px;
+}
+
+.userAvatar {
+    margin-right: 8px;
+    max-width: 40px;
+    min-width: 40px;
+}
+
+.cellContent {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+}
+
+.cellHeader {
+    flex: 1 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+.sign {
+    border: 1px solid #80bd01;
+    padding: 2px 4px;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.65);
+    display: block;
+}
+
+.sign + .sign {
+    margin-left: 10px;
+}
+
+.cellBottom {
+    display: flex;
+    align-items: center;
+    margin-top: 0.8em;
+    color: rgba(0, 0, 0, 0.45);
+}
+
+.author {
+    margin-right: 10px;
+}
+
+.time {
+    flex: 1 0 auto;
+}
+
+.lastTime {
+    text-align: right;
+    margin-right: 10px;
+}
+
+.topicTitleWrap {
+    flex: 1 0 auto;
+    width: 0;
+}
+
+.topicTitle {
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    overflow: hidden;
+    font-size: 16px;
+    line-height: 30px;
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.85);
+    margin-left: 10px;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+}
+
+.userSmallAvatar {
+    height: 18px;
+    width: 18px;
+    vertical-align: middle;
+    margin-right: 0.5em;
+    border-radius: 3px;
+}
+
+.commentNum {
+    color: rgba(0, 0, 0, 0.65);
+}

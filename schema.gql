@@ -20,10 +20,16 @@ type PagedTopicsType {
 
 type Query {
   topic(id: String!): TopicType!
-  topics(page: Int = 0, limit: Int = 25): [TopicType!]!
-  pagedTopics(page: Int = 0, limit: Int = 25): PagedTopicsType!
+  topics(page: Int = 0, limit: Int = 25, filter: TopicsArgsFilter): [TopicType!]!
+  pagedTopics(page: Int = 0, limit: Int = 25, filter: TopicsArgsFilter): PagedTopicsType!
   nodes: [NodeType!]!
   users: [UserType!]!
+}
+
+input TopicsArgsFilter {
+  tab: String
+  nodeId: String
+  userId: String
 }
 
 type TopicType {

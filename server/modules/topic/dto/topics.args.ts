@@ -1,5 +1,17 @@
 import { Max, Min } from 'class-validator';
-import { ArgsType, Field, Int } from 'type-graphql';
+import { InputType, ArgsType, Field, Int } from 'type-graphql';
+
+@InputType()
+export class TopicsArgsFilter {
+    @Field({ nullable: true })
+    tab: string;
+
+    @Field({ nullable: true })
+    nodeId: string;
+
+    @Field({ nullable: true })
+    userId: string;
+}
 
 @ArgsType()
 export class TopicsArgs {
@@ -11,4 +23,7 @@ export class TopicsArgs {
     @Min(1)
     @Max(50)
     limit = 25;
+
+    @Field({ nullable: true })
+    filter: TopicsArgsFilter;
 }

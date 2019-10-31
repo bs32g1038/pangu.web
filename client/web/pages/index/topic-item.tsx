@@ -8,14 +8,14 @@ import styled from 'styled-components';
 const Cell = styled.div`
     padding-right: 10px;
     background: #fff;
-    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
     display: flex;
     width: 100%;
     position: relative;
     padding: 10px 0 10px 10px;
     font-size: 14px;
     align-items: center;
-    &:first-child {
+    &:last-child {
         border-top: none;
     }
     .last-time {

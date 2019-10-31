@@ -1,14 +1,8 @@
 import styled from 'styled-components';
 
-export const Wrap = styled.div`
-    display: flex;
-    width: 812px;
-    margin: 1px auto 0;
-`;
-
 export const AuthorRanking = styled.div`
-    background-color: #fff;
     flex: 1 0 auto;
+    padding-top: 1px;
 `;
 
 export const AuthorRankingHeader = styled.div`

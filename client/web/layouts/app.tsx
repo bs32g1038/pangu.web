@@ -6,7 +6,6 @@ import AppFooter from '@pangu/client/web/components/AppFooter';
 
 const PageWrap = styled.div`
     flex: 1 0 auto;
-    background-color: #fff;
 `;
 
 export default (props: { children: any }) => {

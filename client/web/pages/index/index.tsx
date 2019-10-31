@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 
 import { withApollo } from '@pangu/client/libs/apollo';
-import getHomeData from '@pangu/client/web/api/home';
 import App from '@pangu/client/web/layouts/app';
 import AppLeftSidebar from '@pangu/client/web/components/AppLeftSidebar';
 import AppIntruduce from '@pangu/client/web/components/AppIntruduce';
 import AuthorRanking from '@pangu/client/web/components/AuthorRanking';
-import { Panel, TabsWrap } from './style';
+import Pagination from '@pangu/client/web/components/Pagination';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Tabs from '@material-ui/core/Tabs';
@@ -16,6 +15,10 @@ import EssenceSvg from '@pangu/client/web/components/svgs/essence';
 import ShareSvg from '@pangu/client/web/components/svgs/share';
 import IssueSvg from '@pangu/client/web/components/svgs/issue';
 import RecruitSvg from '@pangu/client/web/components/svgs/recruit';
+import Query from '@pangu/client/libs/graphql-query';
+import queryGql from '@pangu/client/web/pages/index/query-gql';
+
+import { Panel, TabsWrap, PaginationWrap } from './style';
 
 import TopicItem from './topic-item';
 
@@ -75,7 +78,7 @@ const Page = ({ pagedTopics, nodes, activeUserList }) => {
     const linkTabs = getLinkTabs();
     const router = useRouter();
     linkTabs.map((item, index) => {
-        if (item.to === router.pathname) {
+        if (item.to === router.asPath) {
             tabIndex = index;
             return tabIndex;
         }
@@ -106,6 +109,9 @@ const Page = ({ pagedTopics, nodes, activeUserList }) => {
                                 <TopicItem key={item.id} item={item}></TopicItem>
                             ))}
                         </div>
+                        <PaginationWrap>
+                            <Pagination count={pagedTopics.count}></Pagination>
+                        </PaginationWrap>
                     </Panel>
                 </div>
             </div>
@@ -115,9 +121,19 @@ const Page = ({ pagedTopics, nodes, activeUserList }) => {
 };
 
 Page.getInitialProps = async context => {
-    const { pagedTopics, nodes, activeUserList } = await getHomeData(context.apolloClient);
-    console.log(activeUserList)
-    return { pagedTopics, nodes, activeUserList };
+    const { page = 1, nodeId = '', tab = 'all' } = context.query;
+    try {
+        const { data } = await Query(context.apolloClient, queryGql, {
+            page,
+            limit: 10,
+            nodeId,
+            tab,
+            userId: '',
+        });
+        return { pagedTopics: data.pagedTopics, nodes: data.nodes, activeUserList: data.users };
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 export default withApollo(Page);

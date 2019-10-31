@@ -1,7 +1,6 @@
 import gql from 'graphql-tag';
-import { ApolloClient } from 'apollo-client';
 
-const query = gql`
+export default gql`
     query Topics($page: Int!, $limit: Int!, $tab: String!, $nodeId: String!, $userId: String!) {
         pagedTopics(page: $page, limit: $limit, filter: { tab: $tab, nodeId: $nodeId, userId: $userId }) {
             rows {
@@ -46,24 +45,3 @@ const query = gql`
         }
     }
 `;
-
-export default (apolloClient: ApolloClient<any>) =>
-    apolloClient
-        .query({
-            query,
-            variables: {
-                page: 1,
-                limit: 10,
-                tab: 'all',
-                userId: '',
-                nodeId: '',
-            },
-        })
-        .then(({ data }) => {
-            return { pagedTopics: data.pagedTopics, nodes: data.nodes, activeUserList: data.users };
-        })
-        .catch(err => {
-            // Fail gracefully
-            console.log(err);
-            return { pagedTopics: [], nodes: [], activeUserList: [] };
-        });

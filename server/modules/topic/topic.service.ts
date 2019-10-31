@@ -8,6 +8,12 @@ import { Recruit } from '../../models/recruit.model';
 import { TopicsArgs } from './dto/topics.args';
 import Sequelize from 'sequelize';
 
+const TYPE = {
+    share: 1,
+    issue: 2,
+    recruit: 3,
+};
+
 @Injectable()
 export class TopicService {
     constructor(@InjectModel(Topic) private readonly TOPIC_REPOSITORY: typeof Topic) {}
@@ -28,7 +34,25 @@ export class TopicService {
 
     async findAndCountAll(topicsArgs: TopicsArgs): Promise<{ rows: Topic[]; count: number }> {
         const offset = (topicsArgs.page - 1) * 20;
+        let where = {};
+        if (topicsArgs.filter) {
+            const { tab, userId, nodeId } = topicsArgs.filter;
+            if (!tab || tab === 'all') {
+                where = {};
+            } else if (tab === 'popular') {
+                where = { good: true };
+            } else {
+                where = { type: TYPE[tab] };
+            }
+            if (nodeId) {
+                where = { ...where, nodeId };
+            }
+            if (userId) {
+                where = { ...where, userId };
+            }
+        }
         return await this.TOPIC_REPOSITORY.findAndCountAll<Topic>({
+            where,
             order: [['top', 'DESC'], ['created_at', 'DESC']],
             limit: topicsArgs.limit,
             offset,

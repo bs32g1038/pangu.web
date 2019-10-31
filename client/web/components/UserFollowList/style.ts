@@ -5,6 +5,7 @@ export const UserFollowList = styled.div`
     display: flex;
     padding: 0 20px;
     flex-wrap: wrap;
+    background-color: #fff;
 `;
 
 export const UserItem = styled(ListItemAvatar)`

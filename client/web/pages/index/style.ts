@@ -35,3 +35,7 @@ export const TabsWrap = styled.div`
         }
     }
 `;
+
+export const PaginationWrap = styled.div`
+    padding: 15px 20px;
+`;

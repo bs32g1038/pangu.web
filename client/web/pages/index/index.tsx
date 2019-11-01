@@ -109,9 +109,11 @@ const Page = ({ pagedTopics, nodes, activeUserList }) => {
                                 <TopicItem key={item.id} item={item}></TopicItem>
                             ))}
                         </div>
-                        <PaginationWrap>
-                            <Pagination count={pagedTopics.count}></Pagination>
-                        </PaginationWrap>
+                        {pagedTopics.count / 10 > 1 && (
+                            <PaginationWrap>
+                                <Pagination count={pagedTopics.count}></Pagination>
+                            </PaginationWrap>
+                        )}
                     </Panel>
                 </div>
             </div>

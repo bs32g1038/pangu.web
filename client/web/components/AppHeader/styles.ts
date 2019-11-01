@@ -49,8 +49,8 @@ export const HeaderNavWrap = styled.ul`
 export const HeaderNavItem = styled.li`
     display: inline-block;
     vertical-align: middle;
-    margin-right: 15px;
-    margin-left: 15px;
+    margin-right: 12px;
+    margin-left: 12px;
     svg {
         margin-right: 4px;
     }
@@ -73,10 +73,13 @@ export const HeaderControlWrap = styled.ul`
     > li {
         display: inline-block;
         vertical-align: middle;
-        margin-right: 20px;
+        margin-right: 10px;
         &:last-child {
             margin-right: 0;
         }
+    }
+    svg {
+        margin-right: 4px;
     }
 `;
 
@@ -124,6 +127,9 @@ export const SearchInput = styled(InputBase)`
         color: #666;
         ${props => props.theme.breakpoints.up('md')} {
             width: 200px;
+        }
+        @media (min-width: 960px) {
+            width: 180px;
         }
     }
 `;

@@ -16,7 +16,7 @@ const Cell = styled.div`
     font-size: 14px;
     align-items: center;
     &:last-child {
-        border-top: none;
+        border-bottom: none;
     }
     .last-time {
         text-align: right;

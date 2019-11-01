@@ -6,6 +6,10 @@
 """Date custom scalar type"""
 scalar Date
 
+type Mutation {
+  login(userLoginInput: UserLoginInput!): UserType!
+}
+
 type NodeType {
   id: ID!
   name: String!
@@ -47,6 +51,11 @@ type TopicType {
   node: NodeType!
   user: UserType!
   lastReplyUser: UserType
+}
+
+input UserLoginInput {
+  email: String!
+  password: String!
 }
 
 type UserType {

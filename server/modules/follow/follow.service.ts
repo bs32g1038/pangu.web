@@ -1,14 +1,14 @@
 // import { CreateCatDto } from './dto/create-cat.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '../../utils/model.util';
-import { User } from '../../models/user.model';
+import { Follow } from '../../models/follow.model';
 
 @Injectable()
-export class UserService {
-    constructor(@InjectModel(User) private readonly USER_REPOSITORY: typeof User) {}
+export class FollowService {
+    constructor(@InjectModel(Follow) private readonly FOLLOW_REPOSITORY: typeof Follow) {}
 
-    async findAll(): Promise<User[]> {
-        return await this.USER_REPOSITORY.findAll<User>({
+    async findAll(): Promise<Follow[]> {
+        return await this.FOLLOW_REPOSITORY.findAll<Follow>({
             attributes: { exclude: ['password', 'email'] },
             order: [['updatedAt', 'DESC']],
             limit: 10,

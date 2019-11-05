@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
-import { DateScalar } from '../../common/scalars/date.scalar';
-import { UserModelProvider } from '../../models/user.model';
-import { UserResolver } from './user.resolver';
-import { UserService } from './user.service';
+import { FollowModelProvider } from '../../models/follow.model';
+import { FollowController } from './follow.controller';
+import { FollowService } from './follow.service';
 
 @Module({
-    providers: [UserModelProvider, UserResolver, UserService, DateScalar],
+    providers: [FollowModelProvider, FollowController, FollowService],
 })
-export class UserModule {}
+export class FollowModule {}

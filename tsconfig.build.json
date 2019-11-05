@@ -1,10 +1,37 @@
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
-      "module": "commonjs",
-      "outDir": "dist",
-      "target": "esnext",
-      "isolatedModules": false,
-      "noEmit": false
-  }
+    "module": "commonjs",
+    "incremental": true,
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "removeComments": false,
+    "lib": [
+      "es2015",
+      "es2016",
+      "es2017"
+    ],
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "downlevelIteration": true,
+    "strictNullChecks": false,
+    "target": "es6",
+    "sourceMap": true,
+    "baseUrl": "./",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": false,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "outDir": "./dist/server",
+    "noEmit": false
+  },
+  "types": [
+    "typePatches",
+    "node"
+  ],
+  "include": [
+    "server"
+  ]
 }

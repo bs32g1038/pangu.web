@@ -1,14 +1,12 @@
-import { NotFoundException } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { NodeType } from '../topic/graphql.type';
 import { NodeService } from './node.service';
 import { Node } from '../../models/node.model';
+import { Controller, Get } from '@nestjs/common';
 
-@Resolver()
-export class NodeResolver {
+@Controller('/api')
+export class NodeController {
     constructor(private readonly nodeService: NodeService) {}
 
-    @Query(() => [NodeType])
+    @Get()
     nodes(): Promise<Node[]> {
         return this.nodeService.findAll();
     }

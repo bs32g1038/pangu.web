@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
-import { DateScalar } from '../../common/scalars/date.scalar';
 import { NodeModelProvider } from '../../models/node.model';
-import { NodeResolver } from './node.resolver';
+import { NodeController } from './node.controller';
 import { NodeService } from './node.service';
 
 @Module({
-    providers: [NodeModelProvider, NodeResolver, NodeService, DateScalar],
+    providers: [NodeModelProvider, NodeController, NodeService],
 })
 export class NodeModule {}

@@ -19,9 +19,28 @@ import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import FaceIcon from '@material-ui/icons/Face';
 import PersonIcon from '@material-ui/icons/Person';
 import { getLoginInfo } from '@pangu/client/web/utils/oauth';
+// import { LOGIN_TYPE } from '@pangu/client/web/components/LoginDialog';
+export const LOGIN_TYPE = {
+    login: 'login',
+    register: 'register',
+};
+import dynamic from 'next/dynamic';
+const LoginDialog = dynamic(() => import('@pangu/client/web/components/LoginDialog'), { ssr: false });
 
 export default () => {
     const userInfo = getLoginInfo();
+    const [open, setOpen] = React.useState(false);
+    const [loginType, setLoginType] = React.useState('');
+
+    const handleClickOpen = (type: string) => {
+        setOpen(true);
+        setLoginType(type);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
         <Container>
             <HeaderTitle>
@@ -59,18 +78,14 @@ export default () => {
                     <AppMenuUserInfoDropdown userInfo={userInfo}></AppMenuUserInfoDropdown>
                 </li> */}
                 <li>
-                    <Link href="/register">
-                        <Button size="small" title="注册">
-                            <FaceIcon fontSize="small"></FaceIcon>注册
-                        </Button>
-                    </Link>
+                    <Button size="small" title="注册" onClick={() => handleClickOpen(LOGIN_TYPE.register)}>
+                        <FaceIcon fontSize="small"></FaceIcon>注册
+                    </Button>
                 </li>
                 <li>
-                    <Link href="/login">
-                        <Button size="small" title="登录">
-                            <PersonIcon></PersonIcon>登录
-                        </Button>
-                    </Link>
+                    <Button size="small" title="登录" onClick={() => handleClickOpen(LOGIN_TYPE.login)}>
+                        <PersonIcon></PersonIcon>登录
+                    </Button>
                 </li>
                 <li>
                     <Link href="/write">
@@ -79,6 +94,7 @@ export default () => {
                         </Button>
                     </Link>
                 </li>
+                <LoginDialog key={loginType} type={loginType} open={open} onClose={handleClose}></LoginDialog>
             </HeaderControlWrap>
         </Container>
     );

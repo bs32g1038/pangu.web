@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import { withApollo } from '@pangu/client/libs/apollo';
 import App from '@pangu/client/web/layouts/app';
 import AppLeftSidebar from '@pangu/client/web/components/AppLeftSidebar';
 import AppIntruduce from '@pangu/client/web/components/AppIntruduce';
@@ -15,8 +14,7 @@ import EssenceSvg from '@pangu/client/web/components/svgs/essence';
 import ShareSvg from '@pangu/client/web/components/svgs/share';
 import IssueSvg from '@pangu/client/web/components/svgs/issue';
 import RecruitSvg from '@pangu/client/web/components/svgs/recruit';
-import Query from '@pangu/client/libs/graphql-query';
-import queryGql from '@pangu/client/web/pages/index/query-gql';
+import axios from '@pangu/client/web/utils/axios';
 
 import { Panel, TabsWrap, PaginationWrap } from './style';
 
@@ -124,18 +122,16 @@ const Page = ({ pagedTopics, nodes, activeUserList }) => {
 
 Page.getInitialProps = async context => {
     const { page = 1, nodeId = '', tab = 'all' } = context.query;
-    try {
-        const { data } = await Query(context.apolloClient, queryGql, {
-            page,
-            limit: 10,
-            nodeId,
-            tab,
-            userId: '',
-        });
-        return { pagedTopics: data.pagedTopics, nodes: data.nodes, activeUserList: data.users };
-    } catch (error) {
-        console.log(error);
-    }
+    const [pagedTopics, activeUserList, nodes] = await Promise.all([
+        axios.get('/v1/api/topics', { params: { page, nodeId, tab } }).then(res => res.data.data),
+        axios.get('/v1/api/getActiveUserList', { params: { userId: 17 } }).then(res => res.data.data),
+        axios.get('/v1/api/nodes').then(res => res.data.data),
+    ]);
+    return {
+        pagedTopics,
+        activeUserList,
+        nodes,
+    };
 };
 
-export default withApollo(Page);
+export default Page;

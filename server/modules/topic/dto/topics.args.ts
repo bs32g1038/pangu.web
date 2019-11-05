@@ -14,5 +14,5 @@ export class TopicsArgs {
     @Max(50)
     limit = 25;
 
-    filter: TopicsArgsFilter;
+    filter?: TopicsArgsFilter;
 }

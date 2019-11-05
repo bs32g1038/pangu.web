@@ -13,7 +13,7 @@ app.prepare().then(() => {
         handle(req, res);
     });
 
-    server.use('/graphql', proxy({ target: 'http://127.0.0.1:8000', changeOrigin: true }));
+    server.use('/v1/api', proxy({ target: 'http://127.0.0.1:8000', changeOrigin: true }));
     server.get(/^\/static\//, proxy({ target: 'http://127.0.0.1:8000', changeOrigin: true }));
 
     server.get('/blog/articles/:id', (req, res) => {

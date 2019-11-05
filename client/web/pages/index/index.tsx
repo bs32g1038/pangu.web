@@ -122,7 +122,7 @@ const Page = ({ pagedTopics, nodes, activeUserList }) => {
 
 Page.getInitialProps = async context => {
     const { page = 1, nodeId = '', tab = 'all' } = context.query;
-    const [pagedTopics, activeUserList, nodes] = await Promise.all([
+    const [pagedTopics = { rows: [], count: 0 }, activeUserList, nodes] = await Promise.all([
         axios.get('/v1/api/topics', { params: { page, nodeId, tab } }).then(res => res.data.data),
         axios.get('/v1/api/getActiveUserList', { params: { userId: 17 } }).then(res => res.data.data),
         axios.get('/v1/api/nodes').then(res => res.data.data),

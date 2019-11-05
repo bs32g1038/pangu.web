@@ -11,8 +11,6 @@ import Dialog from '@material-ui/core/Dialog';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import { useMutation } from '@apollo/react-hooks';
-import USER_LOGIN_GQL from './gql';
 
 import {
     Wrap,
@@ -53,18 +51,11 @@ export default function SimpleDialog(props: SimpleDialogProps) {
     const [type, setType] = useState(props.type);
     const [email, setEmail] = useState('');
     const [isShowErrorTip, setShowErrorTip] = useState(false);
-    const [userLogin, { data = {}, error }] = useMutation(USER_LOGIN_GQL);
 
-    useEffect(() => {
-        if (error) {
-            setShowErrorTip(true);
-        }
-    }, [error]);
-
-    oauth.setLoginInfo(data);
     const handleClose = () => {
         setShowErrorTip(false);
     };
+
     return (
         <Dialog key={props.key} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
             <Wrap>
@@ -82,11 +73,7 @@ export default function SimpleDialog(props: SimpleDialogProps) {
                 <Form>
                     <Typography variant="h6">{type === LOGIN_TYPE.login ? '登录' : '注册'}</Typography>
                     {isShowErrorTip && (
-                        <IconSnackbarContent
-                            variant="error"
-                            message={error && error.graphQLErrors[0].message}
-                            onClose={handleClose}
-                        ></IconSnackbarContent>
+                        <IconSnackbarContent variant="error" message={''} onClose={handleClose}></IconSnackbarContent>
                     )}
                     <div>
                         <CustomInput
@@ -130,15 +117,7 @@ export default function SimpleDialog(props: SimpleDialogProps) {
                     </div>
                     <Footer>
                         {type === LOGIN_TYPE.login ? (
-                            <Button
-                                variant="contained"
-                                size="medium"
-                                color="primary"
-                                fullWidth
-                                onClick={() => {
-                                    userLogin({ variables: { email, password } });
-                                }}
-                            >
+                            <Button variant="contained" size="medium" color="primary" fullWidth onClick={() => {}}>
                                 登录
                             </Button>
                         ) : (

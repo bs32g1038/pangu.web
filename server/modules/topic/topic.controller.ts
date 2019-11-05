@@ -4,7 +4,7 @@ import { Topic } from '../../models/topic.model';
 import { TopicsArgs } from './dto/topics.args';
 import { Controller, Get } from '@nestjs/common';
 
-@Controller('/api')
+@Controller('/v1/api')
 export class TopicController {
     constructor(private readonly topicService: TopicService) {}
 
@@ -18,7 +18,7 @@ export class TopicController {
     }
 
     @Get('/topics')
-    pagedTopics(@Param() params: TopicsArgs) {
+    async pagedTopics(@Param() params: TopicsArgs) {
         return this.topicService.findAndCountAll(params);
     }
 }

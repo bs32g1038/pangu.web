@@ -18,6 +18,7 @@ export const databaseProviders = [
                 username: 'postgres',
                 password: '123456',
                 database: 'pangu_development',
+                logging: function() {},
             });
             sequelize.addModels([Follow, Node, Recruit, Reply, Topic, TopicCollect, User]);
             await sequelize.sync();

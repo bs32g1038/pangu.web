@@ -33,10 +33,11 @@ export class TopicService {
     }
 
     async findAndCountAll(topicsArgs: TopicsArgs): Promise<{ rows: Topic[]; count: number }> {
-        const offset = (topicsArgs.page - 1) * 20;
+        const defaultArgs = { page: 1, limit: 25, ...topicsArgs };
+        const offset = (defaultArgs.page - 1) * defaultArgs.limit;
         let where = {};
-        if (topicsArgs.filter) {
-            const { tab, userId, nodeId } = topicsArgs.filter;
+        if (defaultArgs.filter) {
+            const { tab, userId, nodeId } = defaultArgs.filter;
             if (!tab || tab === 'all') {
                 where = {};
             } else if (tab === 'popular') {

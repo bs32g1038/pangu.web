@@ -1,6 +1,6 @@
 import axios from 'axios';
 // import { getLoginInfo } from '../utils/oauth';
-const baseUrl = 'http://127.0.0.1:7001';
+const baseUrl = 'http://127.0.0.1:8000';
 const instance = axios.create({
     baseURL: baseUrl,
 });

@@ -3,12 +3,12 @@ import { UserService } from './user.service';
 import { User } from '../../models/user.model';
 import { Controller, Get, Post } from '@nestjs/common';
 
-@Controller('/api')
+@Controller('/v1/api')
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
-    @Get('/users')
-    users(): Promise<User[]> {
+    @Get('/getActiveUserList')
+    async getActiveUserList(): Promise<User[]> {
         return this.userService.findAll();
     }
 

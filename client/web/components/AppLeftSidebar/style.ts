@@ -32,6 +32,7 @@ export const MenuItemA = styled.a`
     flex: 1 0 auto;
     align-items: center;
     position: relative;
+    cursor: pointer;
     img {
         width: 24px;
     }

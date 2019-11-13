@@ -1,8 +1,7 @@
-import { NotFoundException, Param } from '@nestjs/common';
+import { Query, Param, Controller, Get, NotFoundException } from '@nestjs/common';
 import { TopicService } from './topic.service';
 import { Topic } from '../../models/topic.model';
 import { TopicsArgs } from './dto/topics.args';
-import { Controller, Get } from '@nestjs/common';
 
 @Controller('/v1/api')
 export class TopicController {
@@ -18,7 +17,7 @@ export class TopicController {
     }
 
     @Get('/topics')
-    async pagedTopics(@Param() params: TopicsArgs) {
-        return this.topicService.findAndCountAll(params);
+    async pagedTopics(@Query() query: TopicsArgs) {
+        return await this.topicService.findAndCountAll(query);
     }
 }

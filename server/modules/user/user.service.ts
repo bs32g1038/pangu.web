@@ -2,7 +2,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '../../utils/model.util';
 import { User } from '../../models/user.model';
-import * as config from '../../configs/default.config';
+import { TOKEN_SECRET_KEY } from '../../configs/index.config';
 import Sequelize from 'sequelize';
 import jwt from 'jsonwebtoken';
 
@@ -43,12 +43,12 @@ export class UserService {
     }
 
     signToken(obj) {
-        return jwt.sign(obj, config.tokenKey, { expiresIn: '72h' });
+        return jwt.sign(obj, TOKEN_SECRET_KEY, { expiresIn: '72h' });
     }
 
     verifyToken(token) {
         try {
-            return jwt.verify(token, config.tokenKey);
+            return jwt.verify(token, TOKEN_SECRET_KEY);
         } catch (err) {
             return null;
         }

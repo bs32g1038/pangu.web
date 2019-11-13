@@ -68,7 +68,7 @@ const CellHeader = styled.div`
     display: flex;
     align-items: center;
     ${Sign} + ${Sign} {
-        margin-right: 10px;
+        margin-left: 10px;
     }
 `;
 
@@ -151,7 +151,7 @@ export default (props: Props) => {
                     </Sign>
                     {item.good && <Sign>精华</Sign>}
                     <TopicTitleWrap>
-                        <Link href={`/topic/${item.id}`}>
+                        <Link href={`/topic/${item.id}`} passHref={true}>
                             <TopicTitleA title={item.title}>{item.title}</TopicTitleA>
                         </Link>
                     </TopicTitleWrap>

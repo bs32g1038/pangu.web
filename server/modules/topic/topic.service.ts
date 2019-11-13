@@ -36,21 +36,19 @@ export class TopicService {
         const defaultArgs = { page: 1, limit: 25, ...topicsArgs };
         const offset = (defaultArgs.page - 1) * defaultArgs.limit;
         let where = {};
-        if (defaultArgs.filter) {
-            const { tab, userId, nodeId } = defaultArgs.filter;
-            if (!tab || tab === 'all') {
-                where = {};
-            } else if (tab === 'popular') {
-                where = { good: true };
-            } else {
-                where = { type: TYPE[tab] };
-            }
-            if (nodeId) {
-                where = { ...where, nodeId };
-            }
-            if (userId) {
-                where = { ...where, userId };
-            }
+        const { tab, userId, nodeId } = defaultArgs;
+        if (!tab || tab === 'all') {
+            where = {};
+        } else if (tab === 'popular') {
+            where = { good: true };
+        } else {
+            where = { type: TYPE[tab] };
+        }
+        if (nodeId) {
+            where = { ...where, nodeId };
+        }
+        if (userId) {
+            where = { ...where, userId };
         }
         return await this.TOPIC_REPOSITORY.findAndCountAll<Topic>({
             where,

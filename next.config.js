@@ -1,10 +1,10 @@
 /* eslint-disable */
 const path = require('path');
-const withCss = require('@zeit/next-css');
+const withSass = require('@zeit/next-sass');
 
 const resolve = dir => path.resolve(__dirname, dir);
 
-module.exports = withCss({
+module.exports = withSass({
     webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
         if (isServer) {
             const antStyles = /antd\/.*?\/style\/css.*?/;

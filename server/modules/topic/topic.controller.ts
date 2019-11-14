@@ -1,4 +1,4 @@
-import { Query, Param, Controller, Get, NotFoundException } from '@nestjs/common';
+import { Query, Param, Controller, Get, Post, Body, NotFoundException } from '@nestjs/common';
 import { TopicService } from './topic.service';
 import { Topic } from '../../models/topic.model';
 import { TopicsArgs } from './dto/topics.args';
@@ -19,5 +19,10 @@ export class TopicController {
     @Get('/topics')
     async pagedTopics(@Query() query: TopicsArgs) {
         return await this.topicService.findAndCountAll(query);
+    }
+
+    @Post('/topics')
+    async postTopics(@Body() body) {
+        return await this.topicService.save(body);
     }
 }

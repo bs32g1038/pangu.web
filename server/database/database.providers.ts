@@ -7,19 +7,20 @@ import { TopicCollect } from '../models/topic.collect.model';
 import { Topic } from '../models/topic.model';
 import { User } from '../models/user.model';
 
+const sequelize = new Sequelize({
+    dialect: 'postgres',
+    host: 'localhost',
+    port: 5432,
+    username: 'postgres',
+    password: '123456',
+    database: 'pangu_development',
+    logging: function() {},
+});
+
 export const databaseProviders = [
     {
         provide: 'SEQUELIZE',
         useFactory: async () => {
-            const sequelize = new Sequelize({
-                dialect: 'postgres',
-                host: 'localhost',
-                port: 5432,
-                username: 'postgres',
-                password: '123456',
-                database: 'pangu_development',
-                logging: function() {},
-            });
             sequelize.addModels([Follow, Node, Recruit, Reply, Topic, TopicCollect, User]);
             await sequelize.sync();
             return sequelize;

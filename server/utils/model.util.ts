@@ -13,12 +13,17 @@ export declare type ModelCtor<M extends Model = Model> = (new () => M) & ModelTy
 // 根据 Model 获取 Provider
 export const getProviderByModel = (model: ModelCtor) => {
     return {
-        provide: model.tableName + DB_MODEL_TOKEN_SUFFIX,
+        provide: model.name + DB_MODEL_TOKEN_SUFFIX,
         useValue: model,
     };
 };
 
 // 注入器
 export const InjectModel = (model: ModelCtor) => {
-    return Inject(getModelToken(model.tableName));
+    return Inject(getModelToken(model.name));
+};
+
+// 注入器
+export const InjectRepository = () => {
+    return Inject('SEQUELIZE');
 };

@@ -1,0 +1,83 @@
+{
+  "name": "pangu.server",
+  "version": "1.0.0-alpha.0",
+  "description": "a pangu server provide api",
+  "author": "bs32g1038@163.com",
+  "license": "MIT",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nest start --watch",
+    "build": "rimraf dist && tsc -p tsconfig.json",
+    "start:prod": "cross-env NODE_ENV=production node dist/main.js",
+    "lint": "eslint **/*.{ts,js,tsx,jsx} --ignore-path .eslintignore",
+    "format": "prettier **/**/*.{ts,tsx,js,jsx} --config ./.prettierrc --ignore-path ./.prettierignore --write",
+    "start:debug": "nest start --debug --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json"
+  },
+  "dependencies": {
+    "@nestjs/common": "^6.10.11",
+    "@nestjs/core": "^6.10.11",
+    "@nestjs/platform-express": "^6.10.11",
+    "@types/jsonwebtoken": "^8.3.5",
+    "class-transformer": "^0.2.3",
+    "class-validator": "^0.11.0",
+    "classnames": "^2.2.6",
+    "cookie": "^0.4.0",
+    "crypto-js": "^3.1.9-1",
+    "isomorphic-unfetch": "^3.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^7.14.0",
+    "pg-hstore": "^2.3.3",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.0",
+    "rxjs": "^6.5.3",
+    "sequelize": "^5.21.3",
+    "sequelize-typescript": "^1.1.0"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^6.12.9",
+    "@nestjs/testing": "^6.10.11",
+    "@types/crypto-js": "^3.1.43",
+    "@types/express": "^4.17.2",
+    "@types/jest": "^24.0.23",
+    "@types/multer": "^1.3.10",
+    "@types/node": "^12.12.17",
+    "@types/sequelize": "^4.28.8",
+    "@types/supertest": "^2.0.8",
+    "@typescript-eslint/eslint-plugin": "^2.11.0",
+    "@typescript-eslint/parser": "^2.11.0",
+    "axios": "^0.19.0",
+    "concurrently": "^5.0.1",
+    "cross-env": "^6.0.3",
+    "dayjs": "^1.8.17",
+    "eslint": "^6.7.2",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.17.0",
+    "jest": "^24.9.0",
+    "multer": "^1.4.2",
+    "prettier": "^1.19.1",
+    "ts-jest": "24.2.0",
+    "ts-node": "8.5.4",
+    "tsconfig-paths": "3.9.0",
+    "typescript": "3.7.3",
+    "wait-on": "^3.3.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".spec.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  }
+}

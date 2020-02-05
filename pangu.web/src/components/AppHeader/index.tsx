@@ -43,14 +43,12 @@ export default () => {
 
     return (
         <Container>
-            <HeaderTitle>
-                <Link href="/">
-                    <HeaderTitleLink>
-                        <img src={require('../../assets/logo.svg')} alt="盘古社区" className="logo" />
-                        <h1 className="site-name">盘古社区</h1>
-                    </HeaderTitleLink>
-                </Link>
-            </HeaderTitle>
+            <Link href="/">
+                <HeaderTitleLink>
+                    <img src={require('../../assets/logo.svg')} alt="盘古社区" className="logo" />
+                    <HeaderTitle>盘古社区</HeaderTitle>
+                </HeaderTitleLink>
+            </Link>
             <HeaderNavWrap>
                 <HeaderNavItem>
                     <Link href="/">

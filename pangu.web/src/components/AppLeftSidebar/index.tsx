@@ -15,7 +15,7 @@ export default (props: Props) => {
     return (
         <Wrap>
             <Menu>
-                <Title>节点导航</Title>
+                <Title>技术频道</Title>
                 <MenuItem>
                     <Link href="/">
                         <MenuItemA>

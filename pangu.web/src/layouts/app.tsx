@@ -14,7 +14,7 @@ export default (props: { children: any }) => {
         <div className="app">
             <AppHeader />
             <PageWrap>{children}</PageWrap>
-            <AppBottom></AppBottom>
+            {/* <AppBottom></AppBottom> */}
             <AppFooter />
         </div>
     );

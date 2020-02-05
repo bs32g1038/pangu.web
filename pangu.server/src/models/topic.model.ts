@@ -1,7 +1,9 @@
-import { Table, Column, Model, AutoIncrement, Default, BelongsTo } from 'sequelize-typescript';
+import { Table, Column, Model, AutoIncrement, Default, BelongsTo, BelongsToMany } from 'sequelize-typescript';
 import { NOW } from 'sequelize';
 import { User } from './user.model';
-import { Node } from './node.model';
+import { Tag } from './tag.model';
+import { TopicTag } from './topic.tag.model';
+import { Category } from './category.model';
 import { Recruit } from './recruit.model';
 import { getProviderByModel } from '../utils/model.util';
 
@@ -47,12 +49,9 @@ export class Topic extends Model<Topic> {
     @Column({ comment: '类型 1 分享 2 问答' })
     type: number;
 
-    @BelongsTo(() => Node, { as: 'node', foreignKey: 'nodeId' })
-    @Column({ comment: '节点id', field: 'node_id' })
-    nodeId: number;
-
-    @Column({ comment: '标签id', field: 'tag_id' })
-    tagId: number;
+    @BelongsTo(() => Category, { as: 'category', foreignKey: 'categoryId' })
+    @Column({ comment: '分类id', field: 'category_id' })
+    categoryId: number;
 
     @BelongsTo(() => Recruit, { as: 'recruitInfo', foreignKey: 'recruitId' })
     @Column({ comment: '招聘信息id', field: 'recruit_id' })
@@ -79,6 +78,14 @@ export class Topic extends Model<Topic> {
 
     @Column({ field: 'deleted_at' })
     deletedAt: Date;
+
+    @BelongsToMany(
+        () => Tag,
+        () => TopicTag,
+        'topicId',
+        'tagId'
+    )
+    tags: Tag[];
 }
 
 export const TopicModelProvider = getProviderByModel(Topic);

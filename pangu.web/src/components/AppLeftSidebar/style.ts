@@ -10,6 +10,7 @@ export const Wrap = styled.div`
 export const Menu = styled.ul`
     padding-left: 0;
     list-style: none;
+    margin-top: 0;
 `;
 
 export const Title = styled.h3`
@@ -17,8 +18,13 @@ export const Title = styled.h3`
     margin: 0 0 10px 0;
     padding: 10px 0;
     border-bottom: 1px dashed rgba(0, 0, 0, 0.25);
-    font-weight: 600;
     font-size: 14px;
+    color: #212121;
+    position: relative;
+    display: inline-block;
+    padding-left: 10px;
+    font-weight: normal;
+    width: 100%;
 `;
 
 export const MenuItem = styled.li`

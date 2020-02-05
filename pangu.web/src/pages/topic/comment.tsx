@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import LikeSvg from '../../components/svgs/like';
 import ReplySvg from '../../components/svgs/reply';
 import Vditor from 'vditor';
 import 'vditor/src/assets/scss/classic.scss';
-import { timeAgo } from '../../utils/time';
-import * as markdown from '../../utils/markdown';
+import { timeAgo } from '../../libs/time';
+import * as markdown from '../../libs/markdown';
 import { MarkdownBody } from './style';
 
 const ReplyWrap = styled.div``;

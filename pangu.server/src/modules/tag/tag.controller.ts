@@ -1,43 +1,43 @@
-import { NodeService } from './node.service';
-import { Node } from '../../models/node.model';
+import { TagService } from './tag.service';
+import { Tag } from '../../models/tag.model';
 import { Controller, Body, Get, Param, Post, Put } from '@nestjs/common';
 
 @Controller('/v1/api')
-export class NodeController {
-    constructor(private readonly nodeService: NodeService) {}
+export class TagController {
+    constructor(private readonly tagService: TagService) {}
 
-    @Get('/nodes')
-    async nodes(): Promise<Node[]> {
-        return this.nodeService.findAll();
+    @Get('/tags')
+    async tags() {
+        return this.tagService.findAndCountAll();
     }
 
-    @Get('/nodes/:id')
+    @Get('/tags/:id')
     async getNodeById(@Param() params: { id: string }) {
-        return await this.nodeService.getNodeById(params.id);
+        return await this.tagService.getNodeById(params.id);
     }
 
-    @Post('/nodes')
+    @Post('/tags')
     async create(@Body() body) {
         const name = body.name;
         const detail = body.detail;
         const icon = body.icon;
-        return await this.nodeService.create({
+        return await this.tagService.create({
             name,
             detail,
             icon,
         });
     }
 
-    @Put('/nodes/:id')
+    @Put('/tags')
     async update(@Body() body) {
         const id = body.id;
         const name = body.name;
-        const detail = body.detail;
+        const description = body.description;
         const icon = body.icon;
-        return await this.nodeService.update({
+        return await this.tagService.update({
             id,
             name,
-            detail,
+            description,
             icon,
         });
     }

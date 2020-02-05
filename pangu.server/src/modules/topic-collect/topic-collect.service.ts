@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '../../utils/model.util';
 import { TopicCollect } from '../../models/topic.collect.model';
 import { Topic } from '../../models/topic.model';
-import { Node } from '../../models/node.model';
+import { Category } from '../../models/category.model';
 
 @Injectable()
 export class TopicCollectService {
@@ -24,10 +24,9 @@ export class TopicCollectService {
                     attributes: ['id', 'title', 'top', 'type'],
                     include: [
                         {
-                            model: Node,
+                            model: Category,
                             required: true,
-                            as: 'node',
-
+                            as: 'category',
                             attributes: ['id', 'name'],
                         },
                     ],

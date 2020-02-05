@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards, UseInterceptors, UploadedFile, Query } from '@nestjs/common';
+import { Controller, Post, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadService } from './upload.service';
 import Joi from '@hapi/joi';
@@ -14,7 +14,7 @@ export class UploadController {
             .allow(''),
     });
 
-    @Post('/api/upload/image')
+    @Post('/v1/api/upload/image')
     @UseInterceptors(FileInterceptor('file'))
     async uploadSingalImage(@UploadedFile() file: any) {
         return await this.uploadService.uploadSingalImage(file);

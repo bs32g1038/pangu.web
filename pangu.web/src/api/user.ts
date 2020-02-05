@@ -12,7 +12,7 @@ export const fetchUserList = () => {
     return axios.get('/v1/api/users');
 };
 
-export const fetchFollowUsers = (page = 1, limit = 100, filter = {}) => {
+export const fetchFollowUsers = (page = 1, limit = 100, filter: { userId?: string } = {}) => {
     return axios.get('/v1/api/follow-user', {
         params: {
             page,
@@ -22,7 +22,7 @@ export const fetchFollowUsers = (page = 1, limit = 100, filter = {}) => {
     });
 };
 
-export const fetchFollowingUsers = (page = 1, limit = 100, filter = {}) => {
+export const fetchFollowingUsers = (page = 1, limit = 100, filter: { followUserId?: string } = {}) => {
     return axios.get('/v1/api/following-user', {
         params: {
             page,

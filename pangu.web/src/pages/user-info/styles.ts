@@ -1,12 +1,5 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-    width: 812px;
-    margin: 0 auto;
-    display: flex;
-    flex: 1 0 auto;
-`;
-
 export const InfoWrap = styled.div`
     margin: 0 auto;
     flex: 1 0 auto;

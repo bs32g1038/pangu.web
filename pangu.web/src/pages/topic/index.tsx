@@ -1,15 +1,13 @@
 import React, { useEffect } from 'react';
-import AppHeader from '../../components/AppHeader';
-import AppFooter from '../../components/AppFooter';
-import Comment from './comment';
+// import Comment from './comment';
 import { fetchTopicById } from '../../api/topic';
 import { fetchReplyList } from '../../api/reply';
 import CollectionSvg from '../../components/svgs/collection';
 import LikeSvg from '../../components/svgs/like';
-import { timeAgo, timeTo, parseTime } from '../../utils/time';
-import * as markdown from '../../utils/markdown';
+import { timeAgo, parseTime } from '../../libs/time';
+// import * as markdown from '../../utils/markdown';
 import { TOPIC_TYPE } from '../../configs/constant';
-import Vditor from 'vditor';
+// import Vditor from 'vditor';
 import { RECRUIT_INFO } from '../../configs/constant';
 import LocationSvg from '../../components/svgs/location';
 import EducationSvg from '../../components/svgs/education';
@@ -18,6 +16,7 @@ import SalarySvg from '../../components/svgs/salary';
 import JobSvg from '../../components/svgs/job';
 import FinanceSvg from '../../components/svgs/finance';
 import StaffSvg from '../../components/svgs/staff';
+import App from '../../layouts/app';
 
 import {
     Wrap,
@@ -43,11 +42,10 @@ const Page = props => {
         count: 0,
     };
     useEffect(() => {
-        Vditor.highlightRender('github', true, document.getElementById('markdownBody'));
+        // Vditor.highlightRender('github', true, document.getElementById('markdownBody'));
     }, [topic]);
     return (
-        <React.Fragment>
-            <AppHeader></AppHeader>
+        <App>
             <Wrap>
                 <Title>{topic.title}</Title>
                 <Meta>
@@ -116,12 +114,11 @@ const Page = props => {
                 <MarkdownBody
                     className="vditor-reset"
                     id="markdownBody"
-                    dangerouslySetInnerHTML={{ __html: markdown.render(topic.content) }}
+                    dangerouslySetInnerHTML={{ __html: topic.content }}
                 ></MarkdownBody>
-                <Comment topic={topic} replyList={replyList}></Comment>
+                {/* <Comment topic={topic} replyList={replyList}></Comment> */}
             </Wrap>
-            <AppFooter></AppFooter>
-        </React.Fragment>
+        </App>
     );
 };
 
@@ -137,14 +134,14 @@ Page.getInitialProps = async ctx => {
         topicId = match.params.id;
     }
 
-    const [topic, replyList] = await Promise.all([
+    const [topic] = await Promise.all([
         fetchTopicById(topicId).then(res => res.data.data),
-        fetchReplyList(page, limit, { topicId }).then(res => res.data.data),
+        // fetchReplyList(page, limit, { topicId }).then(res => res.data.data),
     ]);
 
     return {
         topic,
-        replyList,
+        // replyList,
     };
 };
 

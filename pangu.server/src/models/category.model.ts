@@ -3,20 +3,21 @@ import { NOW } from 'sequelize';
 import { getProviderByModel } from '../utils/model.util';
 
 @Table({
-    tableName: 'pangu_node',
+    tableName: 'pangu_category',
     freezeTableName: true,
 })
-export class Node extends Model<Node> {
+export class Category extends Model<Category> {
     @AutoIncrement
     @Column({ primaryKey: true })
     id: number;
 
-    @Column({ comment: '标签名' })
+    @Column({ comment: '分类名' })
     name: string;
 
-    @Column({ comment: '标签详情' })
+    @Column({ comment: '分类详情' })
     detail: string;
 
+    @Default(0)
     @Column({ comment: '话题数量', field: 'topic_count' })
     topicCount: number;
 
@@ -24,8 +25,12 @@ export class Node extends Model<Node> {
     icon: string;
 
     @Default(false)
+    @Column({ comment: '是否显示分类', field: 'is_show' })
+    isShow: boolean;
+
+    @Default(false)
     @Column({ comment: '是否显示图标', field: 'is_show_icon' })
-    isShowIcon: string;
+    isShowIcon: boolean;
 
     @Default(NOW)
     @Column({ field: 'created_at' })
@@ -39,4 +44,4 @@ export class Node extends Model<Node> {
     deletedAt: Date;
 }
 
-export const NodeModelProvider = getProviderByModel(Node);
+export const CategoryModelProvider = getProviderByModel(Category);

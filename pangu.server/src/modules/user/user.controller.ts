@@ -1,14 +1,19 @@
-import { UnauthorizedException, Body } from '@nestjs/common';
+import { UnauthorizedException, Body, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from '../../models/user.model';
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Post, Request } from '@nestjs/common';
 
 @Controller('/v1/api')
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @Get('/getActiveUserList')
-    async getActiveUserList(): Promise<User[]> {
+    async getActiveUserList() {
+        return this.userService.findAll();
+    }
+
+    @Get('/users')
+    async users() {
         return this.userService.findAll();
     }
 
@@ -19,5 +24,13 @@ export class UserController {
             throw new UnauthorizedException('账号或者密码错误!');
         }
         return user;
+    }
+
+    @Get('/getUserByUsername')
+    async getUserByUsername(@Request() req, @Query() query) {
+        const username = query.username;
+        const token = req.headers['authorization'];
+        const userInfo: any = this.userService.getUserInfoFromToken(token);
+        return await this.userService.getUserByUsername(username, '17');
     }
 }

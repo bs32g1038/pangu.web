@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import Button from '@material-ui/core/Button';
 import { USER_DEFAULT_SIGNATUR } from '../../configs/constant';
 
@@ -13,7 +13,7 @@ const UserInfoWrap = styled.div`
     color: #999;
 `;
 
-const Avatar = styled(Link)`
+const Avatar = styled.a`
     position: absolute;
     left: 15px;
     top: 10px;
@@ -63,8 +63,10 @@ export default props => {
             </Avatar>
             <Info>
                 <Detail>
-                    <Link to={`/user/${user.id}`} className="fly-link">
-                        <cite>{user.username}</cite>
+                    <Link href={`/user/${user.id}`}>
+                        <a href="" className="fly-link">
+                            <cite>{user.username}</cite>
+                        </a>
                     </Link>
                     <span>积分：{user.score}</span>
                 </Detail>

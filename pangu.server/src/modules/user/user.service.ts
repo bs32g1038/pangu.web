@@ -2,6 +2,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '../../utils/model.util';
 import { User } from '../../models/user.model';
+import { Follow as FollowModel } from '../../models/follow.model';
 import { TOKEN_SECRET_KEY } from '../../configs/index.config';
 import Sequelize from 'sequelize';
 import jwt from 'jsonwebtoken';
@@ -10,8 +11,8 @@ import jwt from 'jsonwebtoken';
 export class UserService {
     constructor(@InjectModel(User) private readonly USER_REPOSITORY: typeof User) {}
 
-    async findAll(): Promise<User[]> {
-        return await this.USER_REPOSITORY.findAll<User>({
+    async findAll(): Promise<{ rows: User[]; count: number }> {
+        return await this.USER_REPOSITORY.findAndCountAll<User>({
             attributes: { exclude: ['password', 'email'] },
             order: [['updatedAt', 'DESC']],
             limit: 10,
@@ -54,8 +55,33 @@ export class UserService {
         }
     }
 
-    getUserInfoFromToken() {
-        // const token = ctx.request.headers['authorization'];
-        // return this.verifyToken(token);
+    getUserInfoFromToken(token) {
+        return this.verifyToken(token);
+    }
+
+    async getUserByUsername(username, followUserId) {
+        const user: any = await this.USER_REPOSITORY.findOne({
+            where: {
+                username: {
+                    [Sequelize.Op.eq]: username,
+                },
+            },
+        });
+        if (user) {
+            const follow = await FollowModel.findOne({
+                where: {
+                    userId: {
+                        [Sequelize.Op.eq]: user.id,
+                    },
+                    followUserId: {
+                        [Sequelize.Op.eq]: followUserId,
+                    },
+                },
+            });
+            if (follow) {
+                user.setDataValue('isFollow', true);
+            }
+        }
+        return user;
     }
 }

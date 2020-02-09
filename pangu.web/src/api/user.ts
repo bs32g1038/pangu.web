@@ -31,3 +31,10 @@ export const fetchFollowingUsers = (page = 1, limit = 100, filter: { followUserI
         },
     });
 };
+
+export const register = (email = '', password = '') => {
+    return axios.post('/v1/user/register', {
+        email,
+        password,
+    });
+};

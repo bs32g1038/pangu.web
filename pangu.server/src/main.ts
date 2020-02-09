@@ -5,6 +5,7 @@ import { ValidationPipe } from './pipes/validation.pipe';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { ResponseTransformInterceptor } from './interceptors/response.transform.interceptor';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
+import session from 'express-session';
 import path from 'path';
 
 async function bootstrap() {
@@ -13,6 +14,7 @@ async function bootstrap() {
     app.useGlobalPipes(new ValidationPipe());
     app.useStaticAssets(path.resolve(__dirname, '../public'));
     app.useGlobalInterceptors(new ResponseTransformInterceptor(), new LoggingInterceptor());
+    app.use(session({ secret: 'keyword', cookie: { maxAge: 60000 } }));
     await app.listen(8000);
 }
 

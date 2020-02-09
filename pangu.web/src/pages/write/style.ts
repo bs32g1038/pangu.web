@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Paper as _Paper } from '@material-ui/core';
-
+import _FormControl from '@material-ui/core/FormControl';
 export const Wrap = styled.div`
     padding: 20px;
     background-color: #fff;
@@ -10,6 +10,16 @@ export const Wrap = styled.div`
     > p {
         margin: 10px 0 0;
     }
+    .form {
+        display: flex;
+        flex-direction: column;
+    }
+    .select-form-control {
+        margin-top: 20px;
+    }
+    .title {
+        margin-bottom: 20px;
+    }
     .select {
         width: 150px;
         margin-bottom: 20px;
@@ -18,6 +28,14 @@ export const Wrap = styled.div`
         .MuiSelect-root {
             font-size: 0.8125rem;
         }
+    }
+    .topic-tag-label {
+        background-color: #fff;
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+    .select-tags {
+        width: 340px;
     }
 `;
 
@@ -36,8 +54,12 @@ export const Paper = styled(_Paper)`
     }
 `;
 
-export const FormControl = styled.div`
-    margin: 20px 0 !important;
+export const FormControl = styled(_FormControl)`
+    /* display: block !important; */
+    /* margin: 20px 0 !important; */
+    .MuiChip-root {
+        margin-right: 10px;
+    }
 `;
 
 export const CheckboxFormControl = styled.div`

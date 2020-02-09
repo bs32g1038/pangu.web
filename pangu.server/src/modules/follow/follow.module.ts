@@ -4,6 +4,7 @@ import { FollowController } from './follow.controller';
 import { FollowService } from './follow.service';
 
 @Module({
-    providers: [FollowModelProvider, FollowController, FollowService],
+    controllers: [FollowController],
+    providers: [FollowModelProvider, FollowService],
 })
 export class FollowModule {}

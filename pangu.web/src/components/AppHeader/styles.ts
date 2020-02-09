@@ -16,12 +16,13 @@ export const Container = styled.div`
 `;
 
 export const HeaderTitle = styled.h1`
-    float: left;
     vertical-align: top;
     font-size: 18px;
-    font-weight: normal;
-    margin: 0 15px 0 0;
     line-height: 34px;
+    font-size: 16px;
+    margin: 0 10px 0 8px;
+    color: rgba(0, 0, 0, 0.87);
+    font-weight: 500;
 `;
 
 export const HeaderTitleLink = styled.a`
@@ -29,12 +30,6 @@ export const HeaderTitleLink = styled.a`
     align-items: center;
     color: rgba(0, 0, 0, 0.85);
     font-size: 16px;
-    > h1 {
-        font-size: 16px;
-        margin: 0 0 0 12px;
-        color: rgba(0, 0, 0, 0.87);
-        font-weight: 500;
-    }
     .logo {
         max-height: 40px;
         vertical-align: middle;

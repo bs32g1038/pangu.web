@@ -17,12 +17,22 @@ export class UserController {
         return this.userService.findAll();
     }
 
+    @Post('/user/register')
+    async userRegister(@Body() body): Promise<User> {
+        const user = await this.userService.register(body.email, body.password);
+        if (!user) {
+            throw new UnauthorizedException('账号或者密码错误!');
+        }
+        return user;
+    }
+
     @Post('/user/login')
-    async userLogin(@Body() body): Promise<User> {
+    async userLogin(@Request() req: any, @Body() body): Promise<User> {
         const user = await this.userService.login(body.email, body.password);
         if (!user) {
             throw new UnauthorizedException('账号或者密码错误!');
         }
+        req.session.user = user;
         return user;
     }
 

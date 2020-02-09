@@ -6,7 +6,7 @@ export const Footer = styled.footer`
     display: flex;
     flex-direction: column;
     padding: 0 20px;
-    border-top: 1px solid #efefef;
+    border-top: 1px dashed #efefef;
     position: relative;
 `;
 

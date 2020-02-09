@@ -1,5 +1,5 @@
 // import { CreateCatDto } from './dto/create-cat.dto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Post } from '@nestjs/common';
 import { InjectModel } from '../../utils/model.util';
 import { User } from '../../models/user.model';
 import { Follow as FollowModel } from '../../models/follow.model';

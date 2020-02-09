@@ -4,8 +4,6 @@ import styled from 'styled-components';
 
 const UserFollowList = styled(_UserFollowList)`
     display: flex;
-    width: 812px;
-    margin: 1px auto 0;
     background-color: #fff;
     flex: 1 0 auto;
     padding-top: 20px;

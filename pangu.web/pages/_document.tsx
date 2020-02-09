@@ -1,7 +1,7 @@
 import React from 'react';
 import Document, { Head, Main, NextScript } from 'next/document';
-import { ServerStyleSheets } from '@material-ui/styles';
 import { ServerStyleSheet } from 'styled-components';
+import { ServerStyleSheets } from '@material-ui/core/styles';
 
 export default class MyDocument extends Document {
     render() {
@@ -30,18 +30,33 @@ export default class MyDocument extends Document {
 }
 
 MyDocument.getInitialProps = async ctx => {
+    const sheet = new ServerStyleSheet();
     const sheets = new ServerStyleSheets();
     const originalRenderPage = ctx.renderPage;
-
-    ctx.renderPage = () =>
-        originalRenderPage({
-            enhanceApp: App => props => sheets.collect(<App {...props} />),
-        });
-
-    const initialProps: any = await Document.getInitialProps(ctx);
-
-    return {
-        ...initialProps,
-        styles: [...(initialProps.styles as any), sheets.getStyleElement(), new ServerStyleSheet().getStyleElement()],
-    };
+    try {
+        ctx.renderPage = () =>
+            originalRenderPage({
+                enhanceApp: App => props => {
+                    return (
+                        <>
+                            {sheets.collect(<App {...props} />)}
+                            {sheet.collectStyles(<App {...props} />)}
+                        </>
+                    );
+                },
+            });
+        const initialProps: any = await Document.getInitialProps(ctx);
+        return {
+            ...initialProps,
+            styles: (
+                <>
+                    {initialProps.styles}
+                    {sheet.getStyleElement()}
+                    {sheets.getStyleElement()}
+                </>
+            ),
+        };
+    } finally {
+        sheet.seal();
+    }
 };

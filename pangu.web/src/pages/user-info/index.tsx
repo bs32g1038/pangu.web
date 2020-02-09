@@ -58,8 +58,7 @@ function TabPanel(props) {
 
 function a11yProps(index) {
     return {
-        id: `nav-tab-${index}`,
-        'aria-controls': `nav-tabpanel-${index}`,
+        value: index,
     };
 }
 
@@ -194,14 +193,14 @@ const Page = props => {
                     <Tabs variant="fullWidth" value={value} onChange={handleChange} aria-label="nav tabs example">
                         <LinkTab label="创建的话题" {...a11yProps(0)} />
                         <LinkTab label="最近回帖" {...a11yProps(1)} />
-                        <LinkTab label="收藏" {...a11yProps(2)} />
+                        {/* <LinkTab label="收藏" {...a11yProps(2)} /> */}
                         <LinkTab label="关注者" {...a11yProps(3)} />
-                        <LinkTab label="正在关注" {...a11yProps(4)} />
+                        {/* <LinkTab label="正在关注" {...a11yProps(4)} /> */}
                     </Tabs>
                 </TabsWrap>
                 <TabPanel value={value} index={0}>
                     {topics.rows.map(item => (
-                        <CreatedTopicList key={item.id} item={StatisticalDataItemCounter}></CreatedTopicList>
+                        <CreatedTopicList key={item.id} item={item}></CreatedTopicList>
                     ))}
                 </TabPanel>
                 <TabPanel value={value} index={1}>

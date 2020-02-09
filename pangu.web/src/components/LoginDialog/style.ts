@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import IconButton from '@material-ui/core/IconButton';
 import _IconSnackbarContent from '../../components/IconSnackbarContent';
+import { Form as _Form } from 'formik';
 
 export const Wrap = styled.div`
     flex: 1 0 auto;
@@ -38,10 +39,18 @@ export const CloseButton = styled(IconButton)`
     }
 `;
 
-export const Form = styled.div`
+export const Form = styled(_Form)`
     padding: 10px 18px 24px;
     flex: 1 0 auto;
     margin: 0;
+    .email {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .email,
+    .password {
+        font-size: 14px;
+    }
 `;
 
 export const Footer = styled.footer`

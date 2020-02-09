@@ -2,7 +2,8 @@ import { primaryColor, dangerColor, successColor } from '../../theme/color';
 import styled from 'styled-components';
 import _FormControl from '@material-ui/core/FormControl';
 import _InputLabel from '@material-ui/core/InputLabel';
-import _Input from '@material-ui/core/Input';
+// import _Input from '@material-ui/core/Input';
+import { InputBase as _Input } from 'formik-material-ui';
 
 export const FormControl = styled(_FormControl)`
     &.MuiFormControl-root {

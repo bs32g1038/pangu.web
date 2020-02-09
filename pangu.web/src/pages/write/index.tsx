@@ -1,212 +1,215 @@
-import { TextField, MenuItem, Breadcrumbs, Typography, Button, FormControlLabel, Checkbox } from '@material-ui/core';
+import {
+    Breadcrumbs,
+    Typography,
+    Button,
+    InputLabel,
+    ListItemText,
+    Chip,
+    FormHelperText,
+    MenuItem,
+    Checkbox,
+    Avatar,
+} from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 import App from '../../layouts/app';
 import Link from 'next/link';
 import Router, { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import * as oauth from '../../utils/oauth';
-import { fetchNodes } from '../../api/node';
+import { fetchCategories, fetchTags } from '../../api/node';
 import { fetchTopicById, createTopic, updateTopic } from '../../api/topic';
-
-const Editor = dynamic(() => import('../../libs/Editor'), { ssr: false });
-import Recruit from './recruit';
+import { Formik, Form } from 'formik';
+import { TextField, Select } from 'formik-material-ui';
+import { withAuthSync } from '../../utils/auth';
+// const Editor = dynamic(() => import('../../libs/Editor'), { ssr: false });
 
 import { Wrap, Paper, FormControl, CheckboxFormControl } from './style';
 
 const Page = props => {
+    const router = useRouter();
     const user = oauth.getLoginInfo();
-    const [nodes, setNodes] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [tags, setTags] = useState([]);
+    const [selectTags, setSelectTags] = useState([]);
     const [editor, setEditor] = useState(null);
     const [values, setValues] = useState({
         id: null,
         title: '',
-        node: '',
+        categoryId: '',
         type: -1,
         content: '',
         good: false,
         top: false,
-        userId: user.id,
+        userId: user && user.id,
         recruitInfo: null,
+        tags: [],
     });
-    const router = useRouter();
     useEffect(() => {
-        fetchNodes().then(res => {
-            setNodes(res.data.data);
+        fetchCategories().then(res => {
+            setCategories(res.data.data.rows);
         });
-        const topicId = router.query.topicId;
-        if (topicId) {
-            fetchTopicById(topicId).then(res => {
-                const topic = res.data.data;
-                setValues(value => ({
-                    ...value,
-                    id: topicId,
-                    title: topic.title,
-                    node: topic.nodeId,
-                    type: topic.type,
-                    content: topic.content,
-                    good: topic.good,
-                    top: topic.top,
-                    recruitInfo: topic.recruitInfo,
-                }));
-                editor.setValue(topic.content);
-            });
+        fetchTags().then(res => {
+            setTags(res.data.data.rows);
+        });
+        console.log(router);
+        if (router) {
+            const topicId = router.query.topicId;
+            if (topicId) {
+                fetchTopicById(topicId).then(res => {
+                    const topic = res.data.data;
+                    setValues(value => ({
+                        ...value,
+                        id: topicId,
+                        title: topic.title,
+                        node: topic.nodeId,
+                        type: topic.type,
+                        content: topic.content,
+                        good: topic.good,
+                        top: topic.top,
+                        recruitInfo: topic.recruitInfo,
+                    }));
+                    editor.setValue(topic.content);
+                });
+            }
         }
     }, [1]);
 
-    function handleChange(event) {
-        event.persist();
-        setValues(oldValues => ({
-            ...oldValues,
-            [event.target.name]: event.target.value,
-        }));
-    }
-
     return (
         <App>
-            <Wrap>
-                <Paper elevation={0}>
-                    <Breadcrumbs aria-label="breadcrumb" className="breadcrumb">
-                        <Link href="/">
-                            <a color="inherit">主页</a>
-                        </Link>
-                        <Typography color="textPrimary">发布话题</Typography>
-                    </Breadcrumbs>
-                    <Button
-                        variant="contained"
-                        size="small"
-                        color="primary"
-                        onClick={() => {
-                            console.log(values);
-                            const data = { ...values, content: editor.getValue() };
-                            const p = values.id ? updateTopic(data) : createTopic(data);
-                            p.then(() => {
-                                Router.push('/');
-                            });
-                        }}
-                    >
-                        提交
-                    </Button>
-                </Paper>
-                <form
-                    autoComplete="off"
-                    style={{
-                        width: '100%',
-                        flex: '1 0 auto',
-                    }}
-                >
-                    <TextField
-                        value={values.title}
-                        name="title"
-                        label="话题标题"
-                        placeholder="请输入标题（最多 50 个字）"
-                        fullWidth
-                        onChange={handleChange}
-                        margin="normal"
-                        variant="outlined"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                    />
-                    <FormControl>
-                        <TextField
-                            id="standard-select-currency"
-                            className="select"
-                            select
-                            label="请选择话题根节点"
-                            name="node"
-                            value={values.node}
-                            onChange={handleChange}
-                            helperText="话题所在的根节点"
-                            margin="normal"
-                            variant="outlined"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        >
-                            {nodes.map(option => (
-                                <MenuItem key={option.id} value={option.id}>
-                                    {option.name}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                        {values.node && (
+            <Formik
+                initialValues={values}
+                validate={(values: any) => {
+                    const errors: any = {};
+                    if (!values.title) {
+                        errors.title = '请输入标题!';
+                    }
+                    if (!values.categoryId) {
+                        errors.categoryId = '请选择一个分类!';
+                    }
+                    if (values.tags.length > 3) {
+                        console.log('asdsadsad');
+                        errors.tags = '最多选择三个标签!';
+                    }
+                    return errors;
+                }}
+                onSubmit={(values, { setSubmitting }) => {
+                    console.log(values);
+                    setTimeout(() => {
+                        setSubmitting(false);
+                        alert(JSON.stringify(values, null, 2));
+                    }, 500);
+                }}
+            >
+                {({ errors, submitForm, isSubmitting }) => (
+                    <Wrap>
+                        <Paper elevation={0}>
+                            <Breadcrumbs aria-label="breadcrumb" className="breadcrumb">
+                                <Link href="/">
+                                    <a color="inherit">主页</a>
+                                </Link>
+                                <Typography color="textPrimary">发布话题</Typography>
+                            </Breadcrumbs>
+                            <Button
+                                variant="contained"
+                                size="small"
+                                color="primary"
+                                onClick={() => {
+                                    submitForm();
+                                    // console.log(values);
+                                    // const data = { ...values, content: editor.getValue() };
+                                    // const p = values.id ? updateTopic(data) : createTopic(data);
+                                    // p.then(() => {
+                                    //     Router.push('/');
+                                    // });
+                                }}
+                            >
+                                提交
+                            </Button>
+                        </Paper>
+                        <Form className="form">
                             <TextField
-                                id="standard-select-currency"
-                                className="select"
-                                select
-                                label="请选择子节点"
-                                name="type"
-                                value={values.type}
-                                onChange={handleChange}
-                                helperText="话题子节点"
+                                className="title"
+                                name="title"
+                                label="话题标题"
+                                placeholder="请输入标题（最多 50 个字）"
+                                fullWidth
                                 margin="normal"
                                 variant="outlined"
+                                required={true}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                            <TextField
+                                className="select"
+                                select
+                                type="select"
+                                label="请选择话题分类"
+                                name="categoryId"
+                                helperText="话题所在的分类"
+                                margin="normal"
+                                variant="outlined"
+                                required={true}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
                             >
-                                <MenuItem value={1}>分享</MenuItem>
-                                <MenuItem value={2}>问答</MenuItem>
-                                <MenuItem value={3}>招聘</MenuItem>
+                                {categories.map(option => (
+                                    <MenuItem key={option.id} value={option.id}>
+                                        {option.name}
+                                    </MenuItem>
+                                ))}
                             </TextField>
-                        )}
-                    </FormControl>
-                    <CheckboxFormControl>
-                        <FormControlLabel
-                            className="checkbox"
-                            control={
-                                <Checkbox
-                                    checked={values.good}
-                                    onChange={event => {
-                                        setValues(oldValues => ({
-                                            ...oldValues,
-                                            good: event.target.checked,
-                                        }));
+                            <FormControl className="select-form-control" variant="outlined">
+                                <InputLabel className="topic-tag-label" shrink>
+                                    话题标签
+                                </InputLabel>
+                                <Select
+                                    id="demo-mutiple-checkbox"
+                                    className="select-tags"
+                                    name="tags"
+                                    required={true}
+                                    multiple
+                                    renderValue={(selected: any) => {
+                                        setSelectTags(selected);
+                                        return (
+                                            <div>
+                                                {selected.map(item => (
+                                                    <Chip
+                                                        size="small"
+                                                        avatar={<Avatar src={item.icon} />}
+                                                        key={item.id}
+                                                        label={item.name}
+                                                    />
+                                                ))}
+                                            </div>
+                                        );
                                     }}
-                                    value="good"
-                                    color="primary"
-                                />
-                            }
-                            label="精华"
-                        />
-                        <FormControlLabel
-                            className="checkbox"
-                            control={
-                                <Checkbox
-                                    value="top"
-                                    checked={values.top}
-                                    onChange={event => {
-                                        setValues(oldValues => ({
-                                            ...oldValues,
-                                            top: event.target.checked,
-                                        }));
-                                    }}
-                                    color="primary"
-                                />
-                            }
-                            label="置顶"
-                        />
-                    </CheckboxFormControl>
-                    {values.type === 3 && (
-                        <Recruit
-                            recruitInfo={values.recruitInfo}
-                            onChange={recruitInfo => {
-                                setValues({ ...values, recruitInfo });
-                            }}
-                        ></Recruit>
-                    )}
-                    <FormControl variant="outlined">
-                        <Editor
-                            content={values.content}
-                            getEditor={editor => {
-                                setEditor(editor);
-                            }}
-                        ></Editor>
-                    </FormControl>
-                </form>
-            </Wrap>
+                                >
+                                    {tags.map(item => {
+                                        console.log(errors);
+                                        return (
+                                            <MenuItem key={item.id} value={item}>
+                                                <Checkbox
+                                                    checked={selectTags.some(s => {
+                                                        return s.name.includes(item.name);
+                                                    })}
+                                                />
+                                                <ListItemText primary={item.name} />
+                                            </MenuItem>
+                                        );
+                                    })}
+                                </Select>
+                                <FormHelperText error={errors.tags && true}>
+                                    {errors.tags || '最多三个标签'}
+                                </FormHelperText>
+                            </FormControl>
+                        </Form>
+                    </Wrap>
+                )}
+            </Formik>
         </App>
     );
 };
 
-export default Page;
+export default withAuthSync(Page);

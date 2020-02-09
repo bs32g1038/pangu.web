@@ -1,7 +1,11 @@
 import axios from '../utils/axios';
 
-export const fetchNodes = () => {
-    return axios.get('/v1/api/nodes');
+export const fetchCategories = () => {
+    return axios.get('/v1/api/categories');
+};
+
+export const fetchTags = () => {
+    return axios.get('/v1/api/tags');
 };
 
 export const fetchNodeById = id => {

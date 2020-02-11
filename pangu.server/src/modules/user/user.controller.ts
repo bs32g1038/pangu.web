@@ -36,11 +36,28 @@ export class UserController {
         return user;
     }
 
-    @Get('/getUserByUsername')
-    async getUserByUsername(@Request() req, @Query() query) {
-        const username = query.username;
-        const token = req.headers['authorization'];
-        const userInfo: any = this.userService.getUserInfoFromToken(token);
-        return await this.userService.getUserByUsername(username, '17');
+    @Post('/user/logout')
+    async userLogout(@Request() req: any) {
+        req.session.user = null;
+        return true;
+    }
+
+    @Get('/getUserByUserAccount')
+    async getUserByUserAccount(@Request() req, @Query() query) {
+        const account = query.account;
+        const user = req.session.user;
+        console.log(user);
+        return await this.userService.getUserByUserAccount(account, user ? user.id : '');
+    }
+
+    @Get('/getUserByUserId')
+    async getUserByUserId(@Request() req, @Query() query) {
+        const id = query.id;
+        return await this.userService.getUserByUserId(id);
+    }
+
+    @Post('/isLogin')
+    async isLogin(@Request() req) {
+        return !!req.session.user;
     }
 }

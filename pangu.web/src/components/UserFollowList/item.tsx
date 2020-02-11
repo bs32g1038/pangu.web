@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 import { UserItem, UserItemHeader, UserItemBottom } from './style';
-// import { follow, cancelFollow } from '../../api/follow';
-import { getLoginInfo } from '../../utils/oauth';
+import dynamic from 'next/dynamic';
+const FollowButton = dynamic(() => import('../../components/FollowButton'), { ssr: false });
 
 export default props => {
     const item = props.item;
     const isHiddenFollowButton = props.isHiddenFollowButton;
-    const [isFollow, setIsFollow] = useState(item.isFollow || props.isFollow);
-    const userInfo = getLoginInfo();
+    console.log(!isHiddenFollowButton, item.id);
     return (
         <UserItem key={item.id}>
             <React.Fragment>
@@ -21,40 +19,7 @@ export default props => {
                     </div>
                 </UserItemHeader>
                 <UserItemBottom>
-                    {!isHiddenFollowButton &&
-                        (isFollow ? (
-                            <Button
-                                variant="outlined"
-                                size="small"
-                                color="secondary"
-                                onClick={() => {
-                                    // cancelFollow({
-                                    //     userId: item.id,
-                                    //     followUserId: userInfo.id,
-                                    // }).then(res => {
-                                    //     setIsFollow(false);
-                                    // });
-                                }}
-                            >
-                                取消关注
-                            </Button>
-                        ) : (
-                            <Button
-                                variant="outlined"
-                                size="small"
-                                color="primary"
-                                onClick={() => {
-                                    // follow({
-                                    //     userId: item.id,
-                                    //     followUserId: userInfo.id,
-                                    // }).then(res => {
-                                    //     setIsFollow(true);
-                                    // });
-                                }}
-                            >
-                                关注
-                            </Button>
-                        ))}
+                    {!isHiddenFollowButton && <FollowButton isFollow={props.isFollow} userId={item.id}></FollowButton>}
                     <span style={{ marginLeft: 6 }}>积分：{item.score}</span>
                 </UserItemBottom>
             </React.Fragment>

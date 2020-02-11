@@ -5,13 +5,16 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import LikeSvg from '../../components/svgs/like';
 import ReplySvg from '../../components/svgs/reply';
-import Vditor from 'vditor';
-import 'vditor/src/assets/scss/classic.scss';
+// import Vditor from 'vditor';
+// import 'vditor/src/assets/scss/classic.scss';
 import { timeAgo } from '../../libs/time';
-import * as markdown from '../../libs/markdown';
+// import * as markdown from '../../libs/markdown';
 import { MarkdownBody } from './style';
+import marked from '../../libs/marked';
 
-const ReplyWrap = styled.div``;
+const ReplyWrap = styled.div`
+    padding-top: 60px;
+`;
 
 const ReplyInnerHeader = styled.div`
     display: flex;
@@ -28,72 +31,34 @@ const ReplyList = styled.div`
 const ReplyListItem = styled.div`
     display: flex;
     position: relative;
-    padding: 16px 0;
-    &:before {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 72px;
-        display: block;
-        width: 2px;
-        content: '';
-        background-color: #e1e4e8;
-    }
+    padding: 20px;
     /* &:first-child {
         padding-top: 0;
     } */
 `;
 
-const UserAvatar = styled(Link)`
-    width: 40px;
-    min-width: 40px;
-    height: 40px;
-    border-radius: 3px;
+const UserAvatar = styled.a`
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    border-radius: 50%;
     img {
-        border-radius: 3px;
+        border-radius: 50%;
         overflow: hidden;
         line-height: 1;
         vertical-align: middle;
+        width: 100%;
     }
 `;
 
 const ReplyContent = styled.div`
     width: 100%;
-    margin-left: 16px;
-    border: 1px solid #d1d5da;
-    border-radius: 3px;
     position: relative;
-    &:after,
-    &:before {
-        position: absolute;
-        top: 11px;
-        right: 100%;
-        left: -16px;
-        display: block;
-        width: 0;
-        height: 0;
-        pointer-events: none;
-        content: ' ';
-        border-color: transparent;
-        border-style: solid solid outset;
-    }
-    &:before {
-        border-width: 8px;
-        border-right-color: #d1d5da;
-    }
-    &:after {
-        margin-top: 1px;
-        margin-left: 2px;
-        border-width: 7px;
-        border-right-color: #f6f8fa;
-    }
 `;
 
 const ReplyInfo = styled.div`
     display: flex;
     align-items: center;
-    background-color: #f6f8fa;
-    border-bottom: 1px solid #d1d5da;
     padding-right: 16px;
     padding-left: 16px;
     border-top-left-radius: 3px;
@@ -102,8 +67,6 @@ const ReplyInfo = styled.div`
 
 const BaseInfo = styled.div`
     flex: 1 0 auto;
-    padding-top: 8px;
-    padding-bottom: 8px;
     a {
         color: rgba(0, 0, 0, 0.65);
         font-size: 14px;
@@ -152,6 +115,7 @@ const MarkdownText = styled(MarkdownBody)`
     font-size: 14px;
     padding: 15px;
     background-color: #fff;
+    margin-bottom: 0;
 `;
 
 const MarkdownEditor = styled.div`
@@ -162,69 +126,71 @@ const SubmitButton = styled(Button)`
     float: right;
 `;
 
-const initEditor = () => {
-    const vditor = new Vditor('markdownEditor', {
-        height: 200,
-        preview: {
-            mode: 'editor',
-        },
-        placeholder: '请输入正文',
-    });
-    vditor.setValue('');
-    return vditor;
-};
+// const initEditor = () => {
+//     const vditor = new Vditor('markdownEditor', {
+//         height: 200,
+//         preview: {
+//             mode: 'editor',
+//         },
+//         placeholder: '请输入正文',
+//     });
+//     vditor.setValue('');
+//     return vditor;
+// };
 
 export default props => {
     const replyList = props.replyList;
     const topic = props.topic;
-    useEffect(() => {
-        const vditor = initEditor();
-    }, [1]);
+    // useEffect(() => {
+    //     const vditor = initEditor();
+    // }, [1]);
     return (
         <ReplyWrap>
             <ReplyInnerHeader>
-                <span>共收到 {replyList.count} 条回复</span>
+                <span>共计 {replyList.count} 条评论</span>
             </ReplyInnerHeader>
             <ReplyList>
                 {replyList.rows.map(item => (
                     <ReplyListItem key={item.id}>
-                        <UserAvatar to={`/user/${item.user && item.user.id}`}>
-                            <img src={item.user && item.user.avatar} title={item.user && item.user.username} />
-                        </UserAvatar>
+                        <Link href={`/user/${item.user && item.user.id}`} passHref={true}>
+                            <UserAvatar>
+                                <img src={item.user && item.user.avatar} title={item.user && item.user.username} />
+                            </UserAvatar>
+                        </Link>
                         <ReplyContent>
                             <ReplyInfo>
                                 <BaseInfo>
-                                    <Link className="reply-author" to={`/user/${item.user && item.user.id}`}>
-                                        {item.user && item.user.username}
+                                    <Link href={`/user/${item.user && item.user.id}`}>
+                                        <a className="reply-author">{item.user && item.user.username}</a>
                                     </Link>
                                     <a className="reply-time">在 {timeAgo(item.createdAt)} 评论</a>
                                 </BaseInfo>
-                                <UserAction>
-                                    {topic.user && item.user && topic.user.id === item.user.id && (
-                                        <span className="author-label">作者</span>
-                                    )}
-                                    <IconButton className="like-action">
-                                        <LikeSvg></LikeSvg>
-                                        <span className="up-count">{item.like}</span>
-                                    </IconButton>
-                                    <IconButton className="reply-action">
-                                        <ReplySvg></ReplySvg>
-                                        回复
-                                    </IconButton>
-                                </UserAction>
                             </ReplyInfo>
                             <MarkdownText
                                 className="vditor-reset"
-                                dangerouslySetInnerHTML={{ __html: markdown.render(item.content) }}
+                                dangerouslySetInnerHTML={{ __html: marked(item.content) }}
                             ></MarkdownText>
+                            <UserAction>
+                                {topic.user && item.user && topic.user.id === item.user.id && (
+                                    <span className="author-label">作者</span>
+                                )}
+                                <IconButton className="like-action">
+                                    <LikeSvg></LikeSvg>
+                                    <span className="up-count">{item.like}</span>
+                                </IconButton>
+                                <IconButton className="reply-action">
+                                    <ReplySvg></ReplySvg>
+                                    回复
+                                </IconButton>
+                            </UserAction>
                         </ReplyContent>
                     </ReplyListItem>
                 ))}
             </ReplyList>
-            <MarkdownEditor id="markdownEditor"></MarkdownEditor>
-            <SubmitButton size="small" variant="outlined" color="primary">
+            {/* <MarkdownEditor id="markdownEditor"></MarkdownEditor> */}
+            {/* <SubmitButton size="small" variant="outlined" color="primary">
                 提交
-            </SubmitButton>
+            </SubmitButton> */}
         </ReplyWrap>
     );
 };

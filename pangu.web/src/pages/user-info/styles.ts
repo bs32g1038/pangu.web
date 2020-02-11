@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const InfoWrap = styled.div`
     margin: 0 auto;
     flex: 1 0 auto;
-    margin-bottom: 20px;
 `;
 
 export const PersonInfo = styled.div`
@@ -57,14 +56,18 @@ export const AuthorName = styled.div`
 `;
 
 export const Detail = styled.div`
-    margin-top: 20px;
+    margin-top: 1px;
     background-color: #fff;
-    padding: 20px;
+    padding: 10px 20px;
+    display: flex;
+    p {
+        flex: 1 0 auto;
+    }
 `;
 
 export const StatisticalData = styled.div`
     display: flex;
-    margin-top: 20px;
+    margin-top: 1px;
     background-color: #fff;
 `;
 
@@ -87,14 +90,14 @@ export const StatisticalDataItemCounter = styled.div`
     margin-bottom: 5px;
 `;
 
-export const tabsWrap = styled.div`
-    margin-top: 20px;
+export const TabsWrap = styled.div`
+    margin-top: 1px;
     background-color: #fff;
 `;
 
-export const TabsWrap = styled.div`
-    margin-top: 20px;
+export const TabPanelDiv = styled.div`
     background-color: #fff;
+    min-height: 60px;
 `;
 
 export const TableWrapDiv = styled.div`

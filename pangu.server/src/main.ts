@@ -14,7 +14,7 @@ async function bootstrap() {
     app.useGlobalPipes(new ValidationPipe());
     app.useStaticAssets(path.resolve(__dirname, '../public'));
     app.useGlobalInterceptors(new ResponseTransformInterceptor(), new LoggingInterceptor());
-    app.use(session({ secret: 'keyword', cookie: { maxAge: 60000 } }));
+    app.use(session({ secret: 'pangu_cookie', cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 } }));
     await app.listen(8000);
 }
 

@@ -4,6 +4,8 @@ import { ThemeProvider } from 'styled-components';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../src/theme';
 import { createGlobalStyle } from 'styled-components';
+import withReduxStore from '../src/libs/with-redux-store';
+import { Provider } from 'react-redux';
 
 const GlobalStyle = createGlobalStyle`
     body {
@@ -29,7 +31,7 @@ const GlobalStyle = createGlobalStyle`
     }
 `;
 
-export default class MyApp extends App {
+class MyApp extends App<any, any> {
     componentDidMount() {
         // Remove the server-side injected CSS.
         const jssStyles = document.querySelector('#jss-server-side');
@@ -39,15 +41,17 @@ export default class MyApp extends App {
     }
 
     render() {
-        const { Component, pageProps } = this.props;
+        const { Component, pageProps, reduxStore } = this.props;
         return (
-            <React.Fragment>
+            <Provider store={reduxStore}>
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
                     <GlobalStyle />
                     <Component {...pageProps} />
                 </ThemeProvider>
-            </React.Fragment>
+            </Provider>
         );
     }
 }
+
+export default withReduxStore(MyApp);

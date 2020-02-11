@@ -10,7 +10,27 @@ let proxy = require('http-proxy-middleware');
 app.prepare().then(() => {
     const server = express();
 
-    server.use('/v1/api', proxy({ target: 'http://127.0.0.1:8000', changeOrigin: true }));
+    server.all('/next/', (req, res) => {
+        return handle(req, res);
+    });
+
+    server.use(
+        '/v1/api',
+        proxy({
+            target: 'http://127.0.0.1:8000',
+            changeOrigin: true,
+            onProxyReq(proxyReq, req) {
+                Object.keys(req.headers).forEach(function(key) {
+                    proxyReq.setHeader(key, req.headers[key]);
+                });
+            },
+            onProxyRes(proxyRes, req, res) {
+                Object.keys(proxyRes.headers).forEach(function(key) {
+                    res.append(key, proxyRes.headers[key]);
+                });
+            }
+        })
+    );
     server.get(/^\/static\//, proxy({ target: 'http://127.0.0.1:8000', changeOrigin: true }));
     server.get(/^\/uploads\//, proxy({ target: 'http://127.0.0.1:8000', changeOrigin: true }));
 

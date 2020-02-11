@@ -59,15 +59,15 @@ export class UserService {
         return this.verifyToken(token);
     }
 
-    async getUserByUsername(username, followUserId) {
+    async getUserByUserAccount(account, followUserId) {
         const user: any = await this.USER_REPOSITORY.findOne({
             where: {
-                username: {
-                    [Sequelize.Op.eq]: username,
+                account: {
+                    [Sequelize.Op.eq]: account,
                 },
             },
         });
-        if (user) {
+        if (user && followUserId) {
             const follow = await FollowModel.findOne({
                 where: {
                     userId: {
@@ -78,10 +78,21 @@ export class UserService {
                     },
                 },
             });
+            console.log(user.id, follow, followUserId);
             if (follow) {
                 user.setDataValue('isFollow', true);
             }
         }
         return user;
+    }
+
+    async getUserByUserId(id) {
+        return await this.USER_REPOSITORY.findOne({
+            where: {
+                id: {
+                    [Sequelize.Op.eq]: id,
+                },
+            },
+        });
     }
 }

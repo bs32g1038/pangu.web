@@ -45,37 +45,38 @@ export class TopicService {
         const defaultArgs = { page: 1, limit: 25, ...topicsArgs };
         const offset = (defaultArgs.page - 1) * defaultArgs.limit;
         let where = {};
-        const { tab, userId, nodeId } = defaultArgs;
-        if (!tab || tab === 'all') {
-            where = {};
-        } else if (tab === 'popular') {
+        const { good, userId, list, order } = defaultArgs;
+        if (good) {
             where = { good: true };
-        } else {
-            where = { type: TYPE[tab] };
         }
-        if (nodeId) {
-            where = { ...where, nodeId };
+        if (list) {
+            where = { ...where, categoryId: list };
         }
         if (userId) {
             where = { ...where, userId };
         }
+
+        let _order: any = ['created_at', 'DESC'];
+        if (order === 'latest') {
+            _order = ['created_at', 'DESC'];
+        } else if (order === 'hot') {
+            _order = ['visit_count', 'DESC'];
+        }
         return await this.TOPIC_REPOSITORY.findAndCountAll<Topic>({
             where,
-            order: [
-                ['top', 'DESC'],
-                ['created_at', 'DESC'],
-            ],
-            limit: topicsArgs.limit,
-            offset,
             include: [
-                { model: User, required: true, as: 'user' },
-                { model: Category, required: true, as: 'category' },
+                { model: User, required: false, as: 'user' },
+                { model: Category, required: false, as: 'category' },
                 { model: User, required: false, as: 'lastReplyUser' },
                 {
                     model: Tag,
                     required: false,
                 },
             ],
+            order: [['top', 'DESC'], _order],
+            limit: topicsArgs.limit,
+            offset,
+            distinct: true,
         });
     }
 

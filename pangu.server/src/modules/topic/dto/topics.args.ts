@@ -2,14 +2,15 @@ import { IsInt, Max, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class TopicsArgsFilter {
-    tab: string;
-    nodeId: string;
+    list: string; //表示分类id
     userId: string;
+    good: boolean;
+    order: string;
 }
 
 export class TopicsArgs {
     @IsInt()
-    @Min(0)
+    @Min(1)
     @Type(() => Number)
     readonly page: number = 1;
 
@@ -19,9 +20,11 @@ export class TopicsArgs {
     @Type(() => Number)
     readonly limit = 20;
 
-    tab?: string;
+    good?: boolean;
 
-    nodeId?: string;
+    list?: string;
 
     userId?: string;
+
+    order?: string;
 }

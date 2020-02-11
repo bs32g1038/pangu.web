@@ -53,6 +53,11 @@ export default props => {
         setAnchorEl(null);
     };
 
+    const logout = () => {
+        if (props.logout) {
+            props.logout();
+        }
+    };
     return (
         <MemuWrap>
             <Button onClick={handleClick}>
@@ -64,11 +69,7 @@ export default props => {
                     <AccountCircleIcon fontSize="small"></AccountCircleIcon>
                     个人中心
                 </MenuItem>
-                <MenuItem onClick={() => Router.push('/admin/index')}>
-                    <ViewComfyIcon fontSize="small"></ViewComfyIcon>
-                    后台管理
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={() => logout()}>
                     <ExitToAppIcon fontSize="small"></ExitToAppIcon> 退出登录
                 </MenuItem>
             </Menu>

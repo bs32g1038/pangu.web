@@ -1,15 +1,15 @@
 import React from 'react';
 
 import App from '../../layouts/app';
-import Pagination from '../../components/Pagination';
 import axios from '../../utils/axios';
 import AppsIcon from '@material-ui/icons/Apps';
-
-import { Panel, PaginationWrap, FilterPanel, CategoryList, FilterTable } from './style';
-
+import Link from 'next/link';
+import { Panel, PaginationWrap, FilterPanel, CategoryList } from './style';
+import RegularFilter from '../../components/RegularFilter';
+import Pagination from '../../components/Pagination';
 import TopicItem from './topic-item';
 
-const Page = ({ pagedTopics, categories }) => {
+const Page = ({ page, pageSize, pagedTopics, categories, activeMenuId }) => {
     return (
         <App>
             <div style={{ display: 'flex', flex: '1 0 auto' }}>
@@ -21,55 +21,23 @@ const Page = ({ pagedTopics, categories }) => {
                             <span>分类&gt;&gt;</span>
                             <ul id="thread_types" className="ttp bm cl">
                                 <li id="ttp_all" className="xw1 a">
-                                    <a href="forum-801-1.html" className="active">
-                                        全部
-                                    </a>
+                                    <Link href="/">
+                                        <a className={activeMenuId === '' ? 'active' : ''}>全部</a>
+                                    </Link>
                                 </li>
                                 {categories.map((item: any) => (
                                     <li key={item.id}>
                                         <span className="pipe">|</span>
-                                        <a title="求助：20526" href={item.id}>
-                                            {item.name}
-                                        </a>
+                                        <Link href={`?list=${item.id}`}>
+                                            <a title={item.name} className={activeMenuId == item.id ? 'active' : ''}>
+                                                {item.name}
+                                            </a>
+                                        </Link>
                                     </li>
                                 ))}
                             </ul>
                         </CategoryList>
-                        <FilterTable>
-                            <tbody>
-                                <tr>
-                                    <th>筛选</th>
-                                    <td style={{ width: 100 }}>
-                                        <div className="z">
-                                            <a id="filter_special" className="showmenu_miui xi2">
-                                                综合
-                                            </a>
-                                            &nbsp;&nbsp;
-                                            <a id="filter_threadtimes" className="showmenu_miui a_g">
-                                                精华
-                                            </a>
-                                            &nbsp;&nbsp;
-                                        </div>
-                                    </td>
-                                    <th>排序</th>
-                                    <td>
-                                        <a
-                                            href="forum.php?mod=forumdisplay&amp;fid=801&amp;filter=heat&amp;orderby=heats"
-                                            className=""
-                                        >
-                                            热门
-                                        </a>
-                                        &nbsp;&nbsp;
-                                        <a
-                                            href="forum.php?mod=forumdisplay&amp;fid=801&amp;filter=lastpost&amp;finethread=1"
-                                            className=""
-                                        >
-                                            发帖时间
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </FilterTable>
+                        <RegularFilter></RegularFilter>
                     </FilterPanel>
                     <Panel>
                         <div>
@@ -77,9 +45,13 @@ const Page = ({ pagedTopics, categories }) => {
                                 <TopicItem key={item.id} item={item}></TopicItem>
                             ))}
                         </div>
-                        {pagedTopics.count / 10 > 1 && (
+                        {pagedTopics.count / pageSize > 1 && (
                             <PaginationWrap>
-                                <Pagination count={pagedTopics.count}></Pagination>
+                                <Pagination
+                                    pageSize={pageSize}
+                                    current={page}
+                                    total={pagedTopics.count as number}
+                                ></Pagination>
                             </PaginationWrap>
                         )}
                     </Panel>
@@ -90,14 +62,17 @@ const Page = ({ pagedTopics, categories }) => {
 };
 
 Page.getInitialProps = async context => {
-    const { page = 1, nodeId = '', tab = 'all' } = context.query;
+    const { page = 1, pageSize = 2, list = '', good = '' } = context.query;
     const [pagedTopics = { rows: [], count: 0 }, categories = []] = await Promise.all([
-        axios.get('/v1/api/topics', { params: { page, nodeId, tab } }).then(res => res.data.data),
+        axios.get('/v1/api/topics', { params: { page, list, good, limit: pageSize } }).then(res => res.data.data),
         axios.get('/v1/api/categories').then(res => res.data.data.rows),
     ]);
     return {
+        page,
+        pageSize,
         pagedTopics,
         categories,
+        activeMenuId: list,
     };
 };
 

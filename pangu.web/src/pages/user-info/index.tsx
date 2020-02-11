@@ -1,26 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import App from '../../layouts/app';
-import { getUserByUsername } from '../../api/user';
 import GithubSvg from '../../components/svgs/github';
 import Link from 'next/link';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
-import Button from '@material-ui/core/Button';
+import { useRouter } from 'next/router';
+import { Tabs, Tab, Table, TableBody, TableCell, TableRow, Button } from '@material-ui/core';
 import { parseTime } from '../../libs/time';
 import { fetchTopicListByUserId, getCollectTopic } from '../../api/topic';
-import { fetchFollowUsers, fetchFollowingUsers } from '../../api/user';
+import { getUserByUserAccount, fetchFollowUsers, fetchFollowingUsers } from '../../api/user';
 import { fetchReplyTopicList } from '../../api/reply';
 import { TOPIC_TYPE, USER_DEFAULT_SIGNATUR } from '../../configs/constant';
 import ReplyTopicList from './reply-topic-list';
 import CreatedTopicList from './created-topic-list';
 import Follow from './follow';
 import Following from './following';
-import FollowButton from '../../components/FollowButton';
-import { getLoginInfo } from '../../utils/oauth';
+import Empty from './empty';
+import dynamic from 'next/dynamic';
+const FollowButton = dynamic(() => import('../../components/FollowButton'), { ssr: false });
+import { RootState } from '../../store';
+import { useSelector } from 'react-redux';
+import { getUserInfoFromCookie } from '../../utils/auth';
 
 import {
     InfoWrap,
@@ -37,22 +35,21 @@ import {
     AuthorName,
     Tag,
     TableWrapDiv,
+    TabPanelDiv,
 } from './styles';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
     return (
-        <div
-            component="div"
-            role="tabpanel"
+        <TabPanelDiv
             hidden={value !== index}
             id={`nav-tabpanel-${index}`}
             aria-labelledby={`nav-tab-${index}`}
             {...other}
         >
             {children}
-        </div>
+        </TabPanelDiv>
     );
 }
 
@@ -66,16 +63,8 @@ function LinkTab(props) {
     return <Tab component="span" {...props} />;
 }
 
-function createData(calories, topic) {
-    return { calories, topic };
-}
-
-const rows = [createData('分享', '在 Rails 项目中使用 Docker 和 GitLab CI 高效构建镜像 (第一部分)')];
-
-const Page = props => {
-    const userInfo = getLoginInfo();
+export default props => {
     const [value, setValue] = React.useState(0);
-    const [_topics, setTopics] = React.useState(null);
     const [topicCollects, setTopicCollects] = React.useState({
         count: 0,
         rows: [],
@@ -92,12 +81,13 @@ const Page = props => {
         count: 0,
         rows: [],
     });
-    const { user = {} } = props;
-    const topics = _topics ||
-        props.topics || {
-            count: 0,
-            rows: [],
-        };
+
+    const $global = useSelector((state: RootState) => state.$global);
+    const [user, setUser] = useState<any>({});
+    const [topics, setTopics] = useState<any>({
+        count: 0,
+        rows: [],
+    });
 
     function handleChange(event, newValue) {
         setValue(newValue);
@@ -111,12 +101,12 @@ const Page = props => {
                     setReplyTopicList(res.data.data);
                 });
             case 2:
-                return getCollectTopic().then(res => {
-                    setTopicCollects(res.data.data);
-                });
-            case 3:
                 return fetchFollowUsers(1, 100, { userId: user.id }).then(res => {
                     setFollowUserList(res.data.data);
+                });
+            case 3:
+                return getCollectTopic().then(res => {
+                    setTopicCollects(res.data.data);
                 });
             case 4:
                 return fetchFollowingUsers(1, 100, { followUserId: user.id }).then(res => {
@@ -124,6 +114,25 @@ const Page = props => {
                 });
         }
     }
+
+    const [isSelf, setSelf] = React.useState(false);
+
+    const router = useRouter();
+    useEffect(() => {
+        const { account = '' } = router.query;
+        const data = getUserInfoFromCookie();
+        if (data.account === account) {
+            setSelf(true);
+        }
+        getUserByUserAccount(account).then(res => {
+            const u = res.data.data;
+            setUser(u);
+            if (u) {
+                fetchTopicListByUserId(u.id).then(res => setTopics(res.data.data));
+            }
+        });
+    }, [1]);
+
     return (
         <App>
             <InfoWrap>
@@ -146,11 +155,7 @@ const Page = props => {
                     </PersonInfoLeft>
                     <PersonInfoRight>
                         <GithubSvg></GithubSvg>
-                        <FollowButton
-                            isFollow={user.isFollow}
-                            userId={user.id}
-                            // followUserId={userInfo.id}
-                        ></FollowButton>
+                        <FollowButton isFollow={user.isFollow} userId={user.id}></FollowButton>
                     </PersonInfoRight>
                 </PersonInfo>
                 <Detail>
@@ -193,22 +198,28 @@ const Page = props => {
                     <Tabs variant="fullWidth" value={value} onChange={handleChange} aria-label="nav tabs example">
                         <LinkTab label="创建的话题" {...a11yProps(0)} />
                         <LinkTab label="最近回帖" {...a11yProps(1)} />
-                        {/* <LinkTab label="收藏" {...a11yProps(2)} /> */}
-                        <LinkTab label="关注者" {...a11yProps(3)} />
-                        {/* <LinkTab label="正在关注" {...a11yProps(4)} /> */}
+                        <LinkTab label="关注者" {...a11yProps(2)} />
+                        {$global.isLogin && isSelf && <LinkTab label="收藏" {...a11yProps(3)} />}
+                        {$global.isLogin && isSelf && <LinkTab label="正在关注" {...a11yProps(4)} />}
                     </Tabs>
                 </TabsWrap>
                 <TabPanel value={value} index={0}>
                     {topics.rows.map(item => (
                         <CreatedTopicList key={item.id} item={item}></CreatedTopicList>
                     ))}
+                    {topics.count <= 0 && <Empty />}
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     {replyTopicList.rows.map(item => (
                         <ReplyTopicList key={item.id} item={item}></ReplyTopicList>
                     ))}
+                    {replyTopicList.count <= 0 && <Empty />}
                 </TabPanel>
                 <TabPanel value={value} index={2}>
+                    <Follow rows={followUserList.rows}></Follow>
+                    {followUserList.count <= 0 && <Empty />}
+                </TabPanel>
+                <TabPanel value={value} index={3}>
                     <TableWrapDiv>
                         <Table>
                             <TableBody>
@@ -243,30 +254,11 @@ const Page = props => {
                         </Table>
                     </TableWrapDiv>
                 </TabPanel>
-                <TabPanel value={value} index={3}>
-                    <Follow rows={followUserList.rows}></Follow>
-                </TabPanel>
                 <TabPanel value={value} index={4}>
                     <Following rows={followingUserList.rows}></Following>
+                    {followingUserList.count <= 0 && <Empty />}
                 </TabPanel>
             </InfoWrap>
         </App>
     );
 };
-
-Page.getInitialProps = async context => {
-    const { account = '' } = context.query;
-    const user = await getUserByUsername(account).then(res => res.data.data);
-    if (user) {
-        const topics = await fetchTopicListByUserId(user.id).then(res => res.data.data);
-        return {
-            topics,
-            user,
-        };
-    }
-    return {
-        user,
-    };
-};
-
-export default Page;

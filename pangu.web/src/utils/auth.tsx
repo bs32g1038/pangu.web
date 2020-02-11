@@ -3,8 +3,19 @@ import Router from 'next/router';
 import nextCookie from 'next-cookies';
 import cookie from 'js-cookie';
 
+export const getUserInfoFromCookie = () => {
+    if (cookie.get('token')) {
+        return JSON.parse(cookie.get('token'));
+    }
+    return {};
+};
+
+export const isLogin = () => {
+    return !!cookie.get('token');
+};
+
 export const login = ({ token }) => {
-    cookie.set('token', token, { expires: 1 });
+    cookie.set('token', JSON.stringify(token), { expires: 7 });
     Router.push('/');
 };
 

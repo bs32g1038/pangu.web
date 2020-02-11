@@ -64,6 +64,7 @@ export const MarkdownBody = styled.div`
     font-size: 14px;
     word-break: break-word;
     line-height: 1.6;
+    margin-bottom: 36px;
     h1,
     h2 {
         clear: left;
@@ -305,4 +306,47 @@ export const IconSvg = styled.div`
     height: 16px;
     fill: ${deepOrange[200]};
     margin-right: 3px;
+`;
+
+export const Tags = styled.div`
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.45);
+    svg {
+        color: #657786;
+        fill: #657786;
+        margin-right: 6px;
+    }
+    img {
+        max-height: 14px;
+        margin-right: 4px;
+    }
+
+    a {
+        margin-left: 10px;
+        display: flex;
+        align-items: center;
+        border: 1px solid #ccc;
+        padding: 2px 10px;
+        border-radius: 3px;
+        :hover {
+            color: rgb(92, 134, 139);
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    }
+`;
+
+export const Attention = styled.div`
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 14px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    svg {
+        color: #657786;
+        fill: #657786;
+        margin-right: 6px;
+    }
 `;

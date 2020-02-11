@@ -1,11 +1,20 @@
 import React, { useState } from 'react';
 import { follow, cancelFollow } from '../../api/follow';
 import Button from '@material-ui/core/Button';
+import { getUserInfoFromCookie, isLogin } from '../../utils/auth';
 
 export default props => {
-    const { userId, followUserId } = props;
-    const [_isFollow, setIsFollow] = useState(false);
-    const isFollow = _isFollow || props.isFollow;
+    const userInfo = getUserInfoFromCookie();
+    let { userId, followUserId } = props;
+    if (userId) {
+        followUserId = userInfo.id;
+    } else if (followUserId) {
+        userId = userInfo.id;
+    }
+    if (isLogin() && userId === followUserId) {
+        return null;
+    }
+    const [isFollow, setIsFollow] = useState(props.isFollow);
     return (
         <Button
             variant="outlined"

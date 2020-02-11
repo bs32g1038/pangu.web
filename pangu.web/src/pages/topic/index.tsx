@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
-// import Comment from './comment';
+import Comment from './comment';
 import { fetchTopicById } from '../../api/topic';
 import { fetchReplyList } from '../../api/reply';
 import CollectionSvg from '../../components/svgs/collection';
 import LikeSvg from '../../components/svgs/like';
 import { timeAgo, parseTime } from '../../libs/time';
-// import * as markdown from '../../utils/markdown';
+import marked from '../../libs/marked';
 import { TOPIC_TYPE } from '../../configs/constant';
-// import Vditor from 'vditor';
 import { RECRUIT_INFO } from '../../configs/constant';
 import LocationSvg from '../../components/svgs/location';
 import EducationSvg from '../../components/svgs/education';
@@ -32,6 +31,8 @@ import {
     RecruitInfoSign,
     RecruitInfoContent,
     RecruitInfoItem,
+    Tags,
+    Attention,
 } from './style';
 import UserInfo from './user-info';
 
@@ -114,9 +115,25 @@ const Page = props => {
                 <MarkdownBody
                     className="vditor-reset"
                     id="markdownBody"
-                    dangerouslySetInnerHTML={{ __html: topic.content }}
+                    dangerouslySetInnerHTML={{ __html: topic.isHtml ? topic.content : marked(topic.content) }}
                 ></MarkdownBody>
-                {/* <Comment topic={topic} replyList={replyList}></Comment> */}
+                <Attention>
+                    <svg viewBox="0 0 32 32" height="14" width="14">
+                        <path d="M8 4v28l10-10 10 10v-28h-20zM24 0h-20v28l2-2v-24h18v-2z"></path>
+                    </svg>
+                    关注下面的标签，发现更多相似文章
+                </Attention>
+                {topic.tags && topic.tags.length > 0 && (
+                    <Tags>
+                        {topic.tags.map((item: any) => (
+                            <a key={item.id}>
+                                <img src={item.icon} alt={item.name} />
+                                {item.name}
+                            </a>
+                        ))}
+                    </Tags>
+                )}
+                <Comment topic={topic} replyList={replyList}></Comment>
             </Wrap>
         </App>
     );
@@ -134,14 +151,14 @@ Page.getInitialProps = async ctx => {
         topicId = match.params.id;
     }
 
-    const [topic] = await Promise.all([
+    const [topic, replyList] = await Promise.all([
         fetchTopicById(topicId).then(res => res.data.data),
-        // fetchReplyList(page, limit, { topicId }).then(res => res.data.data),
+        fetchReplyList(page, limit, { topicId }).then(res => res.data.data),
     ]);
 
     return {
         topic,
-        // replyList,
+        replyList,
     };
 };
 

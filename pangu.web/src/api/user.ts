@@ -1,9 +1,17 @@
 import axios from '../utils/axios';
 
-export const getUserByUsername = username => {
-    return axios.get('/v1/api/getUserByUsername', {
+export const getUserByUserId = userId => {
+    return axios.get('/v1/api/getUserByUserId', {
         params: {
-            username,
+            id: userId,
+        },
+    });
+};
+
+export const getUserByUserAccount = account => {
+    return axios.get('/v1/api/getUserByUserAccount', {
+        params: {
+            account,
         },
     });
 };
@@ -32,9 +40,10 @@ export const fetchFollowingUsers = (page = 1, limit = 100, filter: { followUserI
     });
 };
 
-export const register = (email = '', password = '') => {
-    return axios.post('/v1/user/register', {
-        email,
-        password,
-    });
+export const fetchLoginStatus = () => {
+    return axios.post('/v1/api/isLogin');
+};
+
+export const logout = () => {
+    return axios.post('/v1/api/user/logout');
 };

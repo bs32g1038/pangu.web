@@ -11,6 +11,7 @@ export const UserFollowList = styled.div`
 export const UserItem = styled(ListItemAvatar)`
     max-width: 20%;
     min-width: 20% !important;
+    margin-top: 20px;
     margin-bottom: 20px;
     flex: 1 0 auto;
 `;

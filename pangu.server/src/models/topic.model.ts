@@ -46,8 +46,9 @@ export class Topic extends Model<Topic> {
     @Column({ comment: '收藏数量', field: 'collect_count' })
     collectCount: number;
 
-    @Column({ comment: '类型 1 分享 2 问答' })
-    type: number;
+    @Default(false)
+    @Column({ comment: '内容是否是html文本，false为markdown文本，true为html文本', field: 'is_html' })
+    isHtml: false;
 
     @BelongsTo(() => Category, { as: 'category', foreignKey: 'categoryId' })
     @Column({ comment: '分类id', field: 'category_id' })

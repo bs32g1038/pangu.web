@@ -37,18 +37,14 @@ export const HeaderTitleLink = styled.a`
 `;
 
 export const HeaderNavWrap = styled.ul`
-    flex: 1 0 auto;
     padding-left: 0;
 `;
 
 export const HeaderNavItem = styled.li`
     display: inline-block;
     vertical-align: middle;
-    margin-right: 12px;
-    margin-left: 12px;
-    svg {
-        margin-right: 4px;
-    }
+    margin-right: 10px;
+    margin-left: 10px;
 `;
 
 export const Button = styled(_Button)`
@@ -62,13 +58,15 @@ export const Button = styled(_Button)`
 `;
 
 export const HeaderControlWrap = styled.ul`
-    display: inline-block;
-    vertical-align: middle;
+    display: flex;
     padding-left: 0;
+    flex: 1 0 auto;
+    align-items: center;
     > li {
         display: inline-block;
         vertical-align: middle;
         margin-right: 10px;
+        margin-left: 10px;
         &:last-child {
             margin-right: 0;
         }
@@ -76,12 +74,17 @@ export const HeaderControlWrap = styled.ul`
     svg {
         margin-right: 4px;
     }
+    .notification {
+        svg {
+            margin-right: 0;
+        }
+    }
 `;
 
 export const Search = styled.div`
     transition: margin-left 0.4s;
     position: relative;
-    width: 100%;
+    width: 160px;
     position: relative;
     border-radius: ${props => props.theme.shape.borderRadius}px;
     border: 1px solid ${props => fade(props.theme.palette.common.black, 0.07)};
@@ -93,6 +96,9 @@ export const Search = styled.div`
     }
     ${props => props.theme.breakpoints.up('sm')} {
         width: auto;
+    }
+    @media (min-width: 600px) {
+        width: 192px;
     }
 `;
 

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Footer, FooterMain, Spread, FooterMainInfo, FooterMainInfoItem, AdvInfo, BackTopBtn } from './style';
+import config from '../../configs/site-info';
 
 const loadBackTopBtnEvent = () => {
     let timer: any = null;
@@ -37,17 +38,17 @@ export default () => {
                         <div className="site-title">盘古论坛</div>
                     </div>
                     <div>
-                        <a href="https://github.com/mastani-stack" rel="noopener noreferrer" target="_blank">
+                        <a rel="noopener noreferrer" target="_blank">
                             ©2019 盘古 Powered by Jason Li
                         </a>
-                        <a href="http://www.miitbeian.gov.cn" rel="noopener noreferrer" target="_blank">
+                        <a href={config.icpGovCn} rel="noopener noreferrer" target="_blank">
                             粤ICP备16021965号-2
                         </a>
                     </div>
                     <br />
                     <div className="contact-title">contact us:</div>
                     <div className="social-list">
-                        <a href="mailto:support@group.coderplanets.com">
+                        <a href="mailto:bs32g1038@163.com">
                             <div className="social-list-item">
                                 <svg
                                     className="icon injected-svg social_list__Icon-sc-1vylv4k-2 iyznxm"
@@ -69,15 +70,7 @@ export default () => {
                             </div>
                         </a>
                         <div className="social-list-item">
-                            <svg
-                                className="icon injected-svg social_list__Icon-sc-1vylv4k-2 iyznxm"
-                                viewBox="0 0 1280 1024"
-                                version="1.1"
-                                p-id="3014"
-                                width="250"
-                                height="200"
-                                data-src="https://cps-oss.oss-cn-shanghai.aliyuncs.com/icons/cmd/footer_weixin.svg"
-                            >
+                            <svg viewBox="0 0 1280 1024" version="1.1" p-id="3014" width="250" height="200">
                                 <defs>
                                     <style type="text/css"></style>
                                 </defs>
@@ -88,15 +81,7 @@ export default () => {
                             </svg>
                         </div>
                         <div className="social-list-item">
-                            <svg
-                                className="icon injected-svg social_list__Icon-sc-1vylv4k-2 iyznxm"
-                                viewBox="0 0 1024 1024"
-                                version="1.1"
-                                p-id="11981"
-                                width="200"
-                                height="200"
-                                data-src="https://cps-oss.oss-cn-shanghai.aliyuncs.com/icons/cmd/qq.svg"
-                            >
+                            <svg viewBox="0 0 1024 1024" version="1.1" p-id="11981" width="200" height="200">
                                 <defs>
                                     <style type="text/css"></style>
                                 </defs>
@@ -114,17 +99,9 @@ export default () => {
                                 ></path>
                             </svg>
                         </div>
-                        <a href="https://github.com/coderplanets/" rel="noopener noreferrer" target="_blank">
+                        <a href={config.projectGithub} rel="noopener noreferrer" target="_blank">
                             <div className="social-list-item">
-                                <svg
-                                    className="icon injected-svg social_list__Icon-sc-1vylv4k-2 iyznxm"
-                                    viewBox="0 0 1024 1024"
-                                    version="1.1"
-                                    p-id="2707"
-                                    width="200"
-                                    height="200"
-                                    data-src="https://cps-oss.oss-cn-shanghai.aliyuncs.com/icons/cmd/github.svg"
-                                >
+                                <svg viewBox="0 0 1024 1024" version="1.1" p-id="2707" width="200" height="200">
                                     <defs>
                                         <style type="text/css"></style>
                                     </defs>
@@ -135,17 +112,9 @@ export default () => {
                                 </svg>
                             </div>
                         </a>
-                        <a href="https://zhuanlan.zhihu.com/coderplanets" rel="noopener noreferrer" target="_blank">
+                        <a rel="noopener noreferrer">
                             <div className="social-list-item">
-                                <svg
-                                    className="icon injected-svg social_list__Icon-sc-1vylv4k-2 iyznxm"
-                                    viewBox="0 0 1024 1024"
-                                    version="1.1"
-                                    p-id="2565"
-                                    width="200"
-                                    height="200"
-                                    data-src="https://cps-oss.oss-cn-shanghai.aliyuncs.com/icons/cmd/zhihu_solid.svg"
-                                >
+                                <svg viewBox="0 0 1024 1024" version="1.1" p-id="2565" width="200" height="200">
                                     <defs>
                                         <style type="text/css"></style>
                                     </defs>
@@ -156,15 +125,9 @@ export default () => {
                                 </svg>
                             </div>
                         </a>
-                        <a href="https://union.zhaodao.ai/#random" rel="noopener noreferrer" target="_blank">
+                        <a rel="noopener noreferrer">
                             <div className="social-list-item">
-                                <svg
-                                    id="图层_1"
-                                    data-name="图层 1"
-                                    viewBox="0 0 235.09 211.45"
-                                    className="injected-svg social_list__Icon-sc-1vylv4k-2 iyznxm"
-                                    data-src="https://cps-oss.oss-cn-shanghai.aliyuncs.com/icons/cmd/footer-makers-union.svg"
-                                >
+                                <svg viewBox="0 0 235.09 211.45">
                                     <title>makers-union</title>
                                     <path
                                         d="M53.16,255.73l-24.25-14,57-98.73a74,74,0,1,1,128.18,74l-7,12.12-24.25-14,7-12.12a46,46,0,0,0-79.68-46Z"
@@ -186,66 +149,22 @@ export default () => {
                 <FooterMainInfoItem>
                     <div className="_title">帮助</div>
                     <div className="_body">
-                        <a
-                            href="/home/post/1"
-                            rel="noopener noreferrer"
-                            target="_blank"
-                            className="digest_view__Item-sc-1ib0t4e-11 hlLrwX"
-                        >
-                            关于CPS
-                        </a>
-                        <a
-                            href="https://github.com/coderplanets/coderplanets_web/issues"
-                            rel="noopener noreferrer"
-                            target="_blank"
-                            className="digest_view__Item-sc-1ib0t4e-11 hlLrwX"
-                        >
+                        <a href={config.projectGithub + '/issues'} rel="noopener noreferrer" target="_blank">
                             反馈与建议
                         </a>
-                        <a
-                            href="https://github.com/coderplanets"
-                            rel="noopener noreferrer"
-                            target="_blank"
-                            className="digest_view__Item-sc-1ib0t4e-11 hlLrwX"
-                        >
+                        <a href={config.projectGithub} rel="noopener noreferrer" target="_blank">
                             加入我们
                         </a>
-                        <a
-                            href="/cps-support/posts"
-                            rel="noopener noreferrer"
-                            target="_blank"
-                            className="digest_view__Item-sc-1ib0t4e-11 hlLrwX"
-                        >
-                            使用指南
-                        </a>
-                        <a className="digest_view__Item-sc-1ib0t4e-11 hlLrwX">商务合作</a>
+                        <a rel="noopener noreferrer">使用指南</a>
+                        <a>商务合作</a>
                     </div>
                 </FooterMainInfoItem>
                 <FooterMainInfoItem>
                     <div className="_title">开发者</div>
                     <div className="_body">
-                        <a
-                            href="/cps-support/post/42"
-                            rel="noopener noreferrer"
-                            target="_blank"
-                            className="digest_view__Item-sc-1ib0t4e-11 hlLrwX"
-                        >
-                            开发者指南
-                        </a>
-                        <a
-                            href="http://api.coderplanets.com/graphiql"
-                            rel="noopener noreferrer"
-                            target="_blank"
-                            className="digest_view__Item-sc-1ib0t4e-11 hlLrwX"
-                        >
-                            Developer API
-                        </a>
-                        <a
-                            href="https://github.com/bs32g1038/pangu.web"
-                            rel="noopener noreferrer"
-                            target="_blank"
-                            className="digest_view__Item-sc-1ib0t4e-11 hlLrwX"
-                        >
+                        <a rel="noopener noreferrer">开发者指南</a>
+                        <a rel="noopener noreferrer">Developer API</a>
+                        <a href={config.projectGithub} rel="noopener noreferrer">
                             Source Code（源代码）
                         </a>
                     </div>
@@ -253,22 +172,8 @@ export default () => {
                 <FooterMainInfoItem>
                     <div className="_title">客户端</div>
                     <div className="_body">
-                        <a
-                            href="https://github.com/coderplanets/coderplanets_web/issues/269"
-                            rel="noopener noreferrer"
-                            target="_blank"
-                            className="digest_view__Item-sc-1ib0t4e-11 hlLrwX"
-                        >
-                            APP
-                        </a>
-                        <a
-                            href="https://github.com/coderplanets/coderplanets_web/issues/270"
-                            rel="noopener noreferrer"
-                            target="_blank"
-                            className="digest_view__Item-sc-1ib0t4e-11 hlLrwX"
-                        >
-                            小程序
-                        </a>
+                        <a rel="noopener noreferrer">APP</a>
+                        <a rel="noopener noreferrer">小程序</a>
                     </div>
                 </FooterMainInfoItem>
             </FooterMainInfo>

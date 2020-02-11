@@ -1,85 +1,151 @@
 import React from 'react';
-import Router, { useRouter } from 'next/router';
-import { parse } from 'url';
-import { Right, Pagination, PaginationItem, PaginationLink } from './style';
-import Button from '@material-ui/core/Button';
+import styled from 'styled-components';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { ArrowSvg } from '../svgs/arrow-svg';
+import queryString from 'query-string';
+import { isString, toInteger } from 'lodash';
 
-function getPages(props) {
-    const { count } = props;
-    const router = useRouter();
-    const page = Number(router.query.page || 1);
-    const limit = Number(router.query.limit || 10);
-    const { pathname } = parse(router.asPath);
-    const pageCount = Math.floor(count / limit);
-    if (pageCount <= 0) {
-        return [];
-    }
-    const pages = [];
-    pages.push({
-        text: '上一页',
-        disabled: page <= 1,
-        onClick: () => {
-            if (page <= 1) {
-                return false;
-            }
-            Router.push({
-                pathname,
-                query: { ...router.query, page: page - 1 },
-            });
-        },
-    });
-    for (let i = 1; i <= pageCount; i++) {
-        pages.push({
-            text: i,
-            active: page === i ? true : false,
-            onClick: () => {
-                Router.push({
-                    pathname,
-                    query: { ...router.query, page: i },
-                });
-            },
-        });
-    }
-    pages.push({
-        text: '下一页',
-        disabled: page + 1 > pageCount,
-        onClick: () => {
-            if (page + 1 > pageCount) {
-                return false;
-            }
-            Router.push({
-                pathname,
-                query: { ...router.query, page: page + 1 },
-            });
-        },
-    });
+const NavLinks = styled.div`
+    position: relative;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+`;
 
-    return pages;
+const PageNumbers = styled.a`
+    position: relative;
+    display: inline-block;
+    background-color: #f4f5f9;
+    padding: 0.5rem 0.875rem;
+    margin: 0 0.5rem 0 0;
+    font-size: 12px;
+    border-radius: 0.2rem;
+    text-decoration: none;
+    cursor: pointer;
+    &.current {
+        z-index: 2;
+        color: #fff;
+        background-color: #4eb77d;
+        pointer-events: none;
+    }
+`;
+
+const ArrowIcon = styled(ArrowSvg)`
+    width: 12px;
+    vertical-align: middle;
+    fill: #444;
+    &.rotate180 {
+        transform: rotate(180deg);
+    }
+`;
+
+const PaginationEllipsis = styled.span`
+    color: rgba(0, 0, 0, 0.25);
+    margin: 0 0.5rem 0 0;
+`;
+
+const getPage = (current: number, pageCount: number) => {
+    // 获取分页页码
+    const listCount = 6;
+    const pageList: number[] = [];
+    const currentPage = current;
+    let showPrevMore = false;
+    let showNextMore = false;
+    if (pageCount > listCount) {
+        if (currentPage > listCount - 2) {
+            showPrevMore = true;
+        }
+        if (currentPage < pageCount - 2) {
+            showNextMore = true;
+        }
+    }
+    if (showPrevMore && !showNextMore) {
+        const start = pageCount - listCount + 2;
+        for (let i = start; i < pageCount; i++) {
+            pageList.push(i);
+        }
+    } else if (!showPrevMore && showNextMore) {
+        for (let i = 2; i < listCount; i++) {
+            pageList.push(i);
+        }
+    } else if (showPrevMore && showNextMore) {
+        const offset = Math.floor(listCount / 2) - 1;
+        for (let i = currentPage - offset; i <= currentPage + offset; i++) {
+            pageList.push(i);
+        }
+    } else {
+        for (let i = 2; i < pageCount; i++) {
+            pageList.push(i);
+        }
+    }
+    return {
+        pageList,
+        showPrevMore,
+        showNextMore,
+    };
+};
+
+interface Props {
+    current: number;
+    pageSize: number;
+    total: number;
 }
 
-export default props => {
-    const { count } = props;
-    const pages = getPages(props);
-    return (
-        <Pagination>
-            {pages.map((prop, key) => {
-                return (
-                    <PaginationItem key={key}>
-                        {prop.onClick !== undefined ? (
-                            <PaginationLink active={prop.active} disabled={prop.disabled}>
-                                <Button onClick={prop.onClick}>{prop.text}</Button>
-                            </PaginationLink>
-                        ) : (
-                            <PaginationLink active={prop.active} disabled={prop.disabled}>
-                                <Button onClick={() => alert("you've clicked " + prop.text)}>{prop.text}</Button>
-                            </PaginationLink>
-                        )}
-                    </PaginationItem>
-                );
-            })}
-            <Right>
-                共<strong> {count} </strong>条数据
-            </Right>
-        </Pagination>
+export default (props: Props) => {
+    let { current, pageSize, total } = props;
+    if (isString(current)) {
+        current = toInteger(current);
+    } else if (isString(pageSize)) {
+        pageSize = toInteger(pageSize);
+    } else if (isString(total)) {
+        total = toInteger(total);
+    }
+    const pageCount = Math.ceil(total / pageSize);
+    const { showPrevMore, showNextMore, pageList } = getPage(current, pageCount);
+    const router = useRouter();
+    return pageCount > 1 ? (
+        <NavLinks>
+            {current > 1 && (
+                <Link href={`?${queryString.stringify({ ...router.query, page: current - 1 })}`}>
+                    <PageNumbers>
+                        <ArrowIcon></ArrowIcon>
+                    </PageNumbers>
+                </Link>
+            )}
+            <Link href={`?${queryString.stringify({ ...router.query, page: 1 })}`}>
+                <PageNumbers aria-current="page" className={current === 1 ? 'current' : ''}>
+                    1
+                </PageNumbers>
+            </Link>
+            {showPrevMore && <PaginationEllipsis>•••</PaginationEllipsis>}
+            {pageList.map((pageNumber: number) => (
+                <Link
+                    href={`?${queryString.stringify({ ...router.query, page: pageNumber })}`}
+                    key={`Pagination${pageNumber}`}
+                >
+                    <PageNumbers aria-current="page" className={current === pageNumber ? 'current' : ''}>
+                        {pageNumber}
+                    </PageNumbers>
+                </Link>
+            ))}
+            {showNextMore && <PaginationEllipsis>•••</PaginationEllipsis>}
+            <Link href={`?${queryString.stringify({ ...router.query, page: pageCount })}`}>
+                <PageNumbers aria-current="page" className={current === pageCount ? 'current' : ''}>
+                    {pageCount}
+                </PageNumbers>
+            </Link>
+            {current < pageCount && (
+                <Link href={`?${queryString.stringify({ ...router.query, page: current + 1 })}`}>
+                    <PageNumbers>
+                        <ArrowIcon className="rotate180"></ArrowIcon>
+                    </PageNumbers>
+                </Link>
+            )}
+        </NavLinks>
+    ) : (
+        <div style={{ display: 'none' }}></div>
     );
 };

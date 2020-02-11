@@ -6,6 +6,7 @@ import { getProviderByModel } from '../utils/model.util';
 @Table({
     tableName: 'pangu_follow',
     freezeTableName: true,
+    paranoid: true,
 })
 export class Follow extends Model<Follow> {
     @AutoIncrement
